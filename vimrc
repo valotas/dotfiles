@@ -10,7 +10,8 @@ set shiftwidth=2          " ident/outdent by 2 columns
 set expandtab             " use spaces instead of tabs
 set list listchars=tab:»·,trail:· "Nice display of tabs and trailing spaces
 
-execute pathogen#infect() " Enable pathogen
+" Enable pathogen
+execute pathogen#infect()
 
 "Some nerdtree stuff
 autocmd vimenter * if !argc() | NERDTree | endif
