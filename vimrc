@@ -3,7 +3,7 @@ colorscheme evening
 execute pathogen#infect()
 
 "Set the default tab to 2
-set tabstop=2 softtabstop=2 shiftwidth=2 noexpandtab
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 "Nice display of tabs and trailing spaces
 set list listchars=tab:»·,trail:·
