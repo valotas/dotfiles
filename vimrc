@@ -9,7 +9,21 @@ set softtabstop=2         " unify
 set shiftwidth=2          " ident/outdent by 2 columns
 set expandtab             " use spaces instead of tabs
 set list listchars=tab:»·,trail:· "Nice display of tabs and trailing spaces
-set guifont=Droid+Sans+Mono+for+Powerline "Set the right fonts
+set noswapfile            " do not write annoying intermediate swap files,
+                          "    who did ever restore from swap files
+                          "    anyway?
+                          "
+set directory=~/tmp,/tmp  " if swapfile is needed keep it here
+set nobackup              " do not keep backup files, git is here
+if v:version >= 730
+  set undofile                " keep a persistent backup file
+  set undodir=~/tmp,/tmp
+endif
+
+" Setup vim-airline
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10 "Set the right fonts
+let g:airline_powerline_fonts=1
+set laststatus=2
 
 " Enable pathogen
 execute pathogen#infect()
