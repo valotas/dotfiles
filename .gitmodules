@@ -16,3 +16,6 @@
 [submodule "vim/bundle/airline"]
 	path = vim/bundle/airline
 	url = git@github.com:bling/vim-airline.git
+[submodule "vim/bundle/syntastic"]
+	path = vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
