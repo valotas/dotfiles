@@ -9,6 +9,7 @@ set softtabstop=2         " unify
 set shiftwidth=2          " ident/outdent by 2 columns
 set expandtab             " use spaces instead of tabs
 set list listchars=tab:»·,trail:· "Nice display of tabs and trailing spaces
+set guifont=Droid+Sans+Mono+for+Powerline "Set the right fonts
 
 " Enable pathogen
 execute pathogen#infect()
