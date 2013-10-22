@@ -33,3 +33,5 @@ autocmd vimenter * if !argc() | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
+let g:syntastic_php_checkers=['php', 'phpmd'] " Do not use phpcs with synstastic
+
