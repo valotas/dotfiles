@@ -35,3 +35,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 let g:syntastic_php_checkers=['php', 'phpmd'] " Do not use phpcs with synstastic
 
+"Enable emmet for css and html
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
