@@ -17,18 +17,6 @@ if [ -d "$ANT_HOME/bin" ] ; then
   PATH="$ANT_HOME/bin:$PATH"
 fi
 
-#Add phantomjs to the PATH if it exists
-if [ -x "$HOME/local/usr/phantomjs/1.6.0/bin/phantomjs" ] ; then
-  PATH="$HOME/local/usr/phantomjs/1.6.0/bin:$PATH"
-elif [ -x "$HOME/local/usr/phantomjs/current/bin/phantomjs" ] ; then
-  PATH="$HOME/local/usr/phantomjs/current/bin:$PATH"
-fi
-
-#Add casperjs to the PATH if it exists
-if [ -x "$HOME/local/usr/casperjs/bin/casperjs" ] ; then
-  PATH="$HOME/local/usr/casperjs/bin:$PATH"
-fi
-
 if [ -d "$HOME/node_modules/.bin" ] ; then
   PATH="$PATH:$HOME/node_modules/.bin"
 fi
