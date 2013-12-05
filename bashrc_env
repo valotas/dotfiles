@@ -33,6 +33,11 @@ if [ -d "$HOME/node_modules/.bin" ] ; then
   PATH="$PATH:$HOME/node_modules/.bin"
 fi
 
+# set the go lang env
+if [ -d "/usr/local/go/current" ] ; then
+  PATH="$PATH:/usr/local/go/current/bin"
+fi
+
 export PATH
 
 # if there is a go directory within the home dir
