@@ -23,7 +23,8 @@ fi
 
 # set the go lang env
 if [ -d "/usr/local/go/current" ] ; then
-  PATH="$PATH:/usr/local/go/current/bin"
+  export GOROOT="/usr/local/go/current"
+  PATH="$PATH:$GOROOT/bin"
 fi
 
 export PATH
@@ -31,8 +32,8 @@ export PATH
 # if there is a go directory within the home dir
 # assume it is the GOROOT one and add it to PATH
 if [ -d "$HOME/go" ] ; then
-    export GOROOT="$HOME/go"
-    export PATH="$PATH:$GOROOT/bin"
+    export GOPATH="$HOME/go"
+    export PATH="$PATH:$GOPATH/bin"
 fi
 
 export PS1='\u@\h:\w$(__git_ps1 " (%s)")\$ '
