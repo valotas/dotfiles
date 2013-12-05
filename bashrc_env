@@ -1,0 +1,45 @@
+#!/bin/bash
+
+if [ -d "$JAVA_HOME/bin" ] ; then
+  PATH="$JAVA_HOME/bin:$PATH"
+fi
+
+M2_HOME="$HOME/local/usr/maven/3.0.4"
+if [ -d "$M2_HOME/bin" ] ; then
+  export M2_HOME
+  export M2="$M2_HOME/bin"
+  PATH="$M2:$PATH"
+fi
+
+ANT_HOME="$HOME/local/usr/ant/current"
+if [ -d "$ANT_HOME/bin" ] ; then
+  export ANT_HOME
+  PATH="$ANT_HOME/bin:$PATH"
+fi
+
+#Add phantomjs to the PATH if it exists
+if [ -x "$HOME/local/usr/phantomjs/1.6.0/bin/phantomjs" ] ; then
+  PATH="$HOME/local/usr/phantomjs/1.6.0/bin:$PATH"
+elif [ -x "$HOME/local/usr/phantomjs/current/bin/phantomjs" ] ; then
+  PATH="$HOME/local/usr/phantomjs/current/bin:$PATH"
+fi
+
+#Add casperjs to the PATH if it exists
+if [ -x "$HOME/local/usr/casperjs/bin/casperjs" ] ; then
+  PATH="$HOME/local/usr/casperjs/bin:$PATH"
+fi
+
+if [ -d "$HOME/node_modules/.bin" ] ; then
+  PATH="$PATH:$HOME/node_modules/.bin"
+fi
+
+export PATH
+
+# if there is a go directory within the home dir
+# assume it is the GOROOT one and add it to PATH
+if [ -d "$HOME/go" ] ; then
+    export GOROOT="$HOME/go"
+    export PATH="$PATH:$GOROOT/bin"
+fi
+
+export PS1='\u@\h:\w$(__git_ps1 " (%s)")\$ '
