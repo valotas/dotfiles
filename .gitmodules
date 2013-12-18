@@ -34,3 +34,6 @@
 [submodule "vim/bundle/typescript"]
 	path = vim/bundle/typescript
 	url = git@github.com:leafgarland/typescript-vim.git
+[submodule "vim/bundle/golang"]
+	path = vim/bundle/golang
+	url = git@github.com:jnwhiteh/vim-golang.git
