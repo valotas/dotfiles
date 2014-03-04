@@ -36,4 +36,8 @@ if [ -d "$HOME/go" ] ; then
     export PATH="$PATH:$GOPATH/bin"
 fi
 
+if `which gitt > /dev/null`; then
+  git config --global color.ui true
+fi
+
 export PS1='\u@\h:\w$(__git_ps1 " (%s)")\$ '
