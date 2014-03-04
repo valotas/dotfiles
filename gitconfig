@@ -3,3 +3,5 @@
 [core]
 	autocrlf = input
 	editor = vim
+[help]
+	autocorrect = 1
