@@ -40,3 +40,6 @@
 [submodule "vim/bundle/gocode"]
 	path = vim/bundle/gocode
 	url = git@github.com:Blackrush/vim-gocode.git
+[submodule "vim/bundle/jshint2.vim"]
+	path = vim/bundle/jshint2.vim
+	url = https://github.com/Shutnik/jshint2.vim.git

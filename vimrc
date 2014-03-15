@@ -38,3 +38,8 @@ let g:syntastic_php_checkers=['php', 'phpmd'] " Do not use phpcs with synstastic
 "Enable emmet for css and html
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
+
+" jshint2.vim setup: https://github.com/Shutnik/jshint2.vim
+set jshint2_save=1 " lint js files after saving them
+set jshint2_height=10 " default height of error list
+
