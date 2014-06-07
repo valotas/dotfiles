@@ -21,6 +21,10 @@ if [ -d "$HOME/node_modules/.bin" ] ; then
   PATH="$PATH:$HOME/node_modules/.bin"
 fi
 
+if [ -d "$HOME/local/usr/dart/dart-sdk/bin" ] ; then
+  PATH="$PATH:$HOME/local/usr/dart/dart-sdk/bin"
+fi
+
 # set the go lang env
 if [ -d "/usr/local/go/current" ] ; then
   export GOROOT="/usr/local/go/current"
