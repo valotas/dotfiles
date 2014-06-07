@@ -15,6 +15,7 @@ set noswapfile            " do not write annoying intermediate swap files,
                           "
 set directory=~/tmp,/tmp  " if swapfile is needed keep it here
 set nobackup              " do not keep backup files, git is here
+set nowritebackup         " do not create backup files while editing
 if v:version >= 730
   set undofile                " keep a persistent backup file
   set undodir=~/tmp,/tmp
