@@ -8,7 +8,6 @@ set tabstop=2             " tab spacing
 set softtabstop=2         " unify
 set shiftwidth=2          " ident/outdent by 2 columns
 set expandtab             " use spaces instead of tabs
-set list listchars=tab:•¬,trail:· "Nice display of tabs and trailing spaces
 set noswapfile            " do not write annoying intermediate swap files,
                           "    who did ever restore from swap files
                           "    anyway?
@@ -39,6 +38,9 @@ let g:syntastic_php_checkers=['php', 'phpmd'] " Do not use phpcs with synstastic
 "Enable emmet for css and html
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
+
+
+autocmd FileType javascript set list listchars=tab:\|¬,trail:· "Nice display of tabs and trailing spaces
 
 " jshint2.vim setup: https://github.com/Shutnik/jshint2.vim
 let jshint2_save=1 " lint js files after saving them
