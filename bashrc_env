@@ -26,18 +26,11 @@ if [ -d "$HOME/local/usr/dart/dart-sdk/bin" ] ; then
 fi
 
 # set the go lang env
-if [ -d "/usr/local/go/current" ] ; then
-  export GOROOT="/usr/local/go/current"
+if [ -d "/usr/local/go" ] ; then
+  export GOROOT="/usr/local/go"
   PATH="$PATH:$GOROOT/bin"
 fi
 
 export PATH
-
-# if there is a go directory within the home dir
-# assume it is the GOROOT one and add it to PATH
-if [ -d "$HOME/go" ] ; then
-    export GOPATH="$HOME/go"
-    export PATH="$PATH:$GOPATH/bin"
-fi
 
 export PS1='\u@\h:\w$(__git_ps1 " (%s)")\$ '
