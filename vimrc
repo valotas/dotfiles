@@ -46,3 +46,6 @@ autocmd FileType javascript set list listchars=tab:\|¬,trail:· "Nice display o
 let jshint2_save=1 " lint js files after saving them
 let jshint2_height=10 " default height of error list
 
+" go-vim: open GoDef at a vertical buffer
+au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
+
