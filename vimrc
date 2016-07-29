@@ -1,4 +1,4 @@
-colorscheme evening
+colorscheme darkblue
 filetype plugin indent on " filetype detection[ON] plugin[ON] indent[ON]
 syntax enable             " enable syntax highlighting (previously syntax on).
 filetype indent on        " activates indenting for files
