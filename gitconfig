@@ -10,3 +10,6 @@
 	autocorrect = 1
 [push]
 	default = simple
+[alias]
+	co = checkout
+	po = push
