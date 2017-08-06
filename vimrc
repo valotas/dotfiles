@@ -33,47 +33,5 @@ autocmd vimenter * if !argc() | NERDTree | endif
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-let g:syntastic_php_checkers=['php', 'phpmd'] " Do not use phpcs with synstastic
-
-"Enable emmet for css and html
-let g:user_emmet_install_global = 0
-autocmd FileType html,css EmmetInstall
-
 
 autocmd FileType javascript set list listchars=tab:\|¬,trail:· "Nice display of tabs and trailing spaces
-
-" jshint2.vim setup: https://github.com/Shutnik/jshint2.vim
-let jshint2_save=1 " lint js files after saving them
-let jshint2_height=10 " default height of error list
-
-" go-vim: open GoDef at a vertical buffer
-au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
-
-" go-vim tagbar support
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-    \ }
