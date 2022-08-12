@@ -1,0 +1,49 @@
+{
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.selectionHighlight": false,
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": false
+    },
+    "workbench.editor.showTabs": false,
+    "git.enableSmartCommit": true,
+    "terminal.integrated.fontSize": 12,
+    "debug.console.fontSize": 12,
+    "git.autofetch": true,
+    "jupyter.askForKernelRestart": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "json.format.enable": false,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "workbench.list.multiSelectModifier": "alt",
+    "workbench.editor.revealIfOpen": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.tabSize": 2,
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "git.confirmSync": false,
+    "editor.fontFamily": "'Source Code Pro', 'monospace', monospace",
+    "editor.fontSize": 12,
+    "window.titleBarStyle": "custom",
+    "workbench.layoutControl.type": "menu"
+}

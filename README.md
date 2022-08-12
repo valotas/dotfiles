@@ -28,3 +28,11 @@ In order to uninstall a directory:
 ```sh
 stow -D [directory]
 ```
+
+# Further reading
+
+- [dotfiles](https://dotfiles.github.io/)
+- [Sayonara, Prezto. Hello: dotfiles](https://naikoob.github.io/blog/2020/10/02/hello-dotfiles.html)
+- [Using GNU Stow to manage your dotfiles](https://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html)
+- [Using git-submodules to version-control Vim plugins](https://gist.github.com/manasthakur/d4dc9a610884c60d944a4dd97f0b3560)
+- [Dotfiles Are Meant to Be Forked](https://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/)
