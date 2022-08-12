@@ -1,14 +1,25 @@
 [user]
   email = valotas@gmail.com
   name = Georgios Valotasios
+
 [color]
 	ui = true
+
 [core]
 	autocrlf = input
+
 [help]
 	autocorrect = 1
+
 [push]
 	default = simple
+
 [alias]
 	co = checkout
 	po = push
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
+[include]
+	path = ~/.gitconfig.local
