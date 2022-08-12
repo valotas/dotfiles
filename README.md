@@ -7,10 +7,17 @@ The following
 
 ```sh
 git clone git@github.com:valotas/dotfiles.git
-find  -maxdepth 1 -path './[^.]*' -type d -print | sed "s|^\./||" | xargs -L 1 stow
+./setup.sh
 ```
 
-should install every config under the existing directories
+should install every config under the packages directory.
+
+To install an individual package:
+
+```sh
+cd packages
+stow --target=$HOME --verbose=2 <package_name>
+```
 
 ### Vim
 There are some more things that should be taken care of for vim.

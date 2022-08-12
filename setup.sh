@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "stow configs"
-find  -maxdepth 1 -path './[^.]*' -type d -print | sed "s|^\./||" | xargs -L 1 stow
+echo "Stowing all directories in ./packages..."
+find -maxdepth 2 -path './packages/[^.]*' -type d | sed "s|^\./packages/||" | xargs stow -v 2 -t $HOME -d packages
 
 #update the font cache
-echo "Updating font cache"
+echo "Updating font cache..."
 fc-cache -vf ~/.fonts
 
 #echo "Updating submodules"
