@@ -19,6 +19,11 @@
 	co = checkout
 	po = push
 
+	# log from https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
+	tree = log --decorate --oneline --graph
+
+	st = status -sb
+
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 
