@@ -12,7 +12,8 @@
 	autocorrect = 1
 
 [push]
-	default = simple
+	default = current
+	followTags = true
 
 [alias]
 	co = checkout
