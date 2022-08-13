@@ -8,7 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-[[ -s "~/.dotfiles/env.sh" ]] && . "~/.dotfiles/env.sh"
+export VALOTAS_VERSION="$HOME/.bash_profile"
+
+[[ -s "$HOME/.dotfiles/env.sh" ]] && . "$HOME/.dotfiles/env.sh"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
