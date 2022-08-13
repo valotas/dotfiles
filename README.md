@@ -6,7 +6,7 @@ Just a collection of dotfiles that can be used in any pc of mine
 The following
 
 ```sh
-git clone git@github.com:valotas/dotfiles.git
+git clone git@github.com:valotas/dotfiles.git .dotfiles
 ./setup.sh
 ```
 
