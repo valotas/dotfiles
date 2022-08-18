@@ -13,45 +13,57 @@
 	// 	"description": "Log output to console"
 	// }
 	"Component Story": {
-		"prefix": "story",
+		"prefix": "storyfile",
 		"description": "Create a skeleton of a Story for a component",
 		"body": [
-			"import type { ComponentMeta } from \"@storybook/react\";",
-			"import type { ${1}Props } from \"./${1}\";",
+			"import type { ComponentMeta, ComponentStory } from \"@storybook/react\";",
+			"import type { ${1:${TM_FILENAME/(.*)\\.(stories|story).+$/$1/}}Props } from \"./${1}\";",
 			"import { ${1} as StoryComponent } from \"./${1}\";",
 			"",
 			"export default {",
 			"  component: StoryComponent,",
 			"} as ComponentMeta<typeof StoryComponent>;",
 			"",
-			"export const ${1} = (args: ${1}Props) => {",
-			"  <StoryComponent {...args} />;",
+			"export const ${1}: ComponentStory<typeof StoryComponent> = (",
+			"  args: ${1}Props",
+			") => {",
+			"  return <StoryComponent {...args} />;",
 			"};",
 			"$2"
 		]
 	},
 	"React Component": {
-		"prefix": "component",
+		"prefix": "reactcomponent",
 		"description": "Create a react component with it's props",
 		"body": [
-			"export type ${1}Props = {};",
+			"export type ${1:${TM_FILENAME/(.*)\\.+$/$1/}}Props = {};",
 			"",
 			"export function ${1}(props: ${1}Props) {$0}",
 			"",
 		]
 	},
-	"React Component Test": {
-		"prefix": "reacttest",
-		"description": "Create a react component test",
+	"React Component Test File": {
+		"prefix": "reacttestfile",
+		"description": "Create skeleton of a react component test",
 		"body": [
 			"import { render } from \"@testing-library/react\";",
-			"import { ${1:Name} } from \"./${1}\";",
+			"import { ${1:${TM_FILENAME/(.*)\\.(test).+$/$1/}} } from \"./${1}\";",
 			"",
 			"describe(\"${1}\", () => {",
 			"  test(\"renders the component\", () => {",
 			"    const { container } = render(<${1} ${2}/>);",
 			"    $0",
 			"  });",
+			"});",
+			"",
+		]
+	},
+	"Test Block": {
+		"prefix": "testblock",
+		"description": "Creates a test block",
+		"body": [
+			"test(\"${1:testName}\", () => {",
+			"  $0",
 			"});",
 			"",
 		]
