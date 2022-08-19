@@ -36,9 +36,11 @@
 		"prefix": "reactcomponent",
 		"description": "Create a react component with it's props",
 		"body": [
-			"export type ${1:${TM_FILENAME/(.*)\\.+$/$1/}}Props = {};",
+			"export type ${1:${TM_FILENAME/(.*)\\..+$/$1/}}Props = {};",
 			"",
-			"export function ${1}(props: ${1}Props) {$0}",
+			"export function ${1}(props: ${1}Props) {",
+			"  return ($0)",
+			"}",
 			"",
 		]
 	},
