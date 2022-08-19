@@ -24,6 +24,9 @@
 
 	st = status -sb
 
+	# make ammending easier
+	ammend = commit --ammend --no-edit
+
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 
