@@ -36,4 +36,4 @@ export PATH=$PNPM_HOME:${PATH:+:$PATH}
 alias pn=pnpm
 # pnpm end
 
-alias la=ls -al
+alias la="ls -al"
