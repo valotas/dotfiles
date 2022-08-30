@@ -28,3 +28,10 @@ if [[ -f "$HOME/.fly/bin/flyctl" ]]; then
   export FLYCTL_INSTALL="$HOME/.fly"
   export -U PATH=$FLYCTL_INSTALL/bin${PATH:+:$PATH}
 fi
+
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export -U PATH=$PNPM_HOME:${PATH:+:$PATH}
+alias pn=pnpm
+# pnpm end
