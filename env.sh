@@ -35,3 +35,5 @@ export PNPM_HOME="$HOME/.local/share/pnpm"
 export -U PATH=$PNPM_HOME:${PATH:+:$PATH}
 alias pn=pnpm
 # pnpm end
+
+alias la=ls -al
