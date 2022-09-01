@@ -8,9 +8,10 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-export VALOTAS_VERSION="$HOME/.bash_profile"
+# for debugging
+export _VALOTAS_ENV_COUNTER="$_VALOTAS_ENV_COUNTER[bash_profile]"
 
-[[ -s "$HOME/.dotfiles/env.sh" ]] && . "$HOME/.dotfiles/env.sh"
+. "$HOME/.dotfiles/sh_env.sh"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
@@ -24,3 +25,6 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+# if running interactively, run setup
+[[ $- == *i* ]] && . "$HOME/.dotfiles/sh_setup.sh"

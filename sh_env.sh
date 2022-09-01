@@ -1,6 +1,9 @@
 # this should be sourced in .profile and/or .zenv:
 # [[ -s "$HOME/.dotfiles/env.sh" ]] && . "$HOME/.dotfiles/env.sh"
 
+# for debugging
+export _VALOTAS_ENV_COUNTER="$_VALOTAS_ENV_COUNTER[e]"
+
 export SYSTEMD_EDITOR="vim"
 
 # Preferred editor for local and remote sessions
@@ -16,13 +19,6 @@ export VISUAL="$EDITOR"
 export FOOTBALL_DATA_ORG_TOKEN="5ecd3132cf3b4299b70e7229192a49bd"
 export FOOTBALL_DATA_ORG_USER="valotas@gmail.com"
 
-# sdkman
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
-
-# for debugging
-export VALOTAS_VERSION="$HOME/.dotfiles/env.sh"
-
 # flyctl
 if [[ -f "$HOME/.fly/bin/flyctl" ]]; then
   export FLYCTL_INSTALL="$HOME/.fly"
@@ -32,8 +28,8 @@ fi
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
-export PATH=$PNPM_HOME:${PATH:+:$PATH}
-alias pn=pnpm
+if [ -d "$PNPM_HOME" ]; then
+  export PATH=$PNPM_HOME:${PATH:+:$PATH}
+  alias pn=pnpm
+fi
 # pnpm end
-
-alias la="ls -al"
