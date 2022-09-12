@@ -38,7 +38,12 @@
     },
     {
         "key": "ctrl+alt+l",
-        "command": "eslint.executeAutofix"
+        "command": "eslint.executeAutofix",
+        "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
+    },
+    {
+        "key": "ctrl+alt+l",
+        "command": "editor.action.formatDocument",
     },
     {
         "key": "alt+enter",
