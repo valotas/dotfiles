@@ -45,5 +45,9 @@
     "editor.fontFamily": "'Source Code Pro', 'monospace', monospace",
     "editor.fontSize": 12,
     "window.titleBarStyle": "custom",
-    "workbench.layoutControl.type": "menu"
+    "workbench.layoutControl.type": "menu",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    },
+    "python.formatting.provider": "black"
 }
