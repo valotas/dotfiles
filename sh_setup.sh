@@ -1,4 +1,4 @@
-export _VALOTAS_ENV_COUNTER="$_VALOTAS_ENV_COUNTER[s]"
+export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[s]"
 
 # sdkman
 export SDKMAN_DIR="$HOME/.sdkman"

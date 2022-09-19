@@ -9,7 +9,7 @@
 #umask 022
 
 # for debugging
-export _VALOTAS_ENV_COUNTER="$_VALOTAS_ENV_COUNTER[bash_profile]"
+export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[bash_profile]"
 
 . "$HOME/.dotfiles/sh_env.sh"
 
