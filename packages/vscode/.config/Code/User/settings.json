@@ -9,49 +9,49 @@
     "editor.tabCompletion": "onlySnippets",
     "editor.wordBasedSuggestions": false
   },
-  "workbench.editor.showTabs": false,
-  "git.enableSmartCommit": true,
-  "terminal.integrated.fontSize": 12,
-  "debug.console.fontSize": 12,
-  "git.autofetch": true,
-  "jupyter.askForKernelRestart": false,
-  "workbench.startupEditor": "newUntitledFile",
-  "json.format.enable": false,
-  "workbench.editorAssociations": {
-    "*.ipynb": "jupyter-notebook"
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "notebook.cellToolbarLocation": {
-    "default": "right",
-    "jupyter-notebook": "left"
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.list.multiSelectModifier": "alt",
-  "workbench.editor.revealIfOpen": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.tabSize": 2,
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "git.confirmSync": false,
+  "debug.console.fontSize": 12,
   "editor.fontFamily": "'Source Code Pro', 'monospace', monospace",
   "editor.fontSize": 12,
-  "window.titleBarStyle": "custom",
-  "workbench.layoutControl.type": "menu",
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.python"
+  "editor.inlineSuggest.enabled": true,
+  "editor.tabSize": 2,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "json.format.enable": false,
+  "jupyter.askForKernelRestart": false,
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
   },
   "python.formatting.provider": "black",
-  "jupyter.notebookFileRoot": "${workspaceFolder}",
-  "window.zoomLevel": -1,
-  "editor.inlineSuggest.enabled": true,
   "terminal.integrated.automationProfile.linux": {
     "path": "/bin/bash"
-  }
+  },
+  "terminal.integrated.fontSize": 12,
+  "window.titleBarStyle": "custom",
+  "window.zoomLevel": -1,
+  "workbench.editor.revealIfOpen": true,
+  "workbench.editor.showTabs": false,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "workbench.layoutControl.type": "menu",
+  "workbench.list.multiSelectModifier": "alt",
+  "workbench.startupEditor": "newUntitledFile"
 }
