@@ -32,14 +32,13 @@ zstyle ':prezto:*:*' color 'yes'
 zstyle ':prezto:load' pmodule \
   'environment' \
   'terminal' \
-  'editor' \
   'history' \
   'directory' \
   'spectrum' \
   'utility' \
-  'completion' \
-  'git' \
   'node' \
+  'git' \
+  'completion' \
   'history-substring-search' \
   'prompt' \
   'valotas-tmux'
