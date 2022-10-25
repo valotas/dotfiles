@@ -4,6 +4,13 @@
 # for debugging
 export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[e]"
 
+export DOTFILES_DIR="$HOME/.dotfiles"
+export ZPREZTODIR="$DOTFILES_DIR/prezto"
+
+#
+# Editors
+#
+
 export SYSTEMD_EDITOR="vim"
 
 # Preferred editor for local and remote sessions
@@ -11,6 +18,10 @@ if [[ -n $SSH_CONNECTION ]]; then # SSH mode
   export EDITOR='vim'
 else # Local terminal mode
   export EDITOR='code -w'
+fi
+
+if [[ -z "$PAGER" ]]; then
+  export PAGER='less'
 fi
 
 export VISUAL="$EDITOR"
