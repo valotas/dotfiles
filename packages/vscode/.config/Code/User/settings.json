@@ -47,6 +47,7 @@
     "path": "/bin/bash"
   },
   "terminal.integrated.fontSize": 12,
+  "terminal.integrated.gpuAcceleration": "canvas",
   "window.titleBarStyle": "custom",
   "window.zoomLevel": -1,
   "workbench.editor.revealIfOpen": true,
