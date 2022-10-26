@@ -1,4 +1,12 @@
 colorscheme darkblue
+
+" load the plugins placed in .vim/pack/*/opt/[name]
+if &loadplugins
+  if has('packages')
+    packadd! nerdtree
+  endif
+endif
+
 filetype plugin indent on " filetype detection[ON] plugin[ON] indent[ON]
 syntax enable             " enable syntax highlighting (previously syntax on).
 filetype indent on        " activates indenting for files
