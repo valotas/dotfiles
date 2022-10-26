@@ -7,7 +7,8 @@ The following
 
 ```sh
 git clone git@github.com:valotas/dotfiles.git .dotfiles
-./setup.sh
+./script/bootstrap.sh
+./script/setup.sh
 ```
 
 should install every config under the packages directory.
@@ -17,6 +18,15 @@ To install an individual package:
 ```sh
 cd packages
 stow --target=$HOME --verbose=2 <package_name>
+```
+
+### Updating
+
+Just pull the latest changes and setup:
+
+```sh
+git pull origin master
+./script/setup.sh
 ```
 
 ### Vim
