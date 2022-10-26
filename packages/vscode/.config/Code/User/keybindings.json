@@ -22,6 +22,19 @@
         "command": "-workbench.action.openRecent"
     },
     {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpenPreviousEditor"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpenNavigateNextInFilePicker",
+        "when": "inFilesPicker && inQuickOpen"
+    },
+    {
         "key": "ctrl+h ctrl+h",
         "command": "sqltools.executeQuery",
         "when": "editorTextFocus"
