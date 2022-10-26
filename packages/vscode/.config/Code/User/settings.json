@@ -28,8 +28,8 @@
   "editor.fontFamily": "'Source Code Pro', 'monospace', monospace",
   "editor.fontSize": 12,
   "editor.inlineSuggest.enabled": true,
-  "editor.tabSize": 2,
   "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
@@ -41,6 +41,8 @@
     "jupyter-notebook": "left"
   },
   "python.formatting.provider": "black",
+  "sqltools.disableChordKeybindings": true,
+  "sqltools.disableReleaseNotifications": true,
   "terminal.integrated.automationProfile.linux": {
     "path": "/bin/bash"
   },
