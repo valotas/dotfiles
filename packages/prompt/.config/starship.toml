@@ -8,3 +8,9 @@ add_newline = false
 [character] # The name of the module we are configuring is "character"
 success_symbol = "[\uf18e](yellow)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
 error_symbol = "[\uf0a9](red)"
+
+[username]
+format = "[$user]($style)"
+
+[hostname]
+format = "[@]($style)[$hostname]($style)[:]($style) "
