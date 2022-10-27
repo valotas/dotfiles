@@ -4,13 +4,26 @@
 # Inserts a blank line between shell prompts
 add_newline = false
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character] # The name of the module we are configuring is "character"
-success_symbol = "[\uf18e](yellow)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
-error_symbol = "[\uf0a9](red)"
+[character]
+error_symbol = "[✗](bold red) "
 
 [username]
 format = "[$user]($style)"
 
 [hostname]
 format = "[@]($style)[$hostname]($style)[:]($style) "
+
+[nodejs]
+disabled = true
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+
+[line_break]
+disabled = true
+
+[directory]
+home_symbol = "\uf015"
+
+[package]
+disabled = true
