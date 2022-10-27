@@ -36,11 +36,8 @@ zstyle ':prezto:load' pmodule \
   'directory' \
   'spectrum' \
   'utility' \
-  'node' \
-  'git' \
   'completion' \
   'history-substring-search' \
-  'prompt' \
   'valotas-tmux'
 
 #

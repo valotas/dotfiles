@@ -6,3 +6,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # nvm
 [[ -z "$NVM_BIN" ]] && [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"  # This loads NVM
+
+# starship
+if [[ $(command -v starship) ]]; then
+  shell="$(ps -p $$ -o comm=)"
+  [[ $shell == *"bash" ]] && eval "$(starship init bash)"
+  [[ $shell == *"zsh" ]] && eval "$(starship init zsh)"
+fi

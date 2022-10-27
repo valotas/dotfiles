@@ -48,6 +48,7 @@
   },
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.gpuAcceleration": "canvas",
+  "terminal.integrated.fontFamily": "MesloLGS NF",
   "window.titleBarStyle": "custom",
   "window.zoomLevel": -1,
   "workbench.editor.revealIfOpen": true,
