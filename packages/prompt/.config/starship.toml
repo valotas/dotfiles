@@ -27,3 +27,6 @@ home_symbol = "\uf015"
 
 [package]
 disabled = true
+
+[ruby]
+disabled = true
