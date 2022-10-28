@@ -1,6 +1,6 @@
 [submodule "prezto"]
 	path = prezto
-	url = git@github.com:valotas/prezto.git
+	url = ../prezto.git
 [submodule "nerdtree"]
 	path = packages/vim/.vim/pack/plugins/opt/nerdtree
-	url = git@github.com:preservim/nerdtree.git
+	url = https://github.com/preservim/nerdtree.git
