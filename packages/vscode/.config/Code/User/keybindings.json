@@ -121,5 +121,21 @@
     {
         "key": "ctrl+k ctrl+shift+w",
         "command": "-workbench.action.closeAllGroups"
+    },
+    {
+        "key": "alt+left",
+        "command": "workbench.action.navigateLeft"
+    },
+    {
+        "key": "alt+right",
+        "command": "workbench.action.navigateRight"
+    },
+    {
+        "key": "alt+up",
+        "command": "workbench.action.navigateUp"
+    },
+    {
+        "key": "alt+down",
+        "command": "workbench.action.navigateDown"
     }
 ]
