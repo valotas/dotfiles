@@ -58,5 +58,6 @@
   },
   "workbench.layoutControl.type": "menu",
   "workbench.list.multiSelectModifier": "alt",
-  "workbench.startupEditor": "newUntitledFile"
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.colorTheme": "Low Eye Strain Dark"
 }
