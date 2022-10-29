@@ -43,4 +43,7 @@ if [ -d "$PNPM_HOME" ]; then
   export PATH=$PNPM_HOME:${PATH:+:$PATH}
   alias pn=pnpm
 fi
-# pnpm end
+
+# set CHROME_BIN to the path of the chrome binary
+[[ $(command -v chromium) ]] && [[ -z "$CHROME_BIN" ]] && export CHROME_BIN=$(command -v chromium)
+
