@@ -1,5 +1,9 @@
 #!/bin/sh
 
 openbb_image=ghcr.io/openbb-finance/openbbterminal-poetry:latest
-echo "Starting openbb with docker: $openbb_image"
-docker run -it --rm $openbb_image
+
+echo "Starting openbb on '$DISPLAY' with docker: '$openbb_image'"
+
+xhost +local:
+docker run -it --rm --name openbb -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix $openbb_image
+xhost -local:
