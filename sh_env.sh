@@ -47,3 +47,4 @@ fi
 # set CHROME_BIN to the path of the chrome binary
 [[ $(command -v chromium) ]] && [[ -z "$CHROME_BIN" ]] && export CHROME_BIN=$(command -v chromium)
 
+[[ -d "$HOME/.local/bin" ]] && export PATH=$HOME/.local/bin:${PATH:+:$PATH}
