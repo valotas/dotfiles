@@ -36,3 +36,6 @@ disabled = true
 
 [python]
 disabled = true
+
+[dart]
+disabled = true
