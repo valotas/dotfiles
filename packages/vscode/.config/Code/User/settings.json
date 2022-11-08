@@ -46,11 +46,15 @@
   "terminal.integrated.automationProfile.linux": {
     "path": "/bin/bash"
   },
+  "terminal.integrated.fontFamily": "MesloLGS NF",
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.gpuAcceleration": "canvas",
-  "terminal.integrated.fontFamily": "MesloLGS NF",
   "window.titleBarStyle": "custom",
   "window.zoomLevel": -1,
+  "workbench.colorTheme": "Low Eye Strain Dark",
+  "workbench.colorCustomizations": {
+    "editorWhitespace.foreground": "#2b2b2b"
+  },
   "workbench.editor.revealIfOpen": true,
   "workbench.editor.showTabs": false,
   "workbench.editorAssociations": {
@@ -59,5 +63,5 @@
   "workbench.layoutControl.type": "menu",
   "workbench.list.multiSelectModifier": "alt",
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.colorTheme": "Low Eye Strain Dark"
+  "vim.useSystemClipboard": true
 }
