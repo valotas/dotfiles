@@ -41,7 +41,7 @@ Clone the plugin to `packages/vim/.vim/pack/plugins/[opt|start]/[name]`. For exa
 git submodule add --name nerdtree git@github.com:preservim/nerdtree.git packages/vim/.vim/pack/plugins/opt/nerdtree 
 ```
 
-And then init the plagin in the `packages/vim/.vimrc`.
+And then init the plugin in the `packages/vim/.vimrc`.
 
 ## Uninstalling 
 
