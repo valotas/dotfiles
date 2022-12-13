@@ -39,3 +39,9 @@ disabled = true
 
 [dart]
 disabled = true
+
+[java]
+disabled = true
+
+[kotlin]
+disabled = true
