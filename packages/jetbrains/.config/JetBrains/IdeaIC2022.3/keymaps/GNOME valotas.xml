@@ -1,0 +1,7 @@
+<keymap version="1" name="GNOME valotas" parent="Default for GNOME">
+  <action id="FileChooser.TogglePathBar" />
+  <action id="ParameterInfo" />
+  <action id="SearchEverywhere">
+    <keyboard-shortcut first-keystroke="ctrl p" />
+  </action>
+</keymap>
