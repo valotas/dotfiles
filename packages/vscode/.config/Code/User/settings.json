@@ -63,5 +63,11 @@
   "workbench.layoutControl.type": "menu",
   "workbench.list.multiSelectModifier": "alt",
   "workbench.startupEditor": "newUntitledFile",
-  "vim.useSystemClipboard": true
+  "vim.useSystemClipboard": true,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": false,
+    "markdown": true
+  }
 }
