@@ -51,6 +51,10 @@ In order to uninstall a directory:
 stow -D [directory]
 ```
 
+## Additional setup
+
+The the [nerd fonts version of source code pro](https://www.nerdfonts.com/font-downloads) is installed but you might need to use it in your terminal emulator. The name should be `SauceCodePro Nerd Font`.
+
 # Further reading
 
 - [dotfiles](https://dotfiles.github.io/)

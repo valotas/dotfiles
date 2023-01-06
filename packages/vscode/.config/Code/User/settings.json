@@ -25,7 +25,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "debug.console.fontSize": 12,
-  "editor.fontFamily": "'Source Code Pro', 'monospace', monospace",
+  "editor.fontFamily": "'SauceCodePro Nerd Font Mono', 'monospace', monospace",
   "editor.fontSize": 12,
   "editor.inlineSuggest.enabled": true,
   "editor.renderWhitespace": "boundary",
