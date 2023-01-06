@@ -46,7 +46,7 @@
   "terminal.integrated.automationProfile.linux": {
     "path": "/bin/bash"
   },
-  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "terminal.integrated.fontFamily": "'SauceCodePro Nerd Font Mono', 'monospace', monospace",
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.gpuAcceleration": "canvas",
   "window.titleBarStyle": "custom",
