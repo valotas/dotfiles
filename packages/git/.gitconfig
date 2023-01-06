@@ -30,7 +30,12 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 
-[include]
-	path = ~/.gitconfig.local
 [pull]
 	ff = only
+
+[include]
+  path = ~/.gitconfig.local
+
+[includeIf "gitdir:~/dev/fintama/"]
+  path = ~/dev/fintama/.gitconfig.inc
+
