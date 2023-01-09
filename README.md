@@ -55,6 +55,13 @@ stow -D [directory]
 
 The the [nerd fonts version of source code pro](https://www.nerdfonts.com/font-downloads) is installed but you might need to use it in your terminal emulator. The name should be `SauceCodePro Nerd Font`.
 
+# Usage
+
+After installing you can still use some local (meaning machine specific) defined configuration. At the moment the following configuration can be adjusted per machine:
+
+- `~/.gitconfig.local` is sourced by .gitconfig
+- `~/.config/local_aliases.sh` is sourced by bash/zsh for alias declaration
+
 # Further reading
 
 - [dotfiles](https://dotfiles.github.io/)
