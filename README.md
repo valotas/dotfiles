@@ -55,6 +55,16 @@ stow -D [directory]
 
 The the [nerd fonts version of source code pro](https://www.nerdfonts.com/font-downloads) is installed but you might need to use it in your terminal emulator. The name should be `SauceCodePro Nerd Font`.
 
+### wsl
+
+For wsl, you still need to link some things manually to have vscode properly reading the same settings/keybindings on both in `windows` and `wsl`. So with the windows' command line do the following:
+
+```batch
+cd \Users\USER\AppData\Roaming\Code\User
+mklink keybindings.json "\\wsl.localhost\Ubuntu\home\WSLUSER\.dotfiles\packages\vscode\.config\Code\User\keybindings.json"
+mklink settings.json "\\wsl.localhost\Ubuntu\home\WSLUSER\.dotfiles\packages\vscode\.config\Code\User\settings.json"
+```
+
 # Usage
 
 After installing you can still use some local (meaning machine specific) defined configuration. At the moment the following configuration can be adjusted per machine:

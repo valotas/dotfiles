@@ -49,7 +49,7 @@
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.gpuAcceleration": "canvas",
   "window.titleBarStyle": "custom",
-  "window.zoomLevel": -1,
+  "window.zoomLevel": 0,
   "workbench.colorTheme": "Low Eye Strain Dark",
   "workbench.colorCustomizations": {
     "editorWhitespace.foreground": "#2b2b2b"
