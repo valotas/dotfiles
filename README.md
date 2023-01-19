@@ -63,6 +63,7 @@ For wsl, you still need to link some things manually to have vscode properly rea
 cd \Users\USER\AppData\Roaming\Code\User
 mklink keybindings.json "\\wsl.localhost\Ubuntu\home\WSLUSER\.dotfiles\packages\vscode\.config\Code\User\keybindings.json"
 mklink settings.json "\\wsl.localhost\Ubuntu\home\WSLUSER\.dotfiles\packages\vscode\.config\Code\User\settings.json"
+mklink snippets "\\wsl.localhost\Ubuntu\home\WSLUSER\.dotfiles\packages\vscode\.config\Code\User\snippets"
 ```
 
 # Usage
