@@ -32,6 +32,32 @@
 			"$2"
 		]
 	},
+	"Component v7 Story": {
+		"prefix": "storyfile7",
+		"description": "Create a skeleton of a CSF v3",
+		"body": [
+			"import type { Meta, StoryObj } from \"@storybook/react\";",
+			"import type { ${1:${TM_FILENAME/(.*)\\.(stories|story).+$/$1/}}Props } from \"./${1}\";",
+			"import { ${1} } from \"./${1}\";",
+			"",
+			"const meta: Meta<typeof ${1}> = {",
+			"  title \"Components/${1}\",",
+			"  component: ${1},",
+			"  tags: [\"autodocs\"],",
+			"};",
+			"",
+			"exoprt default meta;",
+			"",
+			"type Story = StoryObj<typeof meta>;",
+			"",
+			"export const Default${1}: Story = {",
+			"  args: {}",
+			"  argTypes: {}",
+			"  render: (args: ${1}Props) => <${1} {...args} />",
+			"};",
+			"$2"
+		]
+	},
 	"React Component": {
 		"prefix": "reactcomponent",
 		"description": "Create a react component with it's props",
