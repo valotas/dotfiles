@@ -16,9 +16,6 @@
 	followTags = true
 	autoSetupRemote = true
 
-[branch]
-	autoSetupMerge = always
-
 [alias]
 	co = checkout
 	po = push
