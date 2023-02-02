@@ -18,7 +18,7 @@
 
 [alias]
 	co = checkout
-	po = push
+	po = push -u
 
 	# log from https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 	tree = log --decorate --oneline --graph
