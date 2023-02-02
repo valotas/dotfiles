@@ -14,6 +14,10 @@
 [push]
 	default = current
 	followTags = true
+	autoSetupRemote = true
+
+[branch]
+	autoSetupMerge = always
 
 [alias]
 	co = checkout
@@ -26,6 +30,11 @@
 
 	# make ammending easier
 	amend = commit --amend --no-edit
+
+	# https://stackoverflow.com/questions/9301782/need-to-reset-git-branch-to-origin-version
+	resetOrigin = reset --hard @{u}
+
+	branchName = rev-parse --abbrev-ref HEAD
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
