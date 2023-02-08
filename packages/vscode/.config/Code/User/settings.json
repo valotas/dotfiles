@@ -49,6 +49,7 @@
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.gpuAcceleration": "canvas",
   "window.titleBarStyle": "custom",
+  "window.title": "${folderName}${separator}${activeEditorMedium}",
   "window.zoomLevel": 0,
   "workbench.colorTheme": "Low Eye Strain Dark",
   "workbench.colorCustomizations": {
@@ -57,7 +58,8 @@
   "workbench.editor.revealIfOpen": true,
   "workbench.editor.showTabs": false,
   "workbench.editorAssociations": {
-    "*.ipynb": "jupyter-notebook"
+    "*.ipynb": "jupyter-notebook",
+    "git-rebase-todo": "default"
   },
   "workbench.layoutControl.type": "menu",
   "workbench.list.multiSelectModifier": "alt",
@@ -66,7 +68,8 @@
   "github.copilot.enable": {
     "*": true,
     "yaml": true,
-    "plaintext": false,
+    "plaintext": true,
     "markdown": true
-  }
+  },
+  "gitlens.rebaseEditor.ordering": "asc"
 }
