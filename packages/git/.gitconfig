@@ -43,5 +43,8 @@
   path = ~/.gitconfig.local
 
 [includeIf "gitdir:~/dev/fintama/"]
-  path = ~/dev/fintama/.gitconfig.inc
+  path = ~/dev/fintama/.gitconfig-fintama
+
+[includeIf "gitdir:~/dev/qontigo/"]
+  path = ~/dev/qontigo/.gitconfig-qontigo
 
