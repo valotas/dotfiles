@@ -42,8 +42,8 @@
 		"prefix": "vuestoryfile7",
 		"description": "Create a skeleton of a CSF v3",
 		"body": [
-			"import type { Meta, StoryObj } from \"@storybook/react\";",
-			"import type {1:${TM_FILENAME/(.*)\\.(stories|story).+$/$1/}} from \"./${1}.vue\";",
+			"import type { Meta, StoryObj } from \"@storybook/vue3\";",
+			"import ${1:${TM_FILENAME/(.*)\\.(stories|story).+$/$1/}} from \"./${1}.vue\";",
 			"",
 			"const meta: Meta<typeof ${1}> = {",
 			"  component: ${1},",
