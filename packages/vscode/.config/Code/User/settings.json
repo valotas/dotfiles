@@ -71,5 +71,9 @@
     "plaintext": true,
     "markdown": true
   },
-  "gitlens.rebaseEditor.ordering": "asc"
+  "gitlens.rebaseEditor.ordering": "asc",
+  "svg.preview.mode": "svg",
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
