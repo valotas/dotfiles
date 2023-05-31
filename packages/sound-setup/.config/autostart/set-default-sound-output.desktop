@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Setup default sound device
+Exec=/home/valotas/.local/bin/set-default-sound-output
+Icon=system-run
+X-GNOME-Autostart-enabled=true

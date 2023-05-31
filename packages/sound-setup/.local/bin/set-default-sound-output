@@ -1,0 +1,10 @@
+#!/bin/sh
+
+device_name="alsa_output.pci-0000_00_1f.3.hdmi-stereo"
+
+if pactl list short sinks | grep -q $device_name; then
+    echo "Switching to $device_name"
+    pactl set-default-sink $device_name
+else
+    echo "No $device_name found"
+fi
