@@ -51,13 +51,12 @@
   "terminal.integrated.gpuAcceleration": "canvas",
   "window.titleBarStyle": "custom",
   "window.title": "${folderName}${separator}${activeEditorMedium}",
-  "window.zoomLevel": 0,
-  "workbench.colorTheme": "Low Eye Strain Dark",
+  "workbench.colorTheme": "Default Dark+",
   "workbench.colorCustomizations": {
     "editorWhitespace.foreground": "#2b2b2b"
   },
   "workbench.editor.revealIfOpen": true,
-  "workbench.editor.showTabs": false,
+  "workbench.editor.showTabs": "single",
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook",
     "git-rebase-todo": "default"
@@ -68,9 +67,10 @@
   "vim.useSystemClipboard": true,
   "github.copilot.enable": {
     "*": true,
-    "yaml": true,
     "plaintext": true,
-    "markdown": true
+    "markdown": true,
+    "scminput": false,
+    "yaml": true
   },
   "gitlens.rebaseEditor.ordering": "asc",
   "svg.preview.mode": "svg",
@@ -80,5 +80,8 @@
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "explorer.confirmDelete": false
+  "explorer.confirmDelete": false,
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
