@@ -127,8 +127,18 @@
         "command": "workbench.action.navigateLeft"
     },
     {
+        "key": "alt+left",
+        "command": "workbench.action.terminal.focusPreviousPane",
+        "when": "terminalFocus"
+    },
+    {
         "key": "alt+right",
         "command": "workbench.action.navigateRight"
+    },
+    {
+        "key": "alt+right",
+        "command": "workbench.action.terminal.focusNextPane",
+        "when": "terminalFocus"
     },
     {
         "key": "alt+up",
