@@ -7,7 +7,7 @@
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "editor.suggestSelection": "first",
     "editor.tabCompletion": "onlySnippets",
-    "editor.wordBasedSuggestions": false
+    "editor.wordBasedSuggestions": "off"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -34,6 +34,7 @@
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
+  "git-graph.repository.useMailmap": true,
   "json.format.enable": false,
   "jupyter.askForKernelRestart": false,
   "jupyter.notebookFileRoot": "${workspaceFolder}",
