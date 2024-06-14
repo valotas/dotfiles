@@ -16,7 +16,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[python]": {
-    "editor.defaultFormatter": "ms-python.python",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnType": true
   },
   "[typescript]": {
@@ -84,5 +84,7 @@
   "explorer.confirmDelete": false,
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  "remote.autoForwardPortsSource": "hybrid"
 }
