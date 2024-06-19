@@ -7,6 +7,13 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # nvm
 [[ -s "$HOME/.nvm/nvm.sh" ]] && source "$HOME/.nvm/nvm.sh"  # This loads NVM
 
+# vfox
+if [[ $(command -v vfox) ]]; then 
+  shell="$(ps -p $$ -o comm=)"
+  [[ $shell == *"bash" ]] && eval "$(vfox activate bash)"
+  [[ $shell == *"zsh" ]] && eval "$(vfox activate zsh)"
+fi
+
 # starship
 if [[ $(command -v starship) ]]; then
   shell="$(ps -p $$ -o comm=)"
