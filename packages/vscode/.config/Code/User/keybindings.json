@@ -151,5 +151,14 @@
     {
         "key": "alt+down",
         "command": "workbench.action.navigateDown"
+    },
+    {
+        "key": "alt+o",
+        "command": "workbench.panel.chat.view.copilot.focus"
+    },
+    {
+        "key": "alt+o",
+        "command": "workbench.action.closeAuxiliaryBar",
+        "when": "auxiliaryBarVisible"
     }
 ]
