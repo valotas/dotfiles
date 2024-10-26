@@ -45,6 +45,6 @@ fi
 
 [[ -d "$HOME/.local/bin" ]] && export PATH=$HOME/.local/bin:${PATH:+:$PATH}
 
-if [[ -f "$HOME/.config/local_env.sh"]]; then
+if [[ -f "$HOME/.config/local_env.sh" ]]; then
   source "$HOME/.config/local_env.sh"
 fi
