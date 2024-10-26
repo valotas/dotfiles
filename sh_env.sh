@@ -26,10 +26,6 @@ fi
 
 export VISUAL="$EDITOR"
 
-# football-data.org stuff
-export FOOTBALL_DATA_ORG_TOKEN="5ecd3132cf3b4299b70e7229192a49bd"
-export FOOTBALL_DATA_ORG_USER="valotas@gmail.com"
-
 # flyctl
 if [[ -f "$HOME/.fly/bin/flyctl" ]]; then
   export FLYCTL_INSTALL="$HOME/.fly"
@@ -48,3 +44,7 @@ fi
 [[ $(command -v chromium) ]] && [[ -z "$CHROME_BIN" ]] && export CHROME_BIN=$(command -v chromium)
 
 [[ -d "$HOME/.local/bin" ]] && export PATH=$HOME/.local/bin:${PATH:+:$PATH}
+
+if [[ -f "$HOME/.config/local_env.sh"]]; then
+  source "$HOME/.config/local_env.sh"
+fi
