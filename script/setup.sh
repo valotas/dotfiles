@@ -5,8 +5,10 @@ BASEDIR=$(dirname -- "$( dirname -- "$( realpath -- "$0"; )"; )"; )
 cd $BASEDIR && ./script/update.sh
 
 echo "Stowing all directories in $BASEDIR/packages ..."
-cd $BASEDIR && find -maxdepth 2 -path './packages/[^.]*' -type d | sed "s|^\./packages/||" | xargs stow -v 2 -t $HOME -d packages
+cd $BASEDIR && find packages -type d -mindepth 1 -maxdepth 1 | sed "s|^packages/||" | xargs stow -v 2 -t $HOME -d packages
 
 #update the font cache
-echo "Updating font cache..."
-fc-cache -vf ~/.fonts
+if command -v fc-cache >/dev/null 2>&1; then
+    echo "Updating font cache..."
+    fc-cache -vf ~/.fonts
+fi
