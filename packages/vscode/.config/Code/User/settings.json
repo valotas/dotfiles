@@ -109,5 +109,6 @@
     "*.sdb": "${capture}.${extname}-*",
     "*.s3db": "${capture}.${extname}-*"
   },
-  "sqltools.useNodeRuntime": true
+  "sqltools.useNodeRuntime": true,
+  "chat.editing.alwaysSaveWithGeneratedChanges": true
 }
