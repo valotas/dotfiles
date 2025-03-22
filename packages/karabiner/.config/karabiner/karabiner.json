@@ -4,38 +4,18 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Cmd + Shift to Ctrl + Option + Space (rev 2)",
+                        "description": "Ctrl + Shift to Ctrl + Option + Space (rev 2)",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "left_shift",
-                                    "modifiers": { "mandatory": ["left_command"] }
+                                    "modifiers": { "mandatory": ["left_control"] }
                                 },
                                 "to": [
                                     {
                                         "key_code": "left_shift",
                                         "lazy": true,
-                                        "modifiers": ["left_command"]
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": ["left_control", "left_option"]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "left_command",
-                                    "modifiers": { "mandatory": ["left_shift"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_command",
-                                        "lazy": true,
-                                        "modifiers": ["left_shift"]
+                                        "modifiers": ["left_control"]
                                     }
                                 ],
                                 "to_if_alone": [
