@@ -1,3 +1,6 @@
 *.swp
 *~
 .uuid
+
+packages/karabiner/.config/karabiner/assets/*
+packages/karabiner/.config/karabiner/automatic_backups/*
