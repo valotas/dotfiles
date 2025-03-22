@@ -57,6 +57,12 @@
     {
         "key": "ctrl+alt+l",
         "command": "editor.action.formatDocument",
+        "when": "activeEditor != 'workbench.editor.notebook'"
+    },
+    {
+        "key": "ctrl+alt+l",
+        "command": "notebook.formatCell",
+        "when": "notebookEditable && activeEditor == 'workbench.editor.notebook'"
     },
     {
         "key": "ctrl+alt+v",
@@ -160,5 +166,23 @@
         "key": "alt+o",
         "command": "workbench.action.closeAuxiliaryBar",
         "when": "auxiliaryBarVisible"
+    },
+    {
+        "key": "alt+o",
+        "command": "workbench.panel.chat",
+        "when": "workbench.panel.chat.view.copilot.active"
+    },
+    {
+        "key": "ctrl+alt+i",
+        "command": "-workbench.panel.chat",
+        "when": "workbench.panel.chat.view.copilot.active"
+    },
+    {
+        "key": "alt+o",
+        "command": "workbench.action.toggleAuxiliaryBar"
+    },
+    {
+        "key": "ctrl+alt+b",
+        "command": "-workbench.action.toggleAuxiliaryBar"
     }
 ]
