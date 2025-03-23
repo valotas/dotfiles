@@ -2,5 +2,5 @@
 *~
 .uuid
 
-packages/karabiner/.config/karabiner/assets/*
-packages/karabiner/.config/karabiner/automatic_backups/*
+packages/macos-keybindings/.config/karabiner/assets/*
+packages/macos-keybindings/.config/karabiner/automatic_backups/*
