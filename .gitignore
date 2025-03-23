@@ -1,6 +1,7 @@
 *.swp
 *~
 .uuid
+.DS_Store
 
 packages/macos-keybindings/.config/karabiner/assets/*
 packages/macos-keybindings/.config/karabiner/automatic_backups/*
