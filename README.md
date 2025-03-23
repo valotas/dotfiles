@@ -45,10 +45,10 @@ And then init the plugin in the `packages/vim/.vimrc`.
 
 ## Uninstalling 
 
-In order to uninstall a directory:
+In order to uninstall a directory, from the root of the project do:
 
 ```sh
-stow -D [directory]
+stow -d packages -D [directory_in_packages] -t $HOME
 ```
 
 ## Additional setup
