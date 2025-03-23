@@ -2,6 +2,12 @@
     This has been inspired by different resources:
     - https://ss64.com/mac/syntax-keybindings.html
     - https://blog.victormendonca.com/2020/04/27/how-to-change-macos-key-bindings/
+    - https://brettterpstra.com/projects/keybindings/
+    - https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/EventOverview/TextDefaultsBindings/TextDefaultsBindings.html
+    - https://github.com/ttscoff/KeyBindings/blob/master/DefaultKeyBinding.dict
+    - https://apple.stackexchange.com/questions/127023/how-do-i-know-what-to-put-in-defaultkeybinding-dict
+    - https://github.com/netj/dotfiles/blob/master/Mac/KeyBindings/DefaultKeyBinding.dict
+    - https://github.com/ttscoff/KeyBindings
 
     Key Modifiers 
     ^ : Ctrl 
