@@ -32,9 +32,9 @@
     */
 
 {
-    /* Cmd + Left */
-    "@\UF702"  = "moveWordLeft:";
+    /* Ctrl + Left */
+    "^\UF702"  = "moveWordLeft:";
 
-    /* Cmc + Right */
-    "@\UF703"  = "moveWordRight:";
+    /* Ctrl + Right */
+    "^\UF703"  = "moveWordRight:";
 }

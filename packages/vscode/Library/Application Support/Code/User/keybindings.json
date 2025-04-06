@@ -55,5 +55,9 @@
         "key": "shift+alt+left",
         "command": "-cursorWordLeftSelect",
         "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpen"
     }
 ]

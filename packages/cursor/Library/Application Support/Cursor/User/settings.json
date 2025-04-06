@@ -4,9 +4,15 @@
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
+  "editor.tabSize": 2,
   "window.commandCenter": 1,
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-  "git-graph.repository.useMailmap": true
+  "git-graph.repository.useMailmap": true,
+  "vim.useSystemClipboard": true,
+  "workbench.editor.showTabs": "single",
+  "keyboard.dispatch": "keyCode",
+  "editor.lineNumbers": "relative",
+  "editor.renderWhitespace": "boundary"
 }

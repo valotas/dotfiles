@@ -1,9 +1,9 @@
 // Place your key bindings in this file to override the defaults
 [
     {
-        "key": "cmd+right",
+        "key": "ctrl+right",
         "command": "cursorWordEndRight",
-        "when": "textInputFocus"
+        "when": "textInputFocus && !inQuickInput"
     },
     {
         "key": "alt+right",
@@ -11,7 +11,7 @@
         "when": "textInputFocus"
     },
     {
-        "key": "shift+cmd+right",
+        "key": "shift+ctrl+right",
         "command": "cursorWordEndRightSelect",
         "when": "textInputFocus"
     },
@@ -21,7 +21,7 @@
         "when": "textInputFocus"
     },
     {
-        "key": "cmd+left",
+        "key": "ctrl+left",
         "command": "cursorWordLeft",
         "when": "textInputFocus"
     },
@@ -31,7 +31,7 @@
         "when": "textInputFocus"
     },
     {
-        "key": "shift+cmd+left",
+        "key": "shift+ctrl+left",
         "command": "cursorWordLeftSelect",
         "when": "textInputFocus"
     },
@@ -39,5 +39,50 @@
         "key": "shift+alt+left",
         "command": "-cursorWordLeftSelect",
         "when": "textInputFocus"
-    }
+    },
+    {
+        "key": "alt+right",
+        "command": "workbench.action.navigateRight"
+    },
+    {
+        "key": "alt+left",
+        "command": "workbench.action.navigateLeft"
+    },
+    {
+        "key": "alt+up",
+        "command": "workbench.action.navigateUp"
+    },
+    {
+        "key": "alt+down",
+        "command": "workbench.action.navigateDown"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpen"
+    },
+    {
+        "key": "cmd+enter",
+        "command": "editor.action.quickFix",
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+.",
+        "command": "-editor.action.quickFix",
+        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+enter",
+        "command": "problems.action.showQuickFixes",
+        "when": "problemFocus"
+    },
+    {
+        "key": "shift+cmd+enter",
+        "command": "-editor.action.insertLineBefore",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+enter",
+        "command": "-editor.action.insertLineAfter",
+        "when": "editorTextFocus && !editorReadonly"
+    },
 ]
