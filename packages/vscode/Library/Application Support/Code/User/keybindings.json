@@ -7,6 +7,10 @@
     },
     {
         "key": "alt+right",
+        "command": "workbench.action.navigateRight"
+    },
+    {
+        "key": "alt+right",
         "command": "-cursorWordEndRight",
         "when": "textInputFocus"
     },
@@ -27,8 +31,20 @@
     },
     {
         "key": "alt+left",
+        "command": "workbench.action.navigateLeft"
+    },
+    {
+        "key": "alt+left",
         "command": "-cursorWordLeft",
         "when": "textInputFocus"
+    },
+    {
+        "key": "alt+up",
+        "command": "workbench.action.navigateUp"
+    },
+    {
+        "key": "alt+down",
+        "command": "workbench.action.navigateDown"
     },
     {
         "key": "shift+cmd+left",
