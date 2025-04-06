@@ -829,6 +829,7 @@
                                     {
                                         "bundle_identifiers": [
                                             "^com\\.microsoft\\.rdc$",
+                                            "^com\\.microsoft\\.VSCode$",
                                             "^com\\.microsoft\\.rdc\\.mac$",
                                             "^com\\.microsoft\\.rdc\\.macos$",
                                             "^com\\.microsoft\\.rdc\\.osx\\.beta$",
@@ -839,6 +840,7 @@
                                             "^com\\.p5sys\\.jump\\.mac\\.viewer$",
                                             "^com\\.p5sys\\.jump\\.mac\\.viewer\\.web$",
                                             "^com\\.teamviewer\\.TeamViewer$",
+                                            "^com\\.todesktop\\.230313mzl4w4u92$",
                                             "^com\\.vmware\\.horizon$",
                                             "^com\\.2X\\.Client\\.Mac$",
                                             "^com\\.vmware\\.fusion$",
