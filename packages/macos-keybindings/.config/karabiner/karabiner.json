@@ -1621,22 +1621,6 @@
                         ]
                     },
                     {
-                        "description": "Cmd+L => Logout (CGSession -suspend)",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "mandatory": ["command"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [{ "shell_command": "/System/Library/CoreServices/Menu\\ Extras/User.menu/Contents/Resources/CGSession -suspend" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Ctrl+Esc => Open Launchpad",
                         "manipulators": [
                             {
