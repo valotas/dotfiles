@@ -1,9 +1,9 @@
 // Place your key bindings in this file to override the defaults
 [
     {
-        "key": "cmd+right",
+        "key": "ctrl+right",
         "command": "cursorWordEndRight",
-        "when": "textInputFocus"
+        "when": "textInputFocus || editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Insert'"
     },
     {
         "key": "alt+right",
@@ -25,9 +25,9 @@
         "when": "textInputFocus"
     },
     {
-        "key": "cmd+left",
+        "key": "ctrl+left",
         "command": "cursorWordLeft",
-        "when": "textInputFocus"
+        "when": "textInputFocus || editorTextFocus && vim.active && !inDebugRepl && vim.mode == 'Insert'"
     },
     {
         "key": "alt+left",

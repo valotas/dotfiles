@@ -33,8 +33,10 @@
 
 {
     /* Ctrl + Left */
-    "^\UF702"  = "moveWordLeft:";
+    "^\UF702" = "moveWordBackward:";
+    "^$\UF702" = "moveWordBackwardAndModifySelection:";
 
     /* Ctrl + Right */
-    "^\UF703"  = "moveWordRight:";
+    "^\UF703" = "moveWordForward:";
+    "^$\UF703" = "moveWordForwardAndModifySelection:";
 }

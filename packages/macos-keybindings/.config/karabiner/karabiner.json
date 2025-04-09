@@ -1483,43 +1483,9 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^com\\.microsoft\\.rdc$",
-                      "^com\\.microsoft\\.rdc\\.mac$",
-                      "^com\\.microsoft\\.rdc\\.macos$",
-                      "^com\\.microsoft\\.rdc\\.osx\\.beta$",
-                      "^com\\.microsoft\\.VSCode$",
-                      "^net\\.sf\\.cord$",
-                      "^com\\.thinomenon\\.RemoteDesktopConnection$",
-                      "^com\\.itap-mobile\\.qmote$",
-                      "^com\\.nulana\\.remotixmac$",
-                      "^com\\.p5sys\\.jump\\.mac\\.viewer$",
-                      "^com\\.p5sys\\.jump\\.mac\\.viewer\\.web$",
-                      "^com\\.teamviewer\\.TeamViewer$",
-                      "^com\\.todesktop\\.230313mzl4w4u92$",
-                      "^com\\.vmware\\.horizon$",
-                      "^com\\.2X\\.Client\\.Mac$",
-                      "^com\\.vmware\\.fusion$",
-                      "^com\\.vmware\\.horizon$",
-                      "^com\\.vmware\\.view$",
-                      "^com\\.parallels\\.desktop$",
-                      "^com\\.parallels\\.vm$",
-                      "^com\\.parallels\\.desktop\\.console$",
-                      "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
-                      "^com\\.citrix\\.XenAppViewer$",
-                      "^com\\.citrix\\.receiver\\.icaviewer\\.mac$",
-                      "^com\\.vmware\\.proxyApp\\.",
-                      "^com\\.parallels\\.winapp\\.",
-                      "^tv\\.parsec\\.www$",
-                      "^org\\.macports\\.X11$",
-                      "^com\\.apple\\.Terminal$",
-                      "^com\\.googlecode\\.iterm2$",
-                      "^co\\.zeit\\.hyperterm$",
-                      "^co\\.zeit\\.hyper$",
-                      "^org\\.alacritty$",
-                      "^net\\.kovidgoyal\\.kitty$",
-                      "^com\\.github\\.wez\\.wezterm$"
+                      "^md\\.obsidian$"
                     ],
-                    "type": "frontmost_application_unless"
+                    "type": "frontmost_application_if"
                   }
                 ],
                 "from": {
@@ -1541,43 +1507,9 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^com\\.microsoft\\.rdc$",
-                      "^com\\.microsoft\\.rdc\\.mac$",
-                      "^com\\.microsoft\\.rdc\\.macos$",
-                      "^com\\.microsoft\\.rdc\\.osx\\.beta$",
-                      "^com\\.microsoft\\.VSCode$",
-                      "^net\\.sf\\.cord$",
-                      "^com\\.thinomenon\\.RemoteDesktopConnection$",
-                      "^com\\.itap-mobile\\.qmote$",
-                      "^com\\.nulana\\.remotixmac$",
-                      "^com\\.p5sys\\.jump\\.mac\\.viewer$",
-                      "^com\\.p5sys\\.jump\\.mac\\.viewer\\.web$",
-                      "^com\\.teamviewer\\.TeamViewer$",
-                      "^com\\.todesktop\\.230313mzl4w4u92$",
-                      "^com\\.vmware\\.horizon$",
-                      "^com\\.2X\\.Client\\.Mac$",
-                      "^com\\.vmware\\.fusion$",
-                      "^com\\.vmware\\.horizon$",
-                      "^com\\.vmware\\.view$",
-                      "^com\\.parallels\\.desktop$",
-                      "^com\\.parallels\\.vm$",
-                      "^com\\.parallels\\.desktop\\.console$",
-                      "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
-                      "^com\\.citrix\\.XenAppViewer$",
-                      "^com\\.citrix\\.receiver\\.icaviewer\\.mac$",
-                      "^com\\.vmware\\.proxyApp\\.",
-                      "^com\\.parallels\\.winapp\\.",
-                      "^tv\\.parsec\\.www$",
-                      "^org\\.macports\\.X11$",
-                      "^com\\.apple\\.Terminal$",
-                      "^com\\.googlecode\\.iterm2$",
-                      "^co\\.zeit\\.hyperterm$",
-                      "^co\\.zeit\\.hyper$",
-                      "^org\\.alacritty$",
-                      "^net\\.kovidgoyal\\.kitty$",
-                      "^com\\.github\\.wez\\.wezterm$"
+                      "^md\\.obsidian$"
                     ],
-                    "type": "frontmost_application_unless"
+                    "type": "frontmost_application_if"
                   }
                 ],
                 "from": {
