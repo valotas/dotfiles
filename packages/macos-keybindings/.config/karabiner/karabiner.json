@@ -1923,6 +1923,19 @@
               {
                 "from": {
                   "key_code": "non_us_backslash",
+                  "modifiers": { "mandatory": ["left_command"] }
+                },
+                "to": [
+                  {
+                    "key_code": "grave_accent_and_tilde",
+                    "modifiers": ["left_command"]
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "non_us_backslash",
                   "modifiers": {
                     "mandatory": ["shift"],
                     "optional": ["caps_lock"]
