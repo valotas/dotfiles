@@ -1483,7 +1483,8 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^md\\.obsidian$"
+                      "^md\\.obsidian$",
+                      "^net\\.whatsapp\\.WhatsApp$"
                     ],
                     "type": "frontmost_application_if"
                   }
@@ -1507,7 +1508,8 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^md\\.obsidian$"
+                      "^md\\.obsidian$",
+                      "^net\\.whatsapp\\.WhatsApp$"
                     ],
                     "type": "frontmost_application_if"
                   }
