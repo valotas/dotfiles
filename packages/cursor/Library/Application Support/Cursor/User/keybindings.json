@@ -63,7 +63,7 @@
     {
         "key": "cmd+enter",
         "command": "editor.action.quickFix",
-        "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+        "when": "editorTextFocus && editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
     },
     {
         "key": "cmd+.",
@@ -73,7 +73,7 @@
     {
         "key": "cmd+enter",
         "command": "problems.action.showQuickFixes",
-        "when": "problemFocus"
+        "when": "editorTextFocus && problemFocus"
     },
     {
         "key": "shift+cmd+enter",
