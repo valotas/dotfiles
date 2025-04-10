@@ -1,0 +1,8 @@
+[window]
+opacity = 0.9
+
+[font]
+normal.family = "SauceCodePro NFM"
+bold.family = "SauceCodePro NFM"
+italic.family = "SauceCodePro NFM"
+bold_italic.family = "SauceCodePro NFM"
