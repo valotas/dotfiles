@@ -1,5 +1,6 @@
 [window]
 opacity = 0.9
+option_as_alt = "OnlyLeft"
 
 [font]
 normal.family = "SauceCodePro NFM"
