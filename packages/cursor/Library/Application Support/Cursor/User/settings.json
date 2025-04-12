@@ -14,5 +14,6 @@
   "workbench.editor.showTabs": "single",
   "keyboard.dispatch": "keyCode",
   "editor.lineNumbers": "relative",
-  "editor.renderWhitespace": "boundary"
+  "editor.renderWhitespace": "boundary",
+  "explorer.confirmDelete": false
 }
