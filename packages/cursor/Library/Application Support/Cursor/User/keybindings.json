@@ -85,4 +85,9 @@
         "command": "-editor.action.insertLineAfter",
         "when": "editorTextFocus && !editorReadonly"
     },
+    {
+        "key": "ctrl+cmd+l",
+        "command": "eslint.executeAutofix",
+        "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
+    },
 ]
