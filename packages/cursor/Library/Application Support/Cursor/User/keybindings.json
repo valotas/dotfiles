@@ -90,4 +90,9 @@
         "command": "eslint.executeAutofix",
         "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
     },
+    {
+        "key": "f2",
+        "command": "renameFile",
+        "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+    }
 ]
