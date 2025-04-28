@@ -3,41 +3,41 @@
   name = Georgios Valotasios
 
 [color]
-	ui = true
+  ui = true
 
 [core]
-	autocrlf = input
+  autocrlf = input
 
 [help]
-	autocorrect = 1
+  autocorrect = 1
 
 [push]
-	default = current
-	followTags = true
-	autoSetupRemote = true
+  default = current
+  followTags = true
+  autoSetupRemote = true
 
 [alias]
-	co = checkout
-	po = push -u
+  co = checkout
+  po = push -u
 
-	# log from https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
-	tree = log --decorate --oneline --graph
+  # log from https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
+  tree = log --decorate --oneline --graph
 
-	st = status -sb
+  st = status -sb
 
-	# make ammending easier
-	amend = commit --amend --no-edit
+  # make ammending easier
+  amend = commit --amend --no-edit
 
-	# https://stackoverflow.com/questions/9301782/need-to-reset-git-branch-to-origin-version
-	resetOrigin = reset --hard @{u}
+  # https://stackoverflow.com/questions/9301782/need-to-reset-git-branch-to-origin-version
+  resetOrigin = reset --hard @{u}
 
-	branchName = rev-parse --abbrev-ref HEAD
+  branchName = rev-parse --abbrev-ref HEAD
 
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+  insteadOf = https://github.com/
 
 [pull]
-	ff = only
+  ff = only
 
 [include]
   path = ~/.gitconfig.local
@@ -47,4 +47,3 @@
 
 [includeIf "gitdir:~/dev/qontigo/"]
   path = ~/dev/qontigo/.gitconfig-qontigo
-
