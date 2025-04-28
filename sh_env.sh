@@ -26,10 +26,15 @@ fi
 
 export VISUAL="$EDITOR"
 
+function add_to_path {
+    PATH=:$PATH
+    export PATH=$1${PATH//:$1:/:}
+}
+
 # flyctl
 if [[ -f "$HOME/.fly/bin/flyctl" ]]; then
   export FLYCTL_INSTALL="$HOME/.fly"
-  export -U PATH=$FLYCTL_INSTALL/bin${PATH:+:$PATH}
+  add_to_path "$FLYCTL_INSTALL/bin"
 fi
 
 
@@ -43,7 +48,15 @@ fi
 # set CHROME_BIN to the path of the chrome binary
 [[ $(command -v chromium) ]] && [[ -z "$CHROME_BIN" ]] && export CHROME_BIN=$(command -v chromium)
 
-[[ -d "$HOME/.local/bin" ]] && export PATH=$HOME/.local/bin:${PATH:+:$PATH}
+[[ -d "$HOME/.local/bin" ]] && add_to_path "$HOME/.local/bin"
+
+# Android Studio commandline tools for MacOs
+ANDROID_HOME=$HOME/Library/Android/sdk
+ANDROID_CLI=$ANDROID_HOME/cmdline-tools/latest/bin
+if [[ -d "$ANDROID_CLI" ]]; then
+  export ANDROID_HOME
+  add_to_path "$ANDROID_CLI:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools"
+fi
 
 if [[ -f "$HOME/.config/local_env.sh" ]]; then
   source "$HOME/.config/local_env.sh"
