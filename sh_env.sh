@@ -37,14 +37,6 @@ if [[ -f "$HOME/.fly/bin/flyctl" ]]; then
   add_to_path "$FLYCTL_INSTALL/bin"
 fi
 
-
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-if [ -d "$PNPM_HOME" ]; then
-  export PATH=$PNPM_HOME:${PATH:+:$PATH}
-  alias pn=pnpm
-fi
-
 # set CHROME_BIN to the path of the chrome binary
 [[ $(command -v chromium) ]] && [[ -z "$CHROME_BIN" ]] && export CHROME_BIN=$(command -v chromium)
 
