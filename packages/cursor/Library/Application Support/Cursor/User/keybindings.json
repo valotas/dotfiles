@@ -91,6 +91,18 @@
         "when": "editorLangId == javascript || editorLangId == javascriptreact || editorLangId == typescript || editorLangId == typescriptreact"
     },
     {
+        "key": "ctrl+cmd+l",
+        "command": "runCommands",
+        "when": "editorLangId == python",
+        "args": {
+            "commands": [
+                { "command": "ruff.executeAutofix" },
+                { "command": "ruff.executeOrganizeImports" },
+                { "command": "ruff.executeFormat" }
+            ]
+        }
+    },
+    {
         "key": "f2",
         "command": "renameFile",
         "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
