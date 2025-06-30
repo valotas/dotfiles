@@ -214,7 +214,8 @@
                       "right_control",
                       "right_shift",
                       "right_option"
-                    ]
+                    ],
+                    "optional": ["any"]
                   }
                 },
                 "to_if_alone": [
@@ -239,7 +240,8 @@
                       "right_control",
                       "right_shift",
                       "right_option"
-                    ]
+                    ],
+                    "optional": ["any"]
                   }
                 },
                 "to_if_alone": [
@@ -264,7 +266,8 @@
                       "right_control",
                       "right_shift",
                       "right_option"
-                    ]
+                    ],
+                    "optional": ["any"]
                   }
                 },
                 "to_if_alone": [
@@ -289,7 +292,8 @@
                       "right_control",
                       "right_shift",
                       "right_option"
-                    ]
+                    ],
+                    "optional": ["any"]
                   }
                 },
                 "to_if_alone": [
