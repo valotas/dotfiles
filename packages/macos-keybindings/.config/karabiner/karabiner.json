@@ -147,31 +147,6 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "Option+L => Logout (ctrl+cmd+q)",
-            "manipulators": [
-              {
-                "from": {
-                  "key_code": "l",
-                  "modifiers": {
-                    "mandatory": [
-                      "option"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "q",
-                    "modifiers": [
-                      "left_command",
-                      "left_control"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
             "description": "CapsLock to Hyper",
             "manipulators": [
               {
