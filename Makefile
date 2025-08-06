@@ -14,7 +14,7 @@ PROFILE = default
 
 ## Initial setup of the project
 bootstrap:
-	sh scripts/bootstrap.sh
+	sh script/bootstrap.sh
 
 ## Install all (default) or given package ex: (make install package=<package_name>)
 install:
