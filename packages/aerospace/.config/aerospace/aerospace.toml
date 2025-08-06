@@ -18,7 +18,7 @@ exec-on-workspace-change = [
 #]
 
 # Start AeroSpace at login
-start-at-login = false
+start-at-login = true
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -55,10 +55,10 @@ automatically-unhide-macos-hidden-apps = true
     preset = 'qwerty'
 
 [[on-window-detected]]
-    if.app-name-regex-substring = 'finder'
+    if.app-name-regex-substring = 'finder|alacritty|whatsapp'
     run = 'layout floating'
 
-# Gaps between windows (inner-*) and between monitor edges (outer-*).
+L Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
 # - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
@@ -98,16 +98,8 @@ automatically-unhide-macos-hidden-apps = true
     # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
-    # You can uncomment the following lines to open up terminal with alt + enter shortcut
-    # (like in i3)
-    # alt-enter = '''exec-and-forget osascript -e '
-    # tell application "Terminal"
-    #     do script
-    #     activate
-    # end tell'
-    # '''
-
     alt-enter = 'exec-and-forget open -na alacritty'
+
     alt-f = 'fullscreen'
     alt-ctrl-f = 'layout floating tiling'
     alt-cmd-f = 'layout floating tiling'
@@ -190,3 +182,5 @@ automatically-unhide-macos-hidden-apps = true
 7 = ['secondary', 'main']
 8 = ['secondary', 'main']
 9 = ['secondary', 'main']
+
+
