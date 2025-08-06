@@ -3,10 +3,10 @@ opacity = 0.9
 option_as_alt = "OnlyLeft"
 
 [font]
-normal.family = "SauceCodePro NFM"
-bold.family = "SauceCodePro NFM"
-italic.family = "SauceCodePro NFM"
-bold_italic.family = "SauceCodePro NFM"
+normal.family = "SauceCodePro Nerd Font Mono"
+bold.family = "SauceCodePro Nerd Font Mono"
+italic.family = "SauceCodePro Nerd Font Mono"
+bold_italic.family = "SauceCodePro Nerd Font Mono"
 
 [keyboard]
 bindings = [

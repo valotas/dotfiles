@@ -1,6 +1,6 @@
 {
   "debug.console.fontSize": 12,
-  "editor.fontFamily": "'SauceCodePro NFM', 'SauceCodePro Nerd Font Mono',Menlo, Monaco, 'Courier New',  'monospace', monospace",
+  "editor.fontFamily": "'SauceCodePro Nerd Font Mono', Menlo, Monaco, 'Courier New', 'monospace', monospace",
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
