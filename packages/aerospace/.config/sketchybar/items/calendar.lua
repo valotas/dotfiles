@@ -22,5 +22,5 @@ local cal = sbar.add("item", {
 sbar.add("item", { position = "right", width = settings.group_paddings })
 
 cal:subscribe({ "forced", "routine", "system_woke" }, function(env)
-  cal:set({ label = os.date("%Y-%m-%d") .. " " .. os.date("%H:%M") })
+  cal:set({ label = os.date("%a %d/%m %H:%M") })
 end)
