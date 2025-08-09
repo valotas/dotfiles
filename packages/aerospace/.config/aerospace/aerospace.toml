@@ -58,7 +58,7 @@ automatically-unhide-macos-hidden-apps = true
     preset = 'qwerty'
 
 [[on-window-detected]]
-    if.app-name-regex-substring = 'finder|alacritty|whatsapp'
+    if.app-name-regex-substring = 'finder|alacritty|whatsapp|signal'
     run = 'layout floating'
 
 # Possible values:
