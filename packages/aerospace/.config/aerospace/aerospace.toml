@@ -61,6 +61,14 @@ automatically-unhide-macos-hidden-apps = true
     if.app-name-regex-substring = 'finder|alacritty|whatsapp|signal'
     run = 'layout floating'
 
+[[on-window-detected]]
+    if.app-id = 'org.keepassxc.keepassxc'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'org.pqrs.Karabiner-EventViewer'
+    run = 'layout floating'
+
 # Possible values:
 # - Constant:     gaps.outer.top = 8
 # - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
