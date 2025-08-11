@@ -13,12 +13,9 @@ sbar.begin_config()
 sbar.bar(bar.create_bar_config(bar_name))
 require("default")
 require("items")
+--sbar.add("event", "input_source_change", "com.valotas.hs.input_source_change")
 sbar.end_config()
 
-sbar.add("event", "display_change", "hs.screen.watcher")
-sbar.subscribe({"display_change"}, function()
-  logging.log("Display changed")
-end)
 
 -- Run the event loop of the sketchybar module (without this there will be no
 -- callback functions executed in the lua module)

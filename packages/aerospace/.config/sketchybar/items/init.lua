@@ -3,5 +3,6 @@
 require("items.spaces")
 require("items.front_app")
 require("items.calendar")
+require("items.input_source")
 --require("items.widgets")
 --require("items.media")
