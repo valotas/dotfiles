@@ -1,6 +1,7 @@
 local sbar = {}
 
 sbar.trigger = function (event)
+  --print("sketcybar --trigger " .. event)
   hs.execute("/opt/homebrew/bin/sketchybar_main --trigger " .. event)
   hs.execute("/opt/homebrew/bin/sketchybar_alternative --trigger " .. event)
 
