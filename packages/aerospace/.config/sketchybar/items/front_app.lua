@@ -6,10 +6,14 @@ local icons = require("icons")
 sbar.add("item", "front_app_start", {
   display = "active",
   icon = {
+    padding_left = 0,
     string = icons.divider,
     font = {
       style = settings.font.style_map["Black"],
-    }
+    },
+  },
+  background = {
+    padding_left = 0,
   },
 })
 

@@ -13,11 +13,11 @@ local create_workspace = function(name)
       string = name,
       color = colors.white,
       padding_left = 10,
-      padding_right = 10,
+      padding_right = 7,
     },
     background = {
       color = colors.bg1,
-      border_width = 0
+      border_width = 0,
     },
     padding_left = 0,
     padding_right = 0,
@@ -27,24 +27,22 @@ local create_workspace = function(name)
     icon = {
       string = "loading...",
       color = colors.grey,
-      font = settings.app_font
+      font = settings.app_font,
+      padding_left = 0,
     },
     y_offset = -1,
   })
 
   local workspace_last_item = sbar.add("item", "workspace.last." .. name, { workspace_indicator.name, workspace_windows.name }, {
     background = {
-      color = colors.transparent,
       border_width = 0,
     },
-    padding_left = 3,
+    padding_left = 0,
   })
 
   local workspace_bracket = sbar.add("bracket", "workspace.bracket." .. name, { workspace_indicator.name, workspace_windows.name, workspace_last_item.name }, {
     background = {
       color = colors.transparent,
-      border_color = colors.bg2,
-      border_width = 2,
     },
   })
 
@@ -53,7 +51,7 @@ local create_workspace = function(name)
       color = colors.transparent,
       border_width = 0,
     },
-    padding_left = 3,
+    padding_left = 0,
   })
 
 
