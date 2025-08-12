@@ -1,9 +1,4 @@
---local colors = require("colors")
-local settings = require("settings")
-local app_icons = require("helpers.app_icons")
-local icons = require("icons")
 local logging = require("helpers.logging")
-local json = require("helpers.json")
 
 local input_source = sbar.add("item", "input_source", {
   icon = {
