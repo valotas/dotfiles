@@ -1,6 +1,5 @@
 -- Require the sketchybar module
 sbar = require("sketchybar")
-local bar = require("bar")
 local logging = require("helpers.logging")
 
 -- Set the bar name, if you are using another bar instance than sketchybar
@@ -10,7 +9,7 @@ sbar.set_bar_name(bar_name)
 
 -- Bundle the entire initial configuration into a single message to sketchybar
 sbar.begin_config()
-sbar.bar(bar.create_bar_config(bar_name))
+require("bar")
 require("default")
 require("items")
 sbar.end_config()

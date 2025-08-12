@@ -1,8 +1,6 @@
 local colors = require("colors")
 local logging = require("helpers.logging")
 
-local bar = {}
-
 local function get_displays()
   local displays = sbar.query("displays")
 
@@ -22,20 +20,25 @@ local function get_displays()
     main = main_display,
 
     -- the external displays
-    alternate = alternate_display,
+    alternative = alternate_display,
   }
 end
 
-bar.create_bar_config = function(bar_name)
+local function create_bar_config(bar_name)
   local main_bar = bar_name == "sketchybar_main"
   local displays = get_displays()
-  local display = main_bar and displays.main > 0 and displays.main or table.concat(displays.alternate, ",")
+  local alternative_displays = #displays.alternative > 0 and table.concat(displays.alternative, ",") or ""
+  logging.log("dispays.main: " .. displays.main .. " displays.alternative: " .. alternative_displays)
+  local display = main_bar and displays.main > 0 and displays.main or alternative_displays
+  local hidden = bar_name == "sketchybar_main" and displays.main == 0 or bar_name == "sketchybar_alternative" and #displays.alternative == 0
   local height = main_bar and 40 or 30
+  if (hidden) then
+    height = 0
+  end
 
-  logging.log("Creating bar config for " .. bar_name .. " on display " .. display .. " with height " .. height)
+  logging.log("Creating bar config for " .. bar_name .. " on display " .. display .. " with height " .. height .. " and hidden " .. tostring(hidden))
   return {
     height = height,
-    hidden = bar_name == "sketchybar_main" and displays.main == 0 or bar_name == "sketchybar_alternate" and #displays.alternate == 0,
     color = colors.bar.bg,
     padding_right = bar_name == "sketchybar_main" and 5 or 15,
     padding_left = bar_name == "sketchybar_main" and 5 or 15,
@@ -43,4 +46,26 @@ bar.create_bar_config = function(bar_name)
   }
 end
 
-return bar
+
+local bar = nil
+
+local function update_bar_config()
+  local bar_name = os.getenv("BAR_NAME")
+  logging.log("update bar: " .. bar_name)
+  local config = create_bar_config(bar_name)
+  if bar then
+    bar:set(config)
+  else
+    bar = sbar.bar(config)
+  end
+end
+
+update_bar_config()
+
+sbar.add("event", "display_change", "NSSecondaryDisplayVisChanged")
+
+local listener = sbar.add("item", "display")
+listener:subscribe("display_change", function()
+  logging.log("display_change")
+  update_bar_config()
+end)
