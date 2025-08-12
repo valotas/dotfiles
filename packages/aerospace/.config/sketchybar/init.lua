@@ -13,7 +13,6 @@ sbar.begin_config()
 sbar.bar(bar.create_bar_config(bar_name))
 require("default")
 require("items")
---sbar.add("event", "input_source_change", "com.valotas.hs.input_source_change")
 sbar.end_config()
 
 

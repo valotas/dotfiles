@@ -33,4 +33,5 @@ end
 
 update_input_source()
 
+sbar.add("event", "input_source_change", "AppleSelectedInputSourcesChangedNotification")
 input_source:subscribe("input_source_change", update_input_source)
