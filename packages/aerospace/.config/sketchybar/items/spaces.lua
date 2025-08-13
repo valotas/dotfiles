@@ -7,7 +7,28 @@ local json = require("helpers.json")
 local icons = require("icons")
 
 local create_workspace = function(name)
-  local workspace_indicator = sbar.add("item", "workspace.indicator." .. name, {
+  local monitor_holder = sbar.add("item", "monitor." .. name, {
+    drawing = false,
+    icon = {
+      font = { family = settings.font.text },
+      color = colors.white,
+      padding_left = 10,
+      padding_right = 10,
+      background = {
+        color = colors.bg2,
+        corner_radius = 9,
+        height = 24
+      },
+    },
+    label = {
+      string = "",
+      color = colors.grey,
+      padding_left = 10,
+      padding_right = 10,
+    },
+  })
+
+  local workspace_indicator = sbar.add("item", "workspace." .. name, {
     icon = {
       font = { family = settings.font.numbers },
       string = name,
@@ -30,22 +51,12 @@ local create_workspace = function(name)
       border_color = colors.bg2,
     },
     padding_left = 0,
-    padding_right = 0,
-  })
-
-
-  local workspace_spacer = sbar.add("item", "workspace.spacer." .. name, {
-    background = {
-      color = colors.transparent,
-      border_width = 0,
-    },
-    padding_left = 0,
+    padding_right = 15,
   })
 
 
   local set_visible = function(visible)
     workspace_indicator:set({ drawing = visible })
-    workspace_spacer:set({ drawing = visible })
   end
 
   local set_windows = function(windows)
@@ -73,10 +84,19 @@ local create_workspace = function(name)
     end
   end
 
+  local set_monitor = function(monitor_id)
+    if monitor_id then
+      monitor_holder:set({ drawing = true, icon = { string = monitor_id } })
+    else
+      monitor_holder:set({ drawing = false })
+    end
+  end
+
   return {
     name = "workspace." .. name,
     set_windows = set_windows,
     set_focused = set_focused,
+    set_monitor = set_monitor,
   }
 end
 
@@ -94,13 +114,21 @@ end
 
 
 local update_workspaces_container = function(results)
+  local monitors = {}
   for _, workspace in ipairs(results.workspaces) do
-    --logging.log("workspace: " .. json.stringify(workspace))
     local workspace_item = get_workspace_item(workspace.sid)
 
     if workspace_item then
       workspace_item.set_windows(workspace.windows)
       workspace_item.set_focused(workspace.focused)
+
+      local monitor_id = workspace.monitor_id
+      if not monitors[monitor_id] then
+        workspace_item.set_monitor(monitor_id)
+        monitors[monitor_id] = true
+      else
+        workspace_item.set_monitor(nil)
+      end
     end
   end
 end
