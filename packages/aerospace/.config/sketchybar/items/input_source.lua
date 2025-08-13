@@ -1,18 +1,24 @@
 local logging = require("helpers.logging")
+local colors = require("colors")
+local settings = require("settings")
 
 local input_source = sbar.add("item", "input_source", {
   icon = {
+    drawing = false,
+  },
+  label = {
     string = "🌐",
     font = {
-      size = 12
-    }
+      size = 12,
+      style = "Black",
+    },
   },
   position = "right",
 })
 
 local labels = {
-  ["com.apple.keylayout.US"] = "🇺🇸",
-  ["com.apple.keylayout.Greek"] = "🇬🇷",
+  ["com.apple.keylayout.US"] = "en",
+  ["com.apple.keylayout.Greek"] = "gr",
 }
 
 local function update_input_source()
@@ -21,7 +27,7 @@ local function update_input_source()
     local label = labels[lang] or "🌐"
     logging.log("Input source: " .. lang)
     input_source:set({
-      icon = { string = label }
+      label = { string = label }
     })
   end)
 end

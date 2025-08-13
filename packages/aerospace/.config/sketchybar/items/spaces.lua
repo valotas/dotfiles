@@ -13,38 +13,26 @@ local create_workspace = function(name)
       string = name,
       color = colors.white,
       padding_left = 10,
-      padding_right = 7,
+      padding_right = 10,
+      background = {
+        color = colors.bg2,
+        corner_radius = 9,
+        height = 24,
+      },
+    },
+    label = {
+      color = colors.grey,
+      y_offset = -1,
+      padding_right = 15
     },
     background = {
-      color = colors.bg1,
-      border_width = 0,
+      color = colors.transparent,
+      border_color = colors.bg2,
     },
     padding_left = 0,
     padding_right = 0,
   })
 
-  local workspace_windows = sbar.add("item", "workspace.windows." .. name, {
-    icon = {
-      string = "loading...",
-      color = colors.grey,
-      font = settings.app_font,
-      padding_left = 0,
-    },
-    y_offset = -1,
-  })
-
-  local workspace_last_item = sbar.add("item", "workspace.last." .. name, { workspace_indicator.name, workspace_windows.name }, {
-    background = {
-      border_width = 0,
-    },
-    padding_left = 0,
-  })
-
-  local workspace_bracket = sbar.add("bracket", "workspace.bracket." .. name, { workspace_indicator.name, workspace_windows.name, workspace_last_item.name }, {
-    background = {
-      color = colors.transparent,
-    },
-  })
 
   local workspace_spacer = sbar.add("item", "workspace.spacer." .. name, {
     background = {
@@ -56,10 +44,7 @@ local create_workspace = function(name)
 
 
   local set_visible = function(visible)
-    workspace_bracket:set({ drawing = visible })
     workspace_indicator:set({ drawing = visible })
-    workspace_windows:set({ drawing = visible })
-    workspace_last_item:set({ drawing = visible })
     workspace_spacer:set({ drawing = visible })
   end
 
@@ -72,16 +57,15 @@ local create_workspace = function(name)
       for _, window in ipairs(windows) do
         icons = icons .. " " .. app_icons.app_icon(window.app_name)
       end
-      workspace_windows:set({ icon = { string = icons, font = settings.app_font } })
+      workspace_indicator:set({ label = { string = icons, font = settings.app_font } })
     else
-      workspace_windows:set({ icon = { string = icons.empty_window, font = { family = settings.font.icon_fonts, size = 16, style = settings.font.style_map["Black"] } } })
+      workspace_indicator:set({ label = { string = icons.empty_window, font = { family = settings.font.icon_fonts, size = 16, style = settings.font.style_map["Black"] } } })
     end
   end
 
   local set_focused = function(focused)
     local color = focused and colors.bg2 or colors.bg1
-    workspace_indicator:set({ background = { color = color } })
-    workspace_bracket:set({ background = { border_color = color } })
+    workspace_indicator:set({ background = { border_color = color }, icon = { background = { color = color } } })
     if focused then
       sbar.animate("sin", 0.2, function()
         set_visible(true)
