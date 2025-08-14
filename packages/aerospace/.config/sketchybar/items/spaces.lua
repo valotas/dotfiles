@@ -141,16 +141,7 @@ local listener = sbar.add("item", "aerospace.listener", {
   updates = true,
 })
 
-listener:subscribe("aerospace_workspace_change", function(event)
-  logging.log("aerospace_workspaces_updated: " .. json.stringify(event))
-end)
-
-listener:subscribe("aerospace_focus_changed", function(event)
+listener:subscribe({ "aerospace_focus_changed", "aerospace_focused_monitor_changed" }, function(event)
   logging.log("aerospace_focus_changed: " .. json.stringify(event))
   aerospace.list_workspaces_with_windows_async(update_workspaces_container)
 end)
-
-listener:subscribe("aerospace_focused_monitor_changed", function(event)
-  logging.log("aerospace_focused_monitor_changed: " .. json.stringify(event))
-end)
-
