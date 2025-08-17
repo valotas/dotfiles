@@ -28,7 +28,7 @@ local create_workspace = function(name)
     },
   })
 
-  local workspace_indicator = sbar.add("item", "workspace." .. name, {
+  local workspace_item = sbar.add("item", "workspace." .. name, {
     icon = {
       font = { family = settings.font.numbers },
       string = name,
@@ -54,9 +54,13 @@ local create_workspace = function(name)
     padding_right = 15,
   })
 
+  workspace_item:subscribe("mouse.clicked", function(env)
+    aerospace.focus_workspace(name)
+  end)
+
 
   local set_visible = function(visible)
-    workspace_indicator:set({ drawing = visible })
+    workspace_item:set({ drawing = visible })
   end
 
   local set_windows = function(windows)
@@ -68,15 +72,15 @@ local create_workspace = function(name)
       for _, window in ipairs(windows) do
         icons = icons .. " " .. app_icons.app_icon(window.app_name)
       end
-      workspace_indicator:set({ label = { string = icons, font = settings.app_font } })
+      workspace_item:set({ label = { string = icons, font = settings.app_font } })
     else
-      workspace_indicator:set({ label = { string = icons.empty_window, font = { family = settings.font.icon_fonts, size = 16, style = settings.font.style_map["Black"] } } })
+      workspace_item:set({ label = { string = icons.empty_window, font = { family = settings.font.icon_fonts, size = 16, style = settings.font.style_map["Black"] } } })
     end
   end
 
   local set_focused = function(focused)
     local color = focused and colors.bg2 or colors.bg1
-    workspace_indicator:set({ background = { border_color = color }, icon = { background = { color = color } } })
+    workspace_item:set({ background = { border_color = color }, icon = { background = { color = color } } })
     if focused then
       sbar.animate("sin", 0.2, function()
         set_visible(true)

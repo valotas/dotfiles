@@ -96,4 +96,8 @@ function aerospace.list_workspaces_with_windows_async(cb)
   end)
 end
 
+function aerospace.focus_workspace(workspace_id)
+  sbar.exec("aerospace workspace " .. workspace_id)
+end
+
 return aerospace
