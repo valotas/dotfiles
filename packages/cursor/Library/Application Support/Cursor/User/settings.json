@@ -50,7 +50,7 @@
     "javascript",
     "typescript"
   ],
-  "editor.language.colorizedBracketPairs": [
-
-  ]
+  "jupyter.interactiveWindow.creationMode": "perFile",
+  "terminal.explorerKind": "both",
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
 }
