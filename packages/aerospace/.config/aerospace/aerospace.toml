@@ -84,7 +84,7 @@ automatically-unhide-macos-hidden-apps = true
     inner.vertical =   [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
     outer.left =       [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
     outer.bottom =     [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
-    outer.top =        [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 42 }, 10]
+    outer.top =        [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 42 }, 42]
     outer.right =      [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
 
 # 'main' binding mode declaration
