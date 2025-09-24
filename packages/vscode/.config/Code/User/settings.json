@@ -111,5 +111,15 @@
     "*.s3db": "${capture}.${extname}-*"
   },
   "sqltools.useNodeRuntime": true,
-  "chat.editing.alwaysSaveWithGeneratedChanges": true
+  "chat.editing.alwaysSaveWithGeneratedChanges": true,
+  "chat.tools.terminal.autoApprove": {
+    "make typecheck": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "make test": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  }
 }
