@@ -68,3 +68,4 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/${LOGNAME%/}/zsh"
+mkdir -p -m 700 "$TMPPREFIX"
