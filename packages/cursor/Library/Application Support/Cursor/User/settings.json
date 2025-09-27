@@ -12,6 +12,8 @@
   "git-graph.repository.useMailmap": true,
   "vim.useSystemClipboard": true,
   "workbench.editor.showTabs": "single",
+  "workbench.editor.splitSizing": "split",
+  "workbench.activityBar.orientation": "vertical",
   "keyboard.dispatch": "keyCode",
   "editor.lineNumbers": "relative",
   "editor.renderWhitespace": "boundary",
@@ -31,9 +33,7 @@
     "*.s3db": "${capture}.${extname}-*"
   },
   "sqltools.useNodeRuntime": true,
-  "sqltools.connections": [
-    
-  ],
+  "sqltools.connections": [],
   "diffEditor.ignoreTrimWhitespace": false,
   "jupyter.askForKernelRestart": false,
   "colorize.decoration_type": "square-dot",
@@ -51,6 +51,5 @@
     "typescript"
   ],
   "jupyter.interactiveWindow.creationMode": "perFile",
-  "terminal.explorerKind": "both",
   "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
 }
