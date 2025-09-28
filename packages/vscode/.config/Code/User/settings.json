@@ -50,7 +50,7 @@
     "path": "/bin/bash"
   },
   "terminal.integrated.fontSize": 12,
-  "terminal.integrated.gpuAcceleration": "canvas",
+  "terminal.integrated.gpuAcceleration": "auto",
   "window.titleBarStyle": "custom",
   "window.title": "${folderName}${separator}${activeEditorMedium}",
   "workbench.colorTheme": "Default Dark+",
@@ -66,7 +66,6 @@
   "workbench.layoutControl.type": "menu",
   "workbench.list.multiSelectModifier": "alt",
   "workbench.startupEditor": "newUntitledFile",
-  "vim.useSystemClipboard": true,
   "github.copilot.enable": {
     "*": true,
     "plaintext": true,
@@ -86,7 +85,6 @@
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "github.copilot.editor.enableAutoCompletions": true,
   "remote.autoForwardPortsSource": "hybrid",
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -111,7 +109,6 @@
     "*.s3db": "${capture}.${extname}-*"
   },
   "sqltools.useNodeRuntime": true,
-  "chat.editing.alwaysSaveWithGeneratedChanges": true,
   "chat.tools.terminal.autoApprove": {
     "make typecheck": {
       "approve": true,
@@ -121,5 +118,31 @@
       "approve": true,
       "matchCommandLine": true
     }
+  },
+  "kilo-code.allowedCommands": [
+    "git log",
+    "git diff",
+    "git show"
+  ],
+  "kilo-code.deniedCommands": [],
+  "docker.extension.enableComposeLanguageServer": false,
+  "jupyter.interactiveWindow.creationMode": "perFile",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   }
 }
