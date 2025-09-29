@@ -110,11 +110,16 @@
   },
   "sqltools.useNodeRuntime": true,
   "chat.tools.terminal.autoApprove": {
+    "/^uv run -m pytest src/.*/": true,
     "make typecheck": {
       "approve": true,
       "matchCommandLine": true
     },
     "make test": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "make fmt": {
       "approve": true,
       "matchCommandLine": true
     }
