@@ -110,8 +110,18 @@
   },
   "sqltools.useNodeRuntime": true,
   "chat.tools.terminal.autoApprove": {
+    
+    "/^uv run python -m pytest src/.*/": true,
     "/^uv run -m pytest src/.*/": true,
     "make typecheck": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "make lint": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "make stubs": {
       "approve": true,
       "matchCommandLine": true
     },
