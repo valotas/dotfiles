@@ -65,6 +65,14 @@ automatically-unhide-macos-hidden-apps = true
     run = 'layout floating'
 
 [[on-window-detected]]
+    if.app-id = 'com.brave.Browser.app.ggjocahimgaohmigbfhghnlfcnjemagj'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.brave.Browser.app.hpfldicfbfomlpcikngkocigghgafkph'
+    run = 'layout floating'
+
+[[on-window-detected]]
     if.app-id = 'org.keepassxc.keepassxc'
     run = 'layout floating'
 
@@ -111,7 +119,10 @@ automatically-unhide-macos-hidden-apps = true
     # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
-    alt-enter = 'exec-and-forget open -na alacritty'
+    alt-enter = 'exec-and-forget open -a alacritty'
+    alt-p = 'exec-and-forget open -a /Applications/KeePassXC.app/Contents/MacOS/keepassxc'
+    alt-m = 'exec-and-forget open -a /Applications/WhatsApp.app/Contents/MacOS/WhatsApp'
+    alt-cmd-m = 'exec-and-forget  open -a ~/Applications/Brave\ Browser\ Apps.localized/Messages.app'
 
     alt-f = 'fullscreen'
     alt-ctrl-f = 'layout floating tiling'
