@@ -121,8 +121,13 @@ automatically-unhide-macos-hidden-apps = true
     # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
     alt-enter = 'exec-and-forget open -a alacritty'
     alt-p = 'exec-and-forget open -a /Applications/KeePassXC.app/Contents/MacOS/keepassxc'
+
+    ## messages
     alt-m = 'exec-and-forget open -a /Applications/WhatsApp.app/Contents/MacOS/WhatsApp'
-    alt-cmd-m = 'exec-and-forget  open -a ~/Applications/Brave\ Browser\ Apps.localized/Messages.app'
+    alt-cmd-m = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Messages.app'
+
+    ## stand alone ai apps
+    alt-a = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Grok.app'
 
     alt-f = 'fullscreen'
     alt-ctrl-f = 'layout floating tiling'
