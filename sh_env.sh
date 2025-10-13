@@ -27,8 +27,8 @@ fi
 export VISUAL="$EDITOR"
 
 function add_to_path {
-    PATH=:$PATH
-    export PATH=$1${PATH//:$1:/:}
+  PATH=:$PATH
+  export PATH=$1${PATH//:$1:/:}
 }
 
 # flyctl
@@ -52,4 +52,8 @@ fi
 
 if [[ -f "$HOME/.config/local_env.sh" ]]; then
   source "$HOME/.config/local_env.sh"
+fi
+
+if [[ -f "$HOME/.cargo/env" ]]; then
+  source "$HOME/.cargo/env"
 fi
