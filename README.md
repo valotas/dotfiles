@@ -25,14 +25,21 @@ Just pull the latest changes and setup:
 
 ```sh
 git pull origin master
+
+# update the submodules
+git submodule update --init --recursive
+
+# install the packages
 make install
 ```
 
 ### Vim
 
-The configuration covers both vim and neovim as proposed [here](https://www.youtube.com/watch?v=X2_R3uxDN6g)
+The configuration covers both vim and neovim as proposed [here](https://www.youtube.com/watch?v=X2_R3uxDN6g). We are using [LazyVim](https://www.lazyvim.org/).
 
 #### Adding a vim plugin
+
+If a vim plugin is needed and for whatever reason LazyVim can not be used, then the plugin should be added as a git submodule into the vim pack folder.
 
 Clone the plugin to `packages/vim/.vim/pack/plugins/[opt|start]/[name]`. For example for nerdtree:
 
