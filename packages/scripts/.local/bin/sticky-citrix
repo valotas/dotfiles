@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Check if running on macOS
+if [ "$(uname)" != "Darwin" ]; then
+    echo "Warning: This script is only supported on macOS" >&2
+    exit 1
+fi
+
+# Get current disablesleep status (0 = false, 1 = true)
+current_status=$(pmset -g | grep "SleepDisabled" | awk '{print $2}')
+
+if [ "$current_status" = "1" ]; then
+    # If disablesleep is already enabled, disable it (no caffeinate needed)
+    echo "disablesleep is currently enabled, disabling it..."
+    sudo pmset disablesleep 0
+else
+    # If disablesleep is disabled, start caffeinate first
+    echo "Starting caffeinate for Citrix Viewer..."
+    caffeinate -s -w $(pgrep 'Citrix Viewer') &
+    
+    # Check if the caffeinate command was successful
+    if [ $? -eq 0 ]; then
+        # If caffeinate succeeded, enable disablesleep
+        echo "disablesleep is currently disabled, enabling it..."
+        sudo pmset disablesleep 1
+    else
+        echo "Failed to start caffeinate for Citrix Viewer"
+        exit 1
+    fi
+
+    ps aux | grep caffeinate
+fi
