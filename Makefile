@@ -1,4 +1,4 @@
-.PHONY: clean requirements fmt lint stubs
+.PHONY: bootstrap install uninstall
 
 #################################################################################
 # GLOBALS                                                                       #
