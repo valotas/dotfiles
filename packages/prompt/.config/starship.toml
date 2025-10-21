@@ -10,10 +10,14 @@ error_symbol = "[✗](bold red) "
 
 [username]
 format = "[$user]($style)"
+disabled = false
+show_always = false
 detect_env_vars = ["!STARSHIP_MAIN_HOST"]
 
 [hostname]
 format = "[@]($style)[$hostname]($style)[:]($style) "
+disabled = false
+ssh_only = false
 detect_env_vars = ["!STARSHIP_MAIN_HOST"]
 
 [nodejs]
