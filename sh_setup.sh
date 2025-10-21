@@ -22,8 +22,8 @@ fi
 # starship
 if [[ $(command -v starship) ]]; then
   # Show username@hostname when not on m4air
-  if [[ "$(hostname -s)" != "m4air" ]]; then
-    export STARSHIP_SHOW_PROMPT_DETAILS=1
+  if [[ "$(hostname -s)" == "m4air" ]]; then
+    export STARSHIP_MAIN_HOST=1
   fi
   
   [[ $shell == *"bash" ]] && eval "$(starship init bash)"
