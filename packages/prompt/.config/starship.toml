@@ -10,9 +10,11 @@ error_symbol = "[✗](bold red) "
 
 [username]
 format = "[$user]($style)"
+detect_env_vars = ["STARSHIP_SHOW_PROMPT_DETAILS"]
 
 [hostname]
 format = "[@]($style)[$hostname]($style)[:]($style) "
+detect_env_vars = ["STARSHIP_SHOW_PROMPT_DETAILS"]
 
 [nodejs]
 disabled = true
