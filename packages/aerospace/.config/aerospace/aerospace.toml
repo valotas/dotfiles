@@ -73,6 +73,10 @@ automatically-unhide-macos-hidden-apps = true
     run = 'layout floating'
 
 [[on-window-detected]]
+    if.app-id = 'com.brave.Browser.app.mdpkiolbdkhdjpekfbkbmhigcaggjagi'
+    run = 'layout floating'
+
+[[on-window-detected]]
     if.app-id = 'org.keepassxc.keepassxc'
     run = 'layout floating'
 
@@ -124,7 +128,8 @@ automatically-unhide-macos-hidden-apps = true
 
     ## messages
     alt-m = 'exec-and-forget open -a /Applications/WhatsApp.app/Contents/MacOS/WhatsApp'
-    alt-cmd-m = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Messages.app'
+    alt-cmd-m = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Google\ Chat.app'
+
 
     ## stand alone ai apps
     alt-a = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Grok.app'
