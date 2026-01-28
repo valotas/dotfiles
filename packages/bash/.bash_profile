@@ -15,16 +15,20 @@ export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[bash_profile]"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
-    fi
+  # include .bashrc if it exists
+  if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+  fi
+  if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+  fi
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+if [ -d "$HOME/bin" ]; then
+  PATH="$HOME/bin:$PATH"
 fi
 
 # if running interactively, run setup
 [[ $- == *i* ]] && . "$HOME/.dotfiles/sh_setup.sh"
+
