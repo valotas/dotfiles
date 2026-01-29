@@ -77,6 +77,10 @@ automatically-unhide-macos-hidden-apps = true
     run = 'layout floating'
 
 [[on-window-detected]]
+    if.app-id = 'com.google.chrome.for.testing'
+    run = 'layout floating'
+
+[[on-window-detected]]
     if.app-id = 'org.keepassxc.keepassxc'
     run = 'layout floating'
 
@@ -153,6 +157,7 @@ automatically-unhide-macos-hidden-apps = true
     alt-shift-j = 'move down'
     alt-shift-k = 'move up'
     alt-shift-l = 'move right'
+    alt-shift-m = ['join-with right', 'mode main']
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#resize
     alt-shift-minus = 'resize smart -50'
