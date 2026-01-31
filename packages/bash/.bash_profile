@@ -32,3 +32,6 @@ fi
 # if running interactively, run setup
 [[ $- == *i* ]] && . "$HOME/.dotfiles/sh_setup.sh"
 
+if [ -d "$HOME/.cargo" ]; then
+  . "$HOME/.cargo/env"
+fi
