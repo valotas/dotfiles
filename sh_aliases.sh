@@ -14,3 +14,5 @@ if command -v nvim >/dev/null 2>&1; then
 fi
 
 alias pn=pnpm
+
+alias lzp="DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock lazydocker"
