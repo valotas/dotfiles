@@ -77,6 +77,10 @@ automatically-unhide-macos-hidden-apps = true
     run = 'layout floating'
 
 [[on-window-detected]]
+    if.app-id = 'com.brave.Browser.app.gdfaincndogidkdcdkhapmbffkckdkhn'
+    run = 'layout floating'
+
+[[on-window-detected]]
     if.app-id = 'com.google.chrome.for.testing'
     run = 'layout floating'
 
@@ -137,6 +141,8 @@ automatically-unhide-macos-hidden-apps = true
 
     ## stand alone ai apps
     alt-a = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Grok.app'
+    alt-shift-a = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Google\ Gemini.app'
+
 
     alt-f = 'fullscreen'
     alt-ctrl-f = 'layout floating tiling'
