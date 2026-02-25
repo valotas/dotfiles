@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Check if running on macOS
+if [ "$(uname)" != "Darwin" ]; then
+    echo "Error: This script only works on macOS" >&2
+    exit 1
+fi
+
+# Request sudo upfront
+sudo -v
+
+# Check if command is provided
+if [ -z "$1" ]; then
+    echo "Usage: macsleep [disable|enable] [ProcessName]" >&2
+    echo ""
+    echo "Examples:"
+    echo "  macsleep disable 'Chrome'     - Disable sleep and caffeinate Chrome"
+    echo "  macsleep enable               - Enable sleep and kill caffeinate" >&2
+    exit 1
+fi
+
+case "$1" in
+    disable)
+        if [ -z "$2" ]; then
+            echo "Error: Process name required for disable" >&2
+            echo "Usage: macsleep disable 'ProcessName'" >&2
+            exit 1
+        fi
+        
+        # Find process with fuzzy matching
+        pid=$(pgrep "$2")
+        if [ -z "$pid" ]; then
+            echo "Error: No process matching '$2' found" >&2
+            exit 1
+        fi
+        
+        echo "Disabling sleep for process matching '$2' (PID: $pid)..."
+        
+        # Disable sleep
+        sudo pmset disablesleep 1
+        if [ $? -ne 0 ]; then
+            echo "Error: Failed to disable sleep" >&2
+            exit 1
+        fi
+        
+        # Start caffeinate
+        caffeinate -s -w "$pid" &
+        if [ $? -ne 0 ]; then
+            echo "Error: Failed to start caffeinate" >&2
+            sudo pmset disablesleep 0
+            exit 1
+        fi
+        
+        echo "Sleep disabled and caffeinate started for process matching '$2'"
+        ;;
+    
+    enable)
+        echo "Enabling sleep and killing caffeinate processes..."
+        
+        # Kill all caffeinate processes
+        killall caffeinate 2>/dev/null
+        
+        # Re-enable sleep
+        sudo pmset disablesleep 0
+        if [ $? -ne 0 ]; then
+            echo "Error: Failed to enable sleep" >&2
+            exit 1
+        fi
+        
+        echo "Sleep enabled and caffeinate processes terminated"
+        ;;
+    
+    *)
+        echo "Error: Unknown command '$1'" >&2
+        echo "Usage: macsleep [disable|enable] [ProcessName]" >&2
+        exit 1
+        ;;
+esac
