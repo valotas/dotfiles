@@ -3,7 +3,8 @@ sbar = require("sketchybar")
 local logging = require("helpers.logging")
 
 -- Set the bar name, if you are using another bar instance than sketchybar
-local bar_name = os.getenv("BAR_NAME")
+-- (BAR_NAME is set by sketchybar when it runs this script; default for manual runs)
+local bar_name = os.getenv("BAR_NAME") or "sketchybar"
 logging.log("Setting bar name to " .. bar_name)
 sbar.set_bar_name(bar_name)
 

@@ -25,12 +25,13 @@ local function get_displays()
 end
 
 local function create_bar_config(bar_name)
-  local main_bar = bar_name == "sketchybar_main"
+  -- "sketchybar" is the default instance name; treat like main when BAR_NAME unset
+  local main_bar = bar_name == "sketchybar_main" or bar_name == "sketchybar"
   local displays = get_displays()
   local alternative_displays = #displays.alternative > 0 and table.concat(displays.alternative, ",") or ""
   logging.log("dispays.main: " .. displays.main .. " displays.alternative: " .. alternative_displays)
   local display = main_bar and displays.main > 0 and displays.main or alternative_displays
-  local hidden = bar_name == "sketchybar_main" and displays.main == 0 or bar_name == "sketchybar_alternative" and #displays.alternative == 0
+  local hidden = main_bar and displays.main == 0 or bar_name == "sketchybar_alternative" and #displays.alternative == 0
   local height = main_bar and 40 or 30
   if (hidden) then
     height = 0
@@ -40,8 +41,8 @@ local function create_bar_config(bar_name)
   return {
     height = height,
     color = colors.bar.bg,
-    padding_right = bar_name == "sketchybar_main" and 5 or 15,
-    padding_left = bar_name == "sketchybar_main" and 5 or 15,
+    padding_right = main_bar and 5 or 15,
+    padding_left = main_bar and 5 or 15,
     display = display,
   }
 end
@@ -50,7 +51,7 @@ end
 local bar = nil
 
 local function update_bar_config()
-  local bar_name = os.getenv("BAR_NAME")
+  local bar_name = os.getenv("BAR_NAME") or "sketchybar"
   logging.log("update bar: " .. bar_name)
   local config = create_bar_config(bar_name)
   if bar then
