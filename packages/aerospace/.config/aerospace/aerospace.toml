@@ -61,7 +61,7 @@ automatically-unhide-macos-hidden-apps = true
     preset = 'qwerty'
 
 [[on-window-detected]]
-    if.app-name-regex-substring = 'finder|alacritty|whatsapp|signal'
+    if.app-name-regex-substring = 'finder|alacritty|whatsapp|signal|viber'
     run = 'layout floating'
 
 [[on-window-detected]]
@@ -74,6 +74,10 @@ automatically-unhide-macos-hidden-apps = true
 
 [[on-window-detected]]
     if.app-id = 'com.brave.Browser.app.mdpkiolbdkhdjpekfbkbmhigcaggjagi'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.brave.Browser.app.pommaclcbfghclhalboakcipcmmndhcj'
     run = 'layout floating'
 
 [[on-window-detected]]
@@ -136,7 +140,7 @@ automatically-unhide-macos-hidden-apps = true
 
     ## messages
     alt-m = 'exec-and-forget open -a /Applications/WhatsApp.app/Contents/MacOS/WhatsApp'
-    alt-cmd-m = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Google\ Chat.app'
+    alt-cmd-m = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Google\ Chat\ 1.app'
 
 
     ## stand alone ai apps
