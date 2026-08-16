@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p .vscode-server/data/Machine
+
 BASEDIR=$(dirname -- "$(dirname -- "$(realpath -- "$0")")")
 
 cd $BASEDIR && ./script/update.sh
