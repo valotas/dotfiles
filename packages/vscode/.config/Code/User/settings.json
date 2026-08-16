@@ -53,7 +53,7 @@
   "terminal.integrated.gpuAcceleration": "auto",
   "window.titleBarStyle": "custom",
   "window.title": "${folderName}${separator}${activeEditorMedium}",
-  "workbench.colorTheme": "Default Dark+",
+  "workbench.colorTheme": "Dark+",
   "workbench.colorCustomizations": {
     "editorWhitespace.foreground": "#2b2b2b"
   },
@@ -161,5 +161,23 @@
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "chat.mcp.gallery.enabled": true,
-  "sqliteViewer.maxFileSize": 300
+  "sqliteViewer.maxFileSize": 300,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "basedpyright.disableLanguageServices": true,
+  "chat.tools.urls.autoApprove": {
+    "https://docs.polymarket.com": {
+      "approveRequest": true
+    }
+  },
+  "python.languageServer": "Default",
+  "json.schemaDownload.trustedDomains": {
+    "https://schemastore.azurewebsites.net/": true,
+    "https://raw.githubusercontent.com/": true,
+    "https://www.schemastore.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://json-schema.org/": true,
+    "https://biomejs.dev": true
+  }
 }
