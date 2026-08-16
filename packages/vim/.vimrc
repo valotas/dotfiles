@@ -28,9 +28,6 @@ if v:version >= 730
   set undodir=~/tmp,/tmp
 endif
 
-" Setup vim-airline
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ 10 "Set the right fonts
-let g:airline_powerline_fonts=1
 set laststatus=2
 
 "Some nerdtree stuff

@@ -1,6 +1,3 @@
-# this should be sourced in .profile and/or .zenv:
-# [[ -s "$HOME/.dotfiles/env.sh" ]] && . "$HOME/.dotfiles/env.sh"
-
 # for debugging
 export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[e]"
 

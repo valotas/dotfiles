@@ -12,5 +12,5 @@ cd $BASEDIR && find packages -mindepth 1 -maxdepth 1 -type d | sed "s|^packages/
 #update the font cache
 if command -v fc-cache >/dev/null 2>&1; then
   echo "Updating font cache..."
-  fc-cache -vf ~/.fonts
+  fc-cache -vf ~/.local/share/fonts
 fi
