@@ -221,6 +221,7 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 
 # Auto start a session when Zsh is launched in a local terminal.
 zstyle ':prezto:module:tmux:auto-start' local 'yes'
+zstyle ':prezto:module:tmux:session' name 'main'
 
 # Auto start a session when Zsh is launched in a SSH connection.
 # zstyle ':prezto:module:tmux:auto-start' remote 'yes'
@@ -262,3 +263,4 @@ zstyle ':prezto:module:fzf' tmux 'yes'
 # https://github.com/junegunn/fzf/wiki/Color-schemes and add values to the
 # color.zsh file accordingly
 zstyle ':prezto:module:fzf' colorscheme 'Solarized Light'
+
