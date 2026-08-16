@@ -27,7 +27,6 @@ Dependencies live as git submodules:
 
 | Name | Path | Purpose |
 |------|------|---------|
-| `nerdtree` | `packages/vim/.vim/pack/plugins/opt/nerdtree` | Classic vim file tree (fallback when not using LazyVim) |
 | `zsh-history-substring-search` | `packages/zsh/.config/zsh/plugins/zsh-history-substring-search` | Fish/Prezto-style history filtering on ↑/↓ |
 
 **After clone (if needed):**
@@ -58,20 +57,15 @@ git submodule add --name <name> <repo-url> <path-inside-repo>
 git submodule update --init --recursive
 ```
 
-Examples:
+Example (zsh plugin under XDG config, stowed to `~/.config/zsh/plugins/...`):
 
 ```sh
-# vim pack plugin
-git submodule add --name nerdtree https://github.com/preservim/nerdtree.git \
-  packages/vim/.vim/pack/plugins/opt/nerdtree
-
-# zsh plugin under XDG config (gets stowed to ~/.config/zsh/plugins/...)
 git submodule add --name zsh-history-substring-search \
   https://github.com/zsh-users/zsh-history-substring-search.git \
   packages/zsh/.config/zsh/plugins/zsh-history-substring-search
 ```
 
-Then wire the plugin in the relevant config (e.g. `packages/vim/.vimrc` or `packages/zsh/.config/zsh/interactive.zsh`) and commit `.gitmodules` plus the submodule gitlink.
+Then wire the plugin in the relevant config (e.g. `packages/zsh/.config/zsh/interactive.zsh`) and commit `.gitmodules` plus the submodule gitlink.
 
 **Update a submodule to the latest upstream commit:**
 
@@ -92,7 +86,7 @@ make install
 
 ### Vim
 
-The configuration covers both vim and neovim as proposed [here](https://www.youtube.com/watch?v=X2_R3uxDN6g). We are using [LazyVim](https://www.lazyvim.org/). Classic vim pack plugins (like nerdtree) are managed as submodules — see [Submodules](#submodules).
+Neovim is the primary editor ([LazyVim](https://www.lazyvim.org/)). Classic `vim` still gets a minimal `.vimrc` via the `vim` package; `vim`/`vi` are aliased to `nvim` when neovim is installed.
 
 ## Uninstalling 
 

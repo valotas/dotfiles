@@ -1,12 +1,5 @@
 colorscheme darkblue
 
-" load the plugins placed in .vim/pack/*/opt/[name]
-if &loadplugins
-  if has('packages')
-    packadd! nerdtree
-  endif
-endif
-
 filetype plugin indent on " filetype detection[ON] plugin[ON] indent[ON]
 syntax enable             " enable syntax highlighting (previously syntax on).
 filetype indent on        " activates indenting for files
@@ -29,11 +22,5 @@ if v:version >= 730
 endif
 
 set laststatus=2
-
-"Some nerdtree stuff
-autocmd vimenter * if !argc() | NERDTree | endif
-map <C-n> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
 
 autocmd FileType javascript set list listchars=tab:\|¬,trail:· "Nice display of tabs and trailing spaces
