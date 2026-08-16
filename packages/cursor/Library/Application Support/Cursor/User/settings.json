@@ -1,9 +1,6 @@
 {
   "debug.console.fontSize": 12,
-  "editor.fontFamily": "'SauceCodePro Nerd Font Mono', Menlo, Monaco, 'Courier New', 'monospace', monospace",
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
+	"editor.fontFamily": "'SauceCodePro Nerd Font Mono', Menlo, Monaco, 'Courier New', 'monospace', monospace",
   "editor.tabSize": 2,
   "window.commandCenter": 1,
   "git.autofetch": true,
@@ -51,5 +48,14 @@
     "typescript"
   ],
   "jupyter.interactiveWindow.creationMode": "perFile",
-  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+	"vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+	"extensions.experimental.affinity": {
+		"asvetliakov.vscode-neovim": 1
+	},
+  "window.autoDetectColorScheme": false,
+  "redhat.telemetry.enabled": false,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cursor.general.emailPrivacyEnabled": true,
 }
