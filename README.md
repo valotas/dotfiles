@@ -6,12 +6,14 @@ Just a collection of dotfiles that can be used in any pc of mine
 The following
 
 ```sh
-git clone git@github.com:valotas/dotfiles.git .dotfiles
+git clone --recurse-submodules git@github.com:valotas/dotfiles.git .dotfiles
 make bootstrap
 make install
 ```
 
-should install every config under the packages directory.
+should fetch submodules, run machine-specific bootstrap steps, and stow every config under `packages/`.
+
+If you already cloned without `--recurse-submodules`, `make bootstrap` (or the submodule commands below) will initialize them.
 
 To install an individual package:
 
@@ -19,35 +21,78 @@ To install an individual package:
 make install package=<package_name>
 ```
 
-### Updating
+### Submodules
 
-Just pull the latest changes and setup:
+Dependencies live as git submodules:
+
+| Name | Path | Purpose |
+|------|------|---------|
+| `nerdtree` | `packages/vim/.vim/pack/plugins/opt/nerdtree` | Classic vim file tree (fallback when not using LazyVim) |
+| `zsh-history-substring-search` | `packages/zsh/.config/zsh/plugins/zsh-history-substring-search` | Fish/Prezto-style history filtering on ↑/↓ |
+
+**After clone (if needed):**
+
+```sh
+git submodule update --init --recursive
+```
+
+**After pull** (when `.gitmodules` or submodule commits changed):
 
 ```sh
 git pull origin master
-
-# update the submodules
+git submodule sync --recursive
 git submodule update --init --recursive
+make install
+```
 
-# install the packages
+**Check status:**
+
+```sh
+git submodule status
+```
+
+**Add a new submodule:**
+
+```sh
+git submodule add --name <name> <repo-url> <path-inside-repo>
+git submodule update --init --recursive
+```
+
+Examples:
+
+```sh
+# vim pack plugin
+git submodule add --name nerdtree https://github.com/preservim/nerdtree.git \
+  packages/vim/.vim/pack/plugins/opt/nerdtree
+
+# zsh plugin under XDG config (gets stowed to ~/.config/zsh/plugins/...)
+git submodule add --name zsh-history-substring-search \
+  https://github.com/zsh-users/zsh-history-substring-search.git \
+  packages/zsh/.config/zsh/plugins/zsh-history-substring-search
+```
+
+Then wire the plugin in the relevant config (e.g. `packages/vim/.vimrc` or `packages/zsh/.config/zsh/interactive.zsh`) and commit `.gitmodules` plus the submodule gitlink.
+
+**Update a submodule to the latest upstream commit:**
+
+```sh
+git -C <path-inside-repo> pull origin master   # or main
+git add <path-inside-repo>
+git commit -m "Update <name> submodule"
+```
+
+### Updating
+
+```sh
+git pull origin master
+git submodule sync --recursive
+git submodule update --init --recursive
 make install
 ```
 
 ### Vim
 
-The configuration covers both vim and neovim as proposed [here](https://www.youtube.com/watch?v=X2_R3uxDN6g). We are using [LazyVim](https://www.lazyvim.org/).
-
-#### Adding a vim plugin
-
-If a vim plugin is needed and for whatever reason LazyVim can not be used, then the plugin should be added as a git submodule into the vim pack folder.
-
-Clone the plugin to `packages/vim/.vim/pack/plugins/[opt|start]/[name]`. For example for nerdtree:
-
-```sh
-git submodule add --name nerdtree git@github.com:preservim/nerdtree.git packages/vim/.vim/pack/plugins/opt/nerdtree 
-```
-
-And then init the plugin in the `packages/vim/.vimrc`.
+The configuration covers both vim and neovim as proposed [here](https://www.youtube.com/watch?v=X2_R3uxDN6g). We are using [LazyVim](https://www.lazyvim.org/). Classic vim pack plugins (like nerdtree) are managed as submodules — see [Submodules](#submodules).
 
 ## Uninstalling 
 

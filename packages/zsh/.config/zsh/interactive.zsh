@@ -161,31 +161,22 @@ alias ll='ls -lh'
 alias grep="${aliases[grep]:-grep} --color=auto"
 
 #
-# History substring search (native prefix search on arrows)
+# History substring search (Prezto/fish-style: arrows filter by typed text)
 #
 
-autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey -M viins "${terminfo[kcuu1]:-$'\e[A'}" up-line-or-beginning-search
-bindkey -M viins "${terminfo[kcud1]:-$'\e[B'}" down-line-or-beginning-search
-bindkey -M vicmd 'k' up-line-or-beginning-search
-bindkey -M vicmd 'j' down-line-or-beginning-search
+_hss_file="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+if [[ -s "$_hss_file" ]]; then
+  source "$_hss_file"
+  HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
-_hss_file=
-for _hss_file in \
-  /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh \
-  /usr/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-do
-  if [[ -s "$_hss_file" ]]; then
-    source "$_hss_file"
-    bindkey -M viins "${terminfo[kcuu1]:-$'\e[A'}" history-substring-search-up
-    bindkey -M viins "${terminfo[kcud1]:-$'\e[B'}" history-substring-search-down
-    bindkey -M vicmd 'k' history-substring-search-up
-    bindkey -M vicmd 'j' history-substring-search-down
-    break
-  fi
-done
+  # Bind both normal and application cursor-key sequences.
+  bindkey -M viins '^[[A' history-substring-search-up
+  bindkey -M viins '^[[B' history-substring-search-down
+  bindkey -M viins '^[OA' history-substring-search-up
+  bindkey -M viins '^[OB' history-substring-search-down
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-down
+fi
 unset _hss_file
 
 #
