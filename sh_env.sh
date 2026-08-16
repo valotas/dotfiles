@@ -5,7 +5,6 @@
 export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[e]"
 
 export DOTFILES_DIR="$HOME/.dotfiles"
-export ZPREZTODIR="$DOTFILES_DIR/prezto"
 
 #
 # Editors
