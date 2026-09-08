@@ -5,6 +5,8 @@ git submodule update --init --recursive
 
 # install sketchybar only on macOS
 if [ "$(uname)" = "Darwin" ]; then
+  brew install tmux
+
   # install sketchybar
   brew tap FelixKratz/formulae
   brew install sketchybar
@@ -25,7 +27,7 @@ if [ -f /etc/os-release ]; then
   if [ "$ID" = "ubuntu" ]; then
     echo "Installing tools on Ubuntu..."
     sudo apt-get update
-    sudo apt-get install -y ripgrep fzf fd-find
+    sudo apt-get install -y ripgrep fzf fd-find tmux
 
     # Install lazygit
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')

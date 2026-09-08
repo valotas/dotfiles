@@ -1,15 +1,15 @@
 #
 # Executes commands at the start of an interactive session.
 #
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
-# Source Prezto.
-if [[ -s "${ZPREZTODIR}/init.zsh" ]]; then
-  source "${ZPREZTODIR}/init.zsh"
+# Cursor agent shells: keep mise/PATH, skip interactive zsh niceties.
+if [[ -n "$CURSOR_AGENT" ]]; then
+  [[ -s "$HOME/.dotfiles/sh_setup.sh" ]] && source "$HOME/.dotfiles/sh_setup.sh"
+  return
 fi
 
-# Customize to your needs...
+_zsh_interactive="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/interactive.zsh"
+[[ -s "$_zsh_interactive" ]] && source "$_zsh_interactive"
+unset _zsh_interactive
 [[ -s "$HOME/.dotfiles/sh_aliases.sh" ]] && source "$HOME/.dotfiles/sh_aliases.sh"
 [[ -s "$HOME/.dotfiles/sh_setup.sh" ]] && source "$HOME/.dotfiles/sh_setup.sh"
