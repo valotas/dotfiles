@@ -3,10 +3,11 @@ export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[s]"
 # check the current shell (will be the full path of the shell)
 shell="$(ps -p $$ -o comm=)"
 
-# mise
+# mise (activate runs hook-env now and on cwd/prompt changes)
 if [[ $(command -v mise) ]]; then
   export PATH="/opt/homebrew/bin:$PATH"
-  export PATH="$HOME/.local/share/mise/shims:$PATH"
+  [[ $shell == *"bash" ]] && eval "$(mise activate bash)"
+  [[ $shell == *"zsh" ]] && eval "$(mise activate zsh)"
 # vfox
 elif [[ $(command -v vfox) ]]; then
   [[ $shell == *"bash" ]] && eval "$(vfox activate bash)"

@@ -1,0 +1,59 @@
+# tmux-compatible Herdr bindings. Prefix is Ctrl-a only (Ctrl-Space unused).
+onboarding = false
+
+[keys]
+prefix = "ctrl+a"
+
+# tmux default detach is prefix+d (Herdr default is prefix+q)
+detach = "prefix+d"
+
+# tmux: prefix s → choose-tree sessions (Herdr default prefix+s is Settings)
+workspace_picker = "prefix+s"
+settings = "prefix+comma"
+
+# tmux: prefix c / n / p, plus Shift-arrow windows
+new_tab = "prefix+c"
+previous_tab = ["prefix+p", "shift+left"]
+next_tab = ["prefix+n", "shift+right"]
+
+# tmux: prefix v / -
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+
+# tmux vi copy mode
+copy_mode = "prefix+["
+
+# tmux: prefix h/j/k/l plus Alt-arrows without prefix
+focus_pane_left = ["prefix+h", "alt+left"]
+focus_pane_down = ["prefix+j", "alt+down"]
+focus_pane_up = ["prefix+k", "alt+up"]
+focus_pane_right = ["prefix+l", "alt+right"]
+
+# tmux Ctrl-Alt-Arrow resize
+resize_pane_up = "ctrl+alt+up"
+resize_pane_down = "ctrl+alt+down"
+resize_pane_left = "ctrl+alt+left"
+resize_pane_right = "ctrl+alt+right"
+
+[ui]
+mouse_capture = true
+copy_on_select = true
+pane_outer_borders = false
+status_indicators = "symbols"
+window_title = "{hostname}: {workspace}"
+tab_bar_right = [
+  { type = "hostname" },
+  { type = "datetime", format = "%H:%M" },
+]
+tab_bar_right_separator = " "
+
+[ui.toast]
+delivery = "system"
+
+[advanced]
+# tmux history-limit 100000; Herdr is byte-based
+scrollback_limit_bytes = 10000000
+
+[experimental]
+# closest to tmux-resurrect pane contents
+pane_history = true

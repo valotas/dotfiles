@@ -205,36 +205,3 @@ if (( $+commands[fzf] )); then
 
   eval "$(fzf --zsh)"
 fi
-
-#
-# tmux auto-start (session "main"), skipped in Cursor/VS Code/agents
-#
-
-if (( $+commands[tmux] )); then
-  if [[ -z "$CURSOR_AGENT" && -z "$VSCODE_PID" \
-    && -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" \
-    && -z "$VSCODE_RESOLVING_ENVIRONMENT" \
-    && "$TERM_PROGRAM" != "vscode" \
-    && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" \
-    && -z "$SSH_TTY" ]]; then
-    exec tmux new-session -A -s main
-  fi
-  alias tmuxa='tmux new-session -A'
-  alias tmuxl='tmux list-sessions'
-
-  t() {
-    tmux new-session -A -s "${1:-$(basename "$PWD")}"
-  }
-
-  ts() {
-    local session
-    session=$(tmux list-sessions -F '#S' 2>/dev/null | fzf) || return
-    tmux switch-client -t "$session" 2>/dev/null || tmux attach-session -t "$session"
-  }
-
-  tr() {
-    local host="${1:?usage: tr host [session]}"
-    local name="${2:-main}"
-    ssh -t "$host" "tmux new-session -A -s ${name}"
-  }
-fi
