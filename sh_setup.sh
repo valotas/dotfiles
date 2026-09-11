@@ -1,33 +1,29 @@
+# Interactive hooks only. Env lives in sh_env.sh; source it in case this
+# file is the first drop-in (Ubuntu ~/.bash_aliases, Fedora ~/.bashrc.d).
+. "$HOME/.dotfiles/sh_env.sh"
+
+case $- in
+  *i*) ;;
+  *) return 0 ;;
+esac
+
+[ -n "${_VALOTAS_SETUP_SOURCED:-}" ] && return 0
+_VALOTAS_SETUP_SOURCED=1
+
 export _VALOTAS_ENV_COUNTER="${_VALOTAS_ENV_COUNTER}[s]"
 
-# check the current shell (will be the full path of the shell)
-shell="$(ps -p $$ -o comm=)"
-
 # mise (activate runs hook-env now and on cwd/prompt changes)
-if [[ $(command -v mise) ]]; then
-  export PATH="/opt/homebrew/bin:$PATH"
-  [[ $shell == *"bash" ]] && eval "$(mise activate bash)"
-  [[ $shell == *"zsh" ]] && eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  [ -n "${BASH_VERSION:-}" ] && eval "$(mise activate bash)"
+  [ -n "${ZSH_VERSION:-}" ] && eval "$(mise activate zsh)"
 # vfox
-elif [[ $(command -v vfox) ]]; then
-  [[ $shell == *"bash" ]] && eval "$(vfox activate bash)"
-  [[ $shell == *"zsh" ]] && eval "$(vfox activate zsh)"
-fi
-
-# pnpm global binaries: derive the dir from pnpm itself (after mise/vfox).
-if [[ $(command -v pnpm) ]]; then
-  pnpm_bin="$(pnpm bin -g 2>/dev/null)"
-  add_to_path "$pnpm_bin"
-  unset pnpm_bin
+elif command -v vfox >/dev/null 2>&1; then
+  [ -n "${BASH_VERSION:-}" ] && eval "$(vfox activate bash)"
+  [ -n "${ZSH_VERSION:-}" ] && eval "$(vfox activate zsh)"
 fi
 
 # starship
-if [[ -z "$CURSOR_AGENT" && $(command -v starship) ]]; then
-  # Show username@hostname when not on m4air
-  if [[ "$(hostname -s)" == "m4air" ]]; then
-    export STARSHIP_MAIN_HOST=1
-  fi
-
-  [[ $shell == *"bash" ]] && eval "$(starship init bash)"
-  [[ $shell == *"zsh" ]] && eval "$(starship init zsh)"
+if [[ -z "$CURSOR_AGENT" ]] && command -v starship >/dev/null 2>&1; then
+  [ -n "${BASH_VERSION:-}" ] && eval "$(starship init bash)"
+  [ -n "${ZSH_VERSION:-}" ] && eval "$(starship init zsh)"
 fi

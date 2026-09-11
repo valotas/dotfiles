@@ -16,7 +16,7 @@ unset _zsh_interactive
 
 #
 # herdr auto-start (session "main"), skipped in Cursor/VS Code/agents.
-# Runs after mise activate so herdr is on PATH.
+# herdr is on PATH from sh_env.sh (`mise env`).
 #
 
 rehash
