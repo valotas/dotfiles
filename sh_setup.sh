@@ -14,6 +14,13 @@ elif [[ $(command -v vfox) ]]; then
   [[ $shell == *"zsh" ]] && eval "$(vfox activate zsh)"
 fi
 
+# pnpm global binaries: derive the dir from pnpm itself (after mise/vfox).
+if [[ $(command -v pnpm) ]]; then
+  pnpm_bin="$(pnpm bin -g 2>/dev/null)"
+  add_to_path "$pnpm_bin"
+  unset pnpm_bin
+fi
+
 # starship
 if [[ -z "$CURSOR_AGENT" && $(command -v starship) ]]; then
   # Show username@hostname when not on m4air
