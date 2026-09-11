@@ -16,6 +16,10 @@ new_tab = "prefix+c"
 previous_tab = ["prefix+p", "shift+left"]
 next_tab = ["prefix+n", "shift+right"]
 
+# workspace cycle (Herdr has no workspace-only picker; goto is spaces+tabs+panes)
+previous_workspace = "shift+up"
+next_workspace = "shift+down"
+
 # tmux: prefix v / -
 split_vertical = "prefix+v"
 split_horizontal = "prefix+minus"
