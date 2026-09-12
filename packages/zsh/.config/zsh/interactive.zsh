@@ -178,30 +178,3 @@ if [[ -s "$_hss_file" ]]; then
   bindkey -M vicmd 'j' history-substring-search-down
 fi
 unset _hss_file
-
-#
-# fzf
-#
-
-if (( $+commands[fzf] )); then
-  export FZF_TMUX_HEIGHT='30%'
-  export FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT} --reverse --inline-info --color light,fg:-1,bg:-1,hl:#268bd2,fg+:#586e75,bg+:#eee8d5,hl+:#268bd2,info:#b58900,prompt:#b58900,pointer:#2aa198,marker:#2aa198,spinner:#b58900"
-  export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-
-  if [[ -n "$TMUX_PANE" ]]; then
-    export FZF_TMUX=1
-  else
-    export FZF_TMUX=0
-  fi
-
-  if (( $+commands[rg] )); then
-    export FZF_DEFAULT_COMMAND='rg --files'
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-  fi
-
-  if (( $+commands[tree] )); then
-    export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-  fi
-
-  eval "$(fzf --zsh)"
-fi
