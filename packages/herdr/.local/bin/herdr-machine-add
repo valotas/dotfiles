@@ -1,0 +1,570 @@
+#!/usr/bin/env bash
+# Shortcut for `herdr machine add <user@host> --label ...` that first SSHs in,
+# installs the same Herdr version as this machine, installs Cursor Agent CLI
+# when it is present locally, syncs public GitHub plugins and locally installed
+# agent integrations, then adds the saved machine.
+#
+# If a machine with the computed (or --label) label already exists, skip add
+# and only sync the remote Herdr binary plus local plugins/integrations.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: herdr-machine-add <ssh-target> [--label <label>] [--remote-session <name>]
+
+Prepare a remote host, then save it as a Herdr SSH machine.
+
+  herdr-machine-add user@foo.bar.gr
+      label becomes user@foo (first hostname component)
+
+  herdr-machine-add user@192.168.42.15
+      IPs are kept as-is: user@192.168.42.15
+
+  herdr-machine-add user@host --label mybox
+      override the computed label
+EOF
+}
+
+log() {
+  printf 'herdr-machine-add: %s\n' "$*"
+}
+
+die() {
+  printf 'herdr-machine-add: %s\n' "$*" >&2
+  exit 1
+}
+
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
+}
+
+is_ip() {
+  local host="$1"
+  host="${host#[}"
+  host="${host%]}"
+  host="${host%:*}"
+  case "$host" in
+    *:*) return 0 ;;
+  esac
+  [[ "$host" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]
+}
+
+# Strip ssh://, optional :port (not IPv6), split user@host.
+parse_ssh_target() {
+  local raw="$1"
+  raw="${raw#ssh://}"
+  raw="${raw%%/*}"
+
+  SSH_USER=""
+  SSH_HOST="$raw"
+  if [[ "$raw" == *@* ]]; then
+    SSH_USER="${raw%%@*}"
+    SSH_HOST="${raw#*@}"
+  fi
+
+  if [[ "$SSH_HOST" == \[*\]* ]]; then
+    local rest="${SSH_HOST#*]}"
+    SSH_HOST="${SSH_HOST%"$rest"}"
+    SSH_HOST="${SSH_HOST#[}"
+    SSH_HOST="${SSH_HOST%]}"
+  elif [[ "$SSH_HOST" == *:* ]] && ! is_ip "$SSH_HOST"; then
+    SSH_HOST="${SSH_HOST%%:*}"
+  fi
+}
+
+default_label() {
+  local host="$SSH_HOST"
+  if ! is_ip "$host"; then
+    host="${host%%.*}"
+  fi
+  if [[ -n "$SSH_USER" ]]; then
+    printf '%s@%s\n' "$SSH_USER" "$host"
+  else
+    printf '%s\n' "$host"
+  fi
+}
+
+local_herdr_version() {
+  local line
+  line="$(herdr --version 2>/dev/null | head -n 1)" || die "herdr --version failed"
+  # "herdr 0.9.0" -> 0.9.0
+  local ver="${line##* }"
+  [[ -n "$ver" ]] || die "could not parse local herdr version from: $line"
+  printf '%s\n' "$ver"
+}
+
+# stdout: os-arch (linux-x86_64)
+remote_target_triple() {
+  ssh "$SSH_TARGET" 'uname -s; uname -m' | awk '
+    NR == 1 {
+      s = $0
+      if (s == "Linux") os = "linux"
+      else if (s == "Darwin") os = "macos"
+      else { print "unsupported remote OS: " s > "/dev/stderr"; exit 1 }
+    }
+    NR == 2 {
+      a = $0
+      if (a == "x86_64" || a == "amd64") arch = "x86_64"
+      else if (a == "aarch64" || a == "arm64") arch = "aarch64"
+      else { print "unsupported remote arch: " a > "/dev/stderr"; exit 1 }
+    }
+    END { if (os != "" && arch != "") print os "-" arch }
+  '
+}
+
+# Look up download URL and sha256 for version + triple. Prints "URL SHA256".
+release_asset() {
+  local version="$1" triple="$2"
+  local manifest
+  manifest="$(curl -fsSL --retry 3 --connect-timeout 10 --max-time 20 https://herdr.dev/latest.json)" \
+    || die "failed to fetch https://herdr.dev/latest.json"
+
+  python3 -c '
+import json, sys
+version, triple = sys.argv[1], sys.argv[2]
+data = json.loads(sys.stdin.read())
+rel = (data.get("releases") or {}).get(version)
+if rel is None and data.get("version") == version:
+    rel = data
+if not rel:
+    sys.exit(2)
+assets = rel.get("assets") or {}
+sha = (rel.get("sha256") or {}).get(triple, "")
+url = assets.get(triple, "")
+if not url:
+    sys.exit(3)
+print(url)
+print(sha)
+' "$version" "$triple" <<<"$manifest"
+}
+
+machine_id_for_label() {
+  local label="$1"
+  herdr machine list --json | python3 -c '
+import json, sys
+label = sys.argv[1]
+machines = json.load(sys.stdin)
+for machine in machines:
+    if machine.get("label") == label:
+        print(machine.get("id", ""))
+        raise SystemExit(0)
+raise SystemExit(1)
+' "$label"
+}
+
+# Local GitHub plugins that can run on the remote OS (macos/linux).
+local_public_plugins_json() {
+  local remote_os="$1"
+  herdr plugin list --json | python3 -c '
+import json, sys
+remote_os = sys.argv[1]
+data = json.load(sys.stdin)
+plugins = data
+if isinstance(data, dict):
+    plugins = (data.get("result") or {}).get("plugins") or data.get("plugins") or []
+out = []
+for plugin in plugins:
+    source = plugin.get("source") or {}
+    if source.get("kind") != "github":
+        continue
+    owner, repo = source.get("owner"), source.get("repo")
+    if not owner or not repo:
+        continue
+    platforms = plugin.get("platforms") or []
+    if platforms and remote_os not in platforms:
+        print(
+            "herdr-machine-add: skip %s (platforms: %s)"
+            % (plugin.get("plugin_id") or ("%s/%s" % (owner, repo)), ",".join(platforms)),
+            file=sys.stderr,
+        )
+        continue
+    spec = f"{owner}/{repo}"
+    subdir = source.get("subdir")
+    if subdir:
+        spec = f"{spec}/{subdir.lstrip("/")}"
+    out.append({
+        "plugin_id": plugin.get("plugin_id") or spec,
+        "spec": spec,
+        "ref": source.get("resolved_commit") or source.get("requested_ref") or "",
+        "enabled": bool(plugin.get("enabled")),
+    })
+json.dump(out, sys.stdout)
+' "$remote_os"
+}
+
+local_cursor_agent_version() {
+  local bin=""
+  if command -v agent >/dev/null 2>&1; then
+    bin="$(command -v agent)"
+  elif command -v cursor-agent >/dev/null 2>&1; then
+    bin="$(command -v cursor-agent)"
+  elif [[ -x "$HOME/.local/bin/agent" ]]; then
+    bin="$HOME/.local/bin/agent"
+  elif [[ -x "$HOME/.local/bin/cursor-agent" ]]; then
+    bin="$HOME/.local/bin/cursor-agent"
+  else
+    return 0
+  fi
+  "$bin" --version 2>/dev/null | awk '{ print $NF; exit }'
+}
+
+local_installed_integrations() {
+  herdr integration status | awk -F ': ' '
+    NF >= 2 && $2 !~ /^not installed/ { print $1 }
+  '
+}
+
+ssh_run() {
+  ssh -o RequestTTY=no "$SSH_TARGET" "$@"
+}
+
+# Install matching Herdr on the remote, then plugins + integrations.
+sync_remote() {
+  local version="$1" url="$2" sha256="$3" plugins_b64="$4" integrations_csv="$5" cursor_agent_version="$6"
+
+  # Remote script receives version/url/sha plus base64 plugin JSON (safe over ssh).
+  ssh_run env \
+    HERDR_SYNC_VERSION="$version" \
+    HERDR_SYNC_URL="$url" \
+    HERDR_SYNC_SHA256="$sha256" \
+    HERDR_SYNC_PLUGINS_B64="$plugins_b64" \
+    HERDR_SYNC_INTEGRATIONS="$integrations_csv" \
+    HERDR_SYNC_CURSOR_AGENT_VERSION="$cursor_agent_version" \
+    sh <<'REMOTE'
+set -eu
+PATH="$HOME/.local/bin:$PATH"
+export PATH
+
+version="$HERDR_SYNC_VERSION"
+url="$HERDR_SYNC_URL"
+sha256="$HERDR_SYNC_SHA256"
+plugins_b64="${HERDR_SYNC_PLUGINS_B64:-}"
+integrations_csv="${HERDR_SYNC_INTEGRATIONS:-}"
+cursor_agent_version="${HERDR_SYNC_CURSOR_AGENT_VERSION:-}"
+plugins_json="[]"
+
+log() { printf 'herdr-machine-add(remote): %s\n' "$*"; }
+err() { printf 'herdr-machine-add(remote): %s\n' "$*" >&2; exit 1; }
+
+herdr_bin() {
+  if [ -x "$HOME/.local/bin/herdr" ]; then
+    printf '%s\n' "$HOME/.local/bin/herdr"
+    return
+  fi
+  command -v herdr
+}
+
+current_version=""
+if bin="$(herdr_bin 2>/dev/null)" && [ -n "$bin" ]; then
+  current_version="$("$bin" --version 2>/dev/null | awk '{ print $NF; exit }')" || current_version=""
+fi
+
+if [ "$current_version" = "$version" ]; then
+  log "herdr $version already installed"
+else
+  log "installing herdr $version (was ${current_version:-none})"
+  command -v curl >/dev/null 2>&1 || err "curl is required on the remote to install herdr"
+
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha_tool="sha256sum"
+  elif command -v shasum >/dev/null 2>&1; then
+    sha_tool="shasum"
+  elif command -v openssl >/dev/null 2>&1; then
+    sha_tool="openssl"
+  else
+    err "SHA-256 verification requires sha256sum, shasum, or openssl"
+  fi
+
+  if [ -n "$current_version" ] && [ -n "$bin" ]; then
+    "$bin" server stop >/dev/null 2>&1 || true
+  fi
+
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  curl -fsSL --retry 3 --connect-timeout 10 --max-time 120 "$url" -o "$tmp/herdr" \
+    || err "download failed from $url"
+
+  case "$sha_tool" in
+    sha256sum) actual="$(sha256sum < "$tmp/herdr" | awk '{ print $1 }')" ;;
+    shasum)    actual="$(shasum -a 256 < "$tmp/herdr" | awk '{ print $1 }')" ;;
+    openssl)   actual="$(openssl dgst -sha256 < "$tmp/herdr" | awk '{ print $NF }')" ;;
+  esac
+  actual="$(printf '%s\n' "$actual" | awk '{ print tolower($0) }')"
+  if [ -n "$sha256" ] && [ "$actual" != "$sha256" ]; then
+    err "downloaded herdr checksum did not match"
+  fi
+
+  mkdir -p "$HOME/.local/bin"
+  chmod +x "$tmp/herdr"
+  mv "$tmp/herdr" "$HOME/.local/bin/herdr"
+  trap - EXIT
+  rm -rf "$tmp"
+  log "installed $HOME/.local/bin/herdr ($version)"
+fi
+
+bin="$(herdr_bin)" || err "herdr not found on PATH after install"
+[ -x "$bin" ] || err "herdr binary is not executable: $bin"
+
+# Herdr is ready. Extra installs must not abort this script (or local machine add).
+set +e
+
+if [ -n "$cursor_agent_version" ]; then
+  current_agent=""
+  if command -v agent >/dev/null 2>&1; then
+    current_agent="$(agent --version 2>/dev/null | awk '{ print $NF; exit }')" || current_agent=""
+  elif [ -x "$HOME/.local/bin/agent" ]; then
+    current_agent="$("$HOME/.local/bin/agent" --version 2>/dev/null | awk '{ print $NF; exit }')" || current_agent=""
+  fi
+  if [ "$current_agent" = "$cursor_agent_version" ]; then
+    log "cursor agent $cursor_agent_version already installed"
+  else
+    log "installing cursor agent $cursor_agent_version (was ${current_agent:-none})"
+    agent_os="$(uname -s)"
+    case "$agent_os" in
+      Linux)  agent_os="linux" ;;
+      Darwin) agent_os="darwin" ;;
+      *)
+        log "skip cursor agent: unsupported OS $agent_os"
+        agent_os=""
+        ;;
+    esac
+    agent_arch="$(uname -m)"
+    case "$agent_arch" in
+      x86_64|amd64)  agent_arch="x64" ;;
+      arm64|aarch64) agent_arch="arm64" ;;
+      *)
+        log "skip cursor agent: unsupported arch $agent_arch"
+        agent_arch=""
+        ;;
+    esac
+    if [ -n "$agent_os" ] && [ -n "$agent_arch" ]; then
+      agent_url="https://downloads.cursor.com/lab/${cursor_agent_version}/${agent_os}/${agent_arch}/agent-cli-package.tar.gz"
+      agent_final="$HOME/.local/share/cursor-agent/versions/$cursor_agent_version"
+      agent_tmp="$HOME/.local/share/cursor-agent/versions/.tmp-$cursor_agent_version-$$"
+      mkdir -p "$HOME/.local/share/cursor-agent/versions"
+      rm -rf "$agent_tmp"
+      if mkdir -p "$agent_tmp" \
+        && curl -fsSL --retry 3 --connect-timeout 10 --max-time 180 "$agent_url" -o "$agent_tmp/pkg.tar.gz" \
+        && tar --strip-components=1 -xzf "$agent_tmp/pkg.tar.gz" -C "$agent_tmp"; then
+        rm -f "$agent_tmp/pkg.tar.gz"
+        rm -rf "$agent_final"
+        mkdir -p "$HOME/.local/bin"
+        if mv "$agent_tmp" "$agent_final"; then
+          rm -f "$HOME/.local/bin/agent" "$HOME/.local/bin/cursor-agent"
+          ln -s "$agent_final/cursor-agent" "$HOME/.local/bin/agent"
+          ln -s "$agent_final/cursor-agent" "$HOME/.local/bin/cursor-agent"
+          log "installed cursor agent $cursor_agent_version"
+        else
+          rm -rf "$agent_tmp"
+          log "cursor agent install failed (move); continuing"
+        fi
+      else
+        rm -rf "$agent_tmp"
+        log "cursor agent install failed (download $agent_url); continuing"
+      fi
+    fi
+  fi
+fi
+
+if [ -n "$integrations_csv" ]; then
+  old_ifs="$IFS"
+  IFS=,
+  set -- $integrations_csv
+  IFS="$old_ifs"
+  for name in "$@"; do
+    [ -n "$name" ] || continue
+    log "integration install $name"
+    if ! "$bin" integration install "$name"; then
+      log "integration install $name failed; continuing"
+    fi
+  done
+fi
+
+if [ -n "$plugins_b64" ]; then
+  if command -v python3 >/dev/null 2>&1; then
+    plugins_json="$(printf '%s' "$plugins_b64" | python3 -c 'import sys,base64; sys.stdout.write(base64.b64decode(sys.stdin.read()).decode())')"
+    if [ $? -ne 0 ] || [ -z "$plugins_json" ]; then
+      log "could not decode plugin list; skipping plugins"
+      plugins_json="[]"
+    fi
+  else
+    log "python3 not found; skipping plugin install"
+  fi
+fi
+
+if [ "$plugins_json" != "[]" ] && [ -n "$plugins_json" ]; then
+  HERDR_SYNC_PLUGINS="$plugins_json" python3 - "$bin" <<'PY'
+import json, os, subprocess, sys
+
+def log(msg):
+    sys.stderr.write("herdr-machine-add(remote): %s\n" % msg)
+    sys.stderr.flush()
+
+try:
+    herdr = sys.argv[1]
+    plugins = json.loads(os.environ.get("HERDR_SYNC_PLUGINS") or "[]")
+except Exception as exc:
+    log("plugin list parse failed (%s); continuing" % exc)
+    sys.exit(0)
+
+for plugin in plugins:
+    spec = plugin.get("spec") or ""
+    if not spec:
+        log("skip plugin with missing spec; continuing")
+        continue
+    ref = plugin.get("ref") or ""
+    cmd = [herdr, "plugin", "install", spec, "--yes"]
+    if ref:
+        cmd.extend(["--ref", ref])
+    suffix = " --ref %s" % ref if ref else ""
+    print("herdr-machine-add(remote): plugin install %s%s" % (spec, suffix))
+    sys.stdout.flush()
+    try:
+        subprocess.check_call(cmd)
+    except Exception as exc:
+        log("plugin install failed for %s (%s); continuing" % (spec, exc))
+        continue
+    plugin_id = plugin.get("plugin_id")
+    if plugin_id:
+        action = "enable" if plugin.get("enabled") else "disable"
+        try:
+            subprocess.check_call([herdr, "plugin", action, plugin_id])
+        except Exception as exc:
+            log("plugin %s failed for %s (%s); continuing" % (action, plugin_id, exc))
+sys.exit(0)
+PY
+  if [ $? -ne 0 ]; then
+    log "plugin install helper failed; continuing"
+  fi
+fi
+
+log "remote herdr ready: $("$bin" --version 2>/dev/null | awk '{ print $0; exit }')"
+exit 0
+REMOTE
+}
+
+SSH_TARGET=""
+LABEL=""
+REMOTE_SESSION=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    --label)
+      [[ $# -ge 2 ]] || die "missing value for --label"
+      [[ -z "$LABEL" ]] || die "--label can only be specified once"
+      LABEL="$2"
+      shift 2
+      ;;
+    --label=*)
+      [[ -z "$LABEL" ]] || die "--label can only be specified once"
+      LABEL="${1#--label=}"
+      shift
+      ;;
+    --remote-session)
+      [[ $# -ge 2 ]] || die "missing value for --remote-session"
+      [[ -z "$REMOTE_SESSION" ]] || die "--remote-session can only be specified once"
+      REMOTE_SESSION="$2"
+      shift 2
+      ;;
+    --remote-session=*)
+      [[ -z "$REMOTE_SESSION" ]] || die "--remote-session can only be specified once"
+      REMOTE_SESSION="${1#--remote-session=}"
+      shift
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      die "unknown option: $1"
+      ;;
+    *)
+      [[ -z "$SSH_TARGET" ]] || die "unexpected argument: $1"
+      SSH_TARGET="$1"
+      shift
+      ;;
+  esac
+done
+
+[[ -n "$SSH_TARGET" ]] || { usage >&2; exit 2; }
+
+need_cmd herdr
+need_cmd ssh
+need_cmd curl
+need_cmd python3
+
+parse_ssh_target "$SSH_TARGET"
+[[ -n "$SSH_HOST" ]] || die "could not parse hostname from: $SSH_TARGET"
+
+if [[ -z "$LABEL" ]]; then
+  LABEL="$(default_label)"
+fi
+[[ -n "$LABEL" ]] || die "computed label is empty"
+
+VERSION="$(local_herdr_version)"
+log "local herdr $VERSION"
+log "ssh target $SSH_TARGET"
+log "label $LABEL"
+
+EXISTING_ID=""
+if EXISTING_ID="$(machine_id_for_label "$LABEL")"; then
+  log "machine $LABEL already exists ($EXISTING_ID); will sync herdr and plugins only"
+else
+  log "no saved machine with label $LABEL; will add after sync"
+fi
+
+log "checking ssh login"
+ssh_run 'echo herdr-machine-add: login ok'
+
+TRIPLE="$(remote_target_triple)" || die "could not detect remote OS/arch"
+REMOTE_OS="${TRIPLE%%-*}"
+log "remote platform $TRIPLE"
+
+ASSET="$(release_asset "$VERSION" "$TRIPLE")" || {
+  status=$?
+  if [[ "$status" -eq 2 ]]; then
+    die "herdr $VERSION is not in https://herdr.dev/latest.json"
+  fi
+  die "no herdr $VERSION binary for $TRIPLE"
+}
+URL="$(printf '%s\n' "$ASSET" | sed -n '1p')"
+SHA256="$(printf '%s\n' "$ASSET" | sed -n '2p' | awk '{ print tolower($0) }')"
+[[ -n "$URL" ]] || die "missing download URL for herdr $VERSION $TRIPLE"
+
+INTEGRATIONS="$(local_installed_integrations | awk '{ printf "%s%s", sep, $0; sep="," }')"
+CURSOR_AGENT_VERSION="$(local_cursor_agent_version || true)"
+PLUGINS_JSON="$(local_public_plugins_json "$REMOTE_OS")"
+[[ -n "$PLUGINS_JSON" ]] || PLUGINS_JSON='[]'
+PLUGINS_B64=""
+if [[ "$PLUGINS_JSON" != '[]' ]]; then
+  PLUGINS_B64="$(printf '%s' "$PLUGINS_JSON" | base64 | tr -d '\n')"
+fi
+
+if [[ -n "$CURSOR_AGENT_VERSION" ]]; then
+  log "local cursor agent $CURSOR_AGENT_VERSION"
+else
+  log "no local cursor agent; skipping remote agent install"
+fi
+if [[ -n "$INTEGRATIONS" ]]; then
+  log "local agent integrations: ${INTEGRATIONS//,/, }"
+else
+  log "no local agent integrations to sync"
+fi
+log "syncing herdr $VERSION and plugins on $SSH_TARGET"
+sync_remote "$VERSION" "$URL" "$SHA256" "$PLUGINS_B64" "$INTEGRATIONS" "$CURSOR_AGENT_VERSION"
+
+if [[ -n "$EXISTING_ID" ]]; then
+  log "machine already saved as $LABEL ($EXISTING_ID); skipped herdr machine add"
+  exit 0
+fi
+
+log "herdr machine add $SSH_TARGET --label $LABEL"
+add_args=(machine add "$SSH_TARGET" --label "$LABEL")
+if [[ -n "$REMOTE_SESSION" ]]; then
+  add_args+=(--remote-session "$REMOTE_SESSION")
+fi
+herdr "${add_args[@]}"
