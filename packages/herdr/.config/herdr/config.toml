@@ -39,10 +39,21 @@ resize_pane_down = "ctrl+alt+down"
 resize_pane_left = "ctrl+alt+left"
 resize_pane_right = "ctrl+alt+right"
 
+# lazygit popup; prefix+l stays pane-right
+[[keys.command]]
+key = "prefix+shift+l"
+type = "popup"
+command = "lazygit"
+description = "run lazygit"
+width = "80%"
+height = "80%"
+
 [ui]
 mouse_capture = true
 copy_on_select = true
+pane_borders = "auto"
 pane_outer_borders = false
+pane_gaps = false
 status_indicators = "symbols"
 window_title = "{hostname}: {workspace}"
 tab_bar_right = [
@@ -52,6 +63,7 @@ tab_bar_right = [
 tab_bar_right_separator = " "
 
 [ui.toast]
+# OS banners for local and remote agents. `terminal` only emits OSC to Alacritty.
 delivery = "system"
 
 [advanced]
