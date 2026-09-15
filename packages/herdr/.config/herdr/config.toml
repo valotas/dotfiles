@@ -57,6 +57,8 @@ pane_gaps = false
 status_indicators = "symbols"
 window_title = "{hostname}: {workspace}"
 tab_bar_right = [
+  { type = "command", command = "whoami", timeout_seconds = 2, interval_seconds = 10 },
+  { type = "text", text= "@" },
   { type = "hostname" },
   { type = "datetime", format = "%H:%M" },
 ]

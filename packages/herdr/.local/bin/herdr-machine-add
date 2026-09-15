@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Shortcut for `herdr machine add <user@host> --label ...` that first SSHs in,
 # installs the same Herdr version as this machine, installs Cursor Agent CLI
-# when it is present locally, syncs public GitHub plugins and locally installed
-# agent integrations, then adds the saved machine.
+# when it is present locally, syncs public GitHub plugins, locally installed
+# agent integrations, and this machine's Herdr config.toml, then adds the
+# saved machine.
 #
 # If a machine with the computed (or --label) label already exists, skip add
-# and only sync the remote Herdr binary plus local plugins/integrations.
+# and only sync the remote Herdr binary, config, plugins, and integrations.
 set -euo pipefail
 
 usage() {
@@ -443,6 +444,34 @@ exit 0
 REMOTE
 }
 
+# Copy local config.toml so remote UI (tab_bar_right, keys, …) matches this machine.
+# Reloads a running remote server; a stopped server picks the file up on next start.
+sync_config() {
+  local src="${HERDR_CONFIG_PATH:-$HOME/.config/herdr/config.toml}"
+  [[ -f "$src" ]] || {
+    log "no local config at $src; skipping config sync"
+    return 0
+  }
+
+  log "syncing herdr config to $SSH_TARGET:~/.config/herdr/config.toml"
+  ssh_run mkdir -p .config/herdr
+  ssh_run 'cat > .config/herdr/config.toml' <"$src" \
+    || die "failed to copy config.toml to $SSH_TARGET"
+
+  if ssh_run 'PATH="$HOME/.local/bin:$PATH"
+    if [ -x "$HOME/.local/bin/herdr" ]; then
+      bin="$HOME/.local/bin/herdr"
+    else
+      bin="$(command -v herdr)"
+    fi
+    "$bin" server reload-config >/dev/null
+  '; then
+    log "reloaded remote herdr config"
+  else
+    log "config copied; remote server reload skipped"
+  fi
+}
+
 SSH_TARGET=""
 LABEL=""
 REMOTE_SESSION=""
@@ -512,7 +541,7 @@ log "label $LABEL"
 
 EXISTING_ID=""
 if EXISTING_ID="$(machine_id_for_label "$LABEL")"; then
-  log "machine $LABEL already exists ($EXISTING_ID); will sync herdr and plugins only"
+  log "machine $LABEL already exists ($EXISTING_ID); will sync herdr, config, and plugins only"
 else
   log "no saved machine with label $LABEL; will add after sync"
 fi
@@ -554,8 +583,9 @@ if [[ -n "$INTEGRATIONS" ]]; then
 else
   log "no local agent integrations to sync"
 fi
-log "syncing herdr $VERSION and plugins on $SSH_TARGET"
+log "syncing herdr $VERSION, config, and plugins on $SSH_TARGET"
 sync_remote "$VERSION" "$URL" "$SHA256" "$PLUGINS_B64" "$INTEGRATIONS" "$CURSOR_AGENT_VERSION"
+sync_config
 
 if [[ -n "$EXISTING_ID" ]]; then
   log "machine already saved as $LABEL ($EXISTING_ID); skipped herdr machine add"
