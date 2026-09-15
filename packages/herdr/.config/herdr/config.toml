@@ -27,11 +27,12 @@ split_horizontal = "prefix+minus"
 # tmux vi copy mode
 copy_mode = "prefix+["
 
-# tmux: prefix h/j/k/l plus Alt-arrows without prefix
-focus_pane_left = ["prefix+h", "alt+left"]
-focus_pane_down = ["prefix+j", "alt+down"]
-focus_pane_up = ["prefix+k", "alt+up"]
-focus_pane_right = ["prefix+l", "alt+right"]
+# tmux: prefix h/j/k/l. Direct jumps use Herdr's prefix-free family
+# (ctrl+alt+hjkl), not alt+hjkl (Aerospace) or ctrl+hjkl (LazyVim).
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
 
 # tmux Ctrl-Alt-Arrow resize
 resize_pane_up = "ctrl+alt+up"
