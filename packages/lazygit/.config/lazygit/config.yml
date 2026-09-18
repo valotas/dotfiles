@@ -1,0 +1,5 @@
+keybinding:
+  universal:
+    # Ctrl+S works without extended keys (herdr remote). Option+Enter stays as the local default.
+    confirmInEditor: <c-s>
+    confirmInEditor-alt: <a-enter>
