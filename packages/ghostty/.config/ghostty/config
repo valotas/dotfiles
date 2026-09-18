@@ -1,0 +1,56 @@
+# Match Alacritty look; leave pane/tab management to herdr.
+font-family = "SauceCodePro Nerd Font Mono"
+#font-size = 11.25
+background-opacity = 0.92
+macos-option-as-alt = left
+window-padding-x = 0
+window-padding-y = 0
+#window-width = 120
+#window-height = 42
+# Alacritty does not restore window size; keep Ghostty first-open consistent.
+window-save-state = never
+confirm-close-surface = false
+
+# Same maximize chord as Alacritty ToggleMaximized.
+keybind = super+ctrl+shift+alt+arrow_up=toggle_maximize
+keybind = super+ctrl+shift+alt+arrow_down=toggle_maximize
+
+# Ghostty native tabs/splits would be a second multiplexer. Unbind so
+# herdr (prefix ctrl+a, ctrl+alt+hjkl) sees the same keys as in Alacritty.
+keybind = super+t=unbind
+keybind = super+d=unbind
+keybind = super+shift+d=unbind
+keybind = super+[=unbind
+keybind = super+]=unbind
+keybind = super+shift+[=unbind
+keybind = super+shift+]=unbind
+keybind = super+alt+arrow_up=unbind
+keybind = super+alt+arrow_down=unbind
+keybind = super+alt+arrow_left=unbind
+keybind = super+alt+arrow_right=unbind
+keybind = super+ctrl+arrow_up=unbind
+keybind = super+ctrl+arrow_down=unbind
+keybind = super+ctrl+arrow_left=unbind
+keybind = super+ctrl+arrow_right=unbind
+keybind = super+ctrl+equal=unbind
+keybind = super+shift+enter=unbind
+keybind = ctrl+tab=unbind
+keybind = ctrl+shift+tab=unbind
+keybind = super+1=unbind
+keybind = super+digit_1=unbind
+keybind = super+2=unbind
+keybind = super+digit_2=unbind
+keybind = super+3=unbind
+keybind = super+digit_3=unbind
+keybind = super+4=unbind
+keybind = super+digit_4=unbind
+keybind = super+5=unbind
+keybind = super+digit_5=unbind
+keybind = super+6=unbind
+keybind = super+digit_6=unbind
+keybind = super+7=unbind
+keybind = super+digit_7=unbind
+keybind = super+8=unbind
+keybind = super+digit_8=unbind
+keybind = super+9=unbind
+keybind = super+digit_9=unbind

@@ -101,6 +101,7 @@ local app_icons = {
 	["系统设置"] = ":gear:",
 	["Réglages Système"] = ":gear:",
 	["GitHub Desktop"] = ":git_hub:",
+	["Ghostty"] = ":ghostty:",
 	["Godot"] = ":godot:",
 	["GoLand"] = ":goland:",
 	["Chromium"] = ":google_chrome:",

@@ -61,7 +61,7 @@ automatically-unhide-macos-hidden-apps = true
     preset = 'qwerty'
 
 [[on-window-detected]]
-    if.app-name-regex-substring = 'finder|alacritty|whatsapp|signal|viber'
+    if.app-name-regex-substring = 'finder|alacritty|ghostty|whatsapp|signal|viber'
     run = 'layout floating'
 
 [[on-window-detected]]
@@ -136,6 +136,7 @@ automatically-unhide-macos-hidden-apps = true
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
     alt-enter = 'exec-and-forget open -a alacritty'
+    alt-shift-enter = 'exec-and-forget open -a Ghostty'
     alt-p = 'exec-and-forget open -a /Applications/KeePassXC.app/Contents/MacOS/keepassxc'
 
     ## messages

@@ -76,3 +76,7 @@ scrollback_limit_bytes = 10000000
 [experimental]
 # closest to tmux-resurrect pane contents
 pane_history = true
+
+[theme]
+name = "tokyo-night"
+auto_switch = false
