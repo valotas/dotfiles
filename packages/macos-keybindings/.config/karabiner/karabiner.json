@@ -180,7 +180,7 @@
                 "type": "basic"
               },
               {
-                "description": "shift + capslock = hyper (do not toggle capslock)",
+                "description": "shift + capslock = hyper+shift (do not toggle capslock; keep shift for herdr tabs/workspaces)",
                 "from": {
                   "key_code": "caps_lock",
                   "modifiers": {
@@ -196,6 +196,7 @@
                   {
                     "key_code": "right_shift",
                     "modifiers": [
+                      "left_shift",
                       "right_command",
                       "right_control",
                       "right_option"
