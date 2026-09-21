@@ -80,3 +80,7 @@ pane_history = true
 [theme]
 name = "tokyo-night"
 auto_switch = false
+
+[terminal]
+# Pane images in Ghostty (Kitty graphics protocol). Restart herdr after changing.
+kitty_graphics = true

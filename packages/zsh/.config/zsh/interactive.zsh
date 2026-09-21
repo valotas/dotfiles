@@ -39,6 +39,21 @@ export LESS_TERMCAP_so=$'\E[00;47;30m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
+# Herdr panes keep TERM=xterm-256color and strip Ghostty/Kitty identity.
+# Pi enables Kitty graphics from TERM_PROGRAM / PI_IMAGE_PROTOCOL.
+# Serie auto-detects Kitty only from KITTY_WINDOW_ID, TERM=xterm-ghostty, or
+# GHOSTTY_RESOURCES_DIR; otherwise it sends iTerm2 images herdr does not forward.
+if [[ -n "${HERDR_ENV:-}${HERDR_PANE_ID:-}" ]]; then
+  if [[ -z "${TERM_PROGRAM:-}" ]]; then
+    export TERM_PROGRAM=ghostty
+  fi
+  export PI_IMAGE_PROTOCOL="${PI_IMAGE_PROTOCOL:-kitty}"
+  if [[ -z "${GHOSTTY_RESOURCES_DIR:-}" && -d /Applications/Ghostty.app/Contents/Resources/ghostty ]]; then
+    export GHOSTTY_RESOURCES_DIR=/Applications/Ghostty.app/Contents/Resources/ghostty
+  fi
+  alias serie="${aliases[serie]:-serie} --protocol kitty"
+fi
+
 #
 # History
 #

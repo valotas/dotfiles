@@ -1,0 +1,4 @@
+# Herdr panes look like xterm-256color, so serie's auto protocol picks iTerm2
+# images that herdr does not forward. Force Kitty, which herdr implements.
+[core.option]
+protocol = "kitty"
