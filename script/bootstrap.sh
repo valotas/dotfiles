@@ -7,10 +7,20 @@ git submodule update --init --recursive
 if [ "$(uname)" = "Darwin" ]; then
   brew install herdr
 
-  # install sketchybar
+  # install sketchybar (kept until YBar look is a keeper)
   brew tap FelixKratz/formulae
   brew install sketchybar
   brew install --cask font-sketchybar-app-font
+
+  # install ybar (ninefiveb overlay lives in packages/aerospace/.config/ybar)
+  brew tap NineFiveB/ybar
+  brew trust ninefiveb/ybar
+  brew install --HEAD ybar
+  # Homebrew's keg currently ships YBar.app without YBar_YBarKit.bundle.
+  # `make app` writes a complete bundle to ~/Applications/YBar.app.
+  if [ ! -d "$HOME/Applications/YBar.app/Contents/Resources/YBar_YBarKit.bundle" ]; then
+    (git clone --depth 1 https://github.com/NineFiveB/YBar.git /tmp/YBar-src && cd /tmp/YBar-src && make app)
+  fi
 
   # create a symlink for the main sketchybar
   ln -sf $(which sketchybar) $(dirname $(which sketchybar))/sketchybar_main

@@ -1,0 +1,8 @@
+require("items.widgets.battery")
+require("items.widgets.bluetooth")
+require("items.widgets.wifi")
+require("items.widgets.cpu")
+require("items.widgets.claude")
+require("items.widgets.media")
+require("items.widgets.skhd_mode")
+require("items.widgets.menubar")

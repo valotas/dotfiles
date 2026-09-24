@@ -1,0 +1,31 @@
+#!/bin/sh
+set -e
+
+CONFIG="${YBAR_CONFIG:-$HOME/.config/ybar/ybarrc.lua}"
+
+pick_app() {
+  for app in \
+    "${YBAR_APP:-}" \
+    "$HOME/Applications/YBar.app" \
+    /opt/homebrew/opt/ybar/YBar.app \
+    /usr/local/opt/ybar/YBar.app
+  do
+    [ -n "$app" ] || continue
+    if [ -x "$app/Contents/MacOS/ybar" ] && [ -d "$app/Contents/Resources/YBar_YBarKit.bundle" ]; then
+      echo "$app"
+      return 0
+    fi
+  done
+  return 1
+}
+
+YBAR_APP="$(pick_app || true)"
+if [ -z "$YBAR_APP" ]; then
+  echo "YBar.app not found (need YBar_YBarKit.bundle). Build with: git clone https://github.com/NineFiveB/YBar.git && cd YBar && make app" >&2
+  exit 1
+fi
+
+CLI="$YBAR_APP/Contents/MacOS/ybar"
+"$CLI" --exit >/dev/null 2>&1 || true
+sleep 0.2
+open -g "$YBAR_APP" --args -c "$CONFIG"
