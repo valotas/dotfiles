@@ -5,6 +5,7 @@
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
     'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+    'exec-and-forget ~/.config/sketchybar/helpers/bin/prefer_external_main',
     'exec-and-forget sketchybar_main',
     'exec-and-forget sketchybar_alternative'
 ]
@@ -104,12 +105,13 @@ automatically-unhide-macos-hidden-apps = true
 #                 See:
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-    inner.horizontal = [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
-    inner.vertical =   [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
-    outer.left =       [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
-    outer.bottom =     [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
-    outer.top =        [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 42 }, 42]
-    outer.right =      [{ monitor."built-in" = 4 }, { monitor."U3821dw" = 10 }, 10]
+    inner.horizontal = [{ monitor."built-in" = 4 }, 10]
+    inner.vertical =   [{ monitor."built-in" = 4 }, 10]
+    outer.left =       [{ monitor."built-in" = 4 }, 10]
+    outer.bottom =     [{ monitor."built-in" = 4 }, 10]
+    # Notch already reserves space on the laptop; other monitors need room for the 40px bar.
+    outer.top =        [{ monitor."built-in" = 4 }, 42]
+    outer.right =      [{ monitor."built-in" = 4 }, 10]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -221,6 +223,7 @@ automatically-unhide-macos-hidden-apps = true
     alt-shift-k = ['join-with up', 'mode main']
     alt-shift-l = ['join-with right', 'mode main']
 
+# prefer_external_main makes the external the macOS main display when connected.
 [workspace-to-monitor-force-assignment]
 1 = 'main'
 2 = 'main'

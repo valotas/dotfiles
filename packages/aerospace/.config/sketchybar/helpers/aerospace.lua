@@ -40,6 +40,7 @@ local function parse_workspace_line(fields)
     visible = fields[3] == "true",
     monitor_id = fields[4],
     monitor_name = fields[5],
+    monitor_is_main = fields[6] == "true",
   }
 end
 
@@ -57,7 +58,7 @@ end
 
 function aerospace.list_workspaces_with_windows_async(cb)
   -- Use simple space-separated format instead of complex CSV
-  sbar.exec("aerospace list-workspaces --all --format '%{workspace}|%{workspace-is-focused}|%{workspace-is-visible}|%{monitor-id}|%{monitor-name}'", function(workspaces_raw)
+  sbar.exec("aerospace list-workspaces --all --format '%{workspace}|%{workspace-is-focused}|%{workspace-is-visible}|%{monitor-id}|%{monitor-name}|%{monitor-is-main}'", function(workspaces_raw)
     sbar.exec("aerospace list-windows --all --format '%{workspace}|%{app-name}|%{window-id}|%{monitor-id}|%{workspace-is-visible}|%{monitor-name}'", function(windows_raw)
       local workspace_lines = parse_simple_format(workspaces_raw, "|")
       --logging.log("workspaces_lines: " .. json.stringify(workspace_lines))

@@ -1,43 +1,31 @@
 local colors = require("colors")
 local logging = require("helpers.logging")
+local displays = require("helpers.displays")
 
-local function get_displays()
-  local displays = sbar.query("displays")
+local PREFER_EXTERNAL_MAIN = os.getenv("HOME") .. "/.config/sketchybar/helpers/bin/prefer_external_main"
 
-  local main_display = 0
-  local alternate_display = {}
-
-  for _, display in ipairs(displays) do
-    local displayId = display["arrangement-id"]
-    if display.UUID == "37D8832A-2D66-02CA-B9F7-8F30A301B230" then
-      main_display = displayId
-    else 
-      table.insert(alternate_display, displayId)
-    end
+local function display_value(ids)
+  if #ids == 0 then
+    return ""
   end
-  return {
-    -- the build in display
-    main = main_display,
-
-    -- the external displays
-    alternative = alternate_display,
-  }
+  if #ids == 1 then
+    return tonumber(ids[1]) or ids[1]
+  end
+  return table.concat(ids, ",")
 end
 
 local function create_bar_config(bar_name)
-  -- "sketchybar" is the default instance name; treat like main when BAR_NAME unset
-  local main_bar = bar_name == "sketchybar_main" or bar_name == "sketchybar"
-  local displays = get_displays()
-  local alternative_displays = #displays.alternative > 0 and table.concat(displays.alternative, ",") or ""
-  logging.log("dispays.main: " .. displays.main .. " displays.alternative: " .. alternative_displays)
-  local display = main_bar and displays.main > 0 and displays.main or alternative_displays
-  local hidden = main_bar and displays.main == 0 or bar_name == "sketchybar_alternative" and #displays.alternative == 0
+  local main_bar = displays.is_main_bar(bar_name)
+  local info = displays.get()
+  local ids = main_bar and info.builtin or info.externals
+  local display = display_value(ids)
+  local hidden = #ids == 0
   local height = main_bar and 40 or 30
-  if (hidden) then
+  if hidden then
     height = 0
   end
 
-  logging.log("Creating bar config for " .. bar_name .. " on display " .. display .. " with height " .. height .. " and hidden " .. tostring(hidden))
+  logging.log("Creating bar config for " .. bar_name .. " on display " .. tostring(display) .. " with height " .. height .. " has_external " .. tostring(info.has_external))
   return {
     height = height,
     color = colors.bar.bg,
@@ -61,12 +49,31 @@ local function update_bar_config()
   end
 end
 
+local function refresh()
+  update_bar_config()
+  sbar.exec("sleep 0.5", function()
+    logging.log("display_change retry")
+    update_bar_config()
+  end)
+end
+
 update_bar_config()
 
-sbar.add("event", "display_change", "NSSecondaryDisplayVisChanged")
+if displays.is_main_bar() then
+  sbar.exec(PREFER_EXTERNAL_MAIN, function()
+    update_bar_config()
+  end)
+end
 
-local listener = sbar.add("item", "display")
-listener:subscribe("display_change", function()
-  logging.log("display_change")
-  update_bar_config()
+-- Use sketchybar's built-in display_change; do not rebind it to a Darwin notification.
+local listener = sbar.add("item", "display", { drawing = false })
+listener:subscribe({ "display_change", "system_woke" }, function(env)
+  logging.log("display_change: " .. tostring(env.SENDER))
+  if displays.is_main_bar() then
+    sbar.exec(PREFER_EXTERNAL_MAIN, function()
+      refresh()
+    end)
+  else
+    refresh()
+  end
 end)

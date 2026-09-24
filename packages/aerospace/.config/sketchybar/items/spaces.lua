@@ -3,6 +3,7 @@ local settings = require("settings")
 local app_icons = require("helpers.app_icons")
 local logging = require("helpers.logging")
 local aerospace = require("helpers.aerospace")
+local displays = require("helpers.displays")
 local json = require("helpers.json")
 local icons = require("icons")
 
@@ -96,11 +97,17 @@ local create_workspace = function(name)
     end
   end
 
+  local hide = function()
+    workspace_item:set({ drawing = false })
+    monitor_holder:set({ drawing = false })
+  end
+
   return {
     name = "workspace." .. name,
     set_windows = set_windows,
     set_focused = set_focused,
     set_monitor = set_monitor,
+    hide = hide,
   }
 end
 
@@ -119,19 +126,24 @@ end
 
 local update_workspaces_container = function(results)
   local monitors = {}
+  local info = displays.get()
   for _, workspace in ipairs(results.workspaces) do
     local workspace_item = get_workspace_item(workspace.sid)
 
     if workspace_item then
-      workspace_item.set_windows(workspace.windows)
-      workspace_item.set_focused(workspace.focused)
-
-      local monitor_id = workspace.monitor_id
-      if not monitors[monitor_id] then
-        workspace_item.set_monitor(monitor_id)
-        monitors[monitor_id] = true
+      if not displays.workspace_on_bar(workspace, nil, info) then
+        workspace_item.hide()
       else
-        workspace_item.set_monitor(nil)
+        workspace_item.set_windows(workspace.windows)
+        workspace_item.set_focused(workspace.focused)
+
+        local monitor_id = workspace.monitor_id
+        if not monitors[monitor_id] then
+          workspace_item.set_monitor(monitor_id)
+          monitors[monitor_id] = true
+        else
+          workspace_item.set_monitor(nil)
+        end
       end
     end
   end
@@ -145,7 +157,7 @@ local listener = sbar.add("item", "aerospace.listener", {
   updates = true,
 })
 
-listener:subscribe({ "aerospace_focus_changed", "aerospace_focused_monitor_changed" }, function(event)
+listener:subscribe({ "aerospace_focus_changed", "aerospace_focused_monitor_changed", "display_change" }, function(event)
   logging.log("aerospace_focus_changed: " .. json.stringify(event))
   aerospace.list_workspaces_with_windows_async(update_workspaces_container)
 end)
