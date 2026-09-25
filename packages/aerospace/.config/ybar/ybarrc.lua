@@ -1,4 +1,4 @@
--- Tokyo Night island overlay: floating slab, accent text, per-display
+-- Tokyo Night overlay: full-width strip, accent text, per-display
 -- AeroSpace pills, clock position, and input-source. Native menu bar stays
 -- on top (topmost=off). Sketchybar configs stay in place.
 
