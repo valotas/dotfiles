@@ -27,27 +27,27 @@ end
 
 local function apply_displays()
   local info = displays.get()
-  if info.has_external then
-    builtin_cal:set({
-      drawing = true,
-      display = info.builtin_value,
-      position = "e",
-      padding_left = 10,
-    })
-    external_cal:set({
-      drawing = true,
-      display = info.external_value,
-      -- Right of the centered Apple icon, matching the title's gap.
-      position = "e",
-      padding_left = 18 + 7,
-    })
-  else
+  -- An empty display value means every screen. Hide the built-in clock
+  -- when that panel is not connected, or it stacks on the external bar.
+  local show_builtin = info.builtin_value ~= nil or not info.has_external
+  if show_builtin then
     builtin_cal:set({
       drawing = true,
       display = info.builtin_value or "",
       position = "e",
       padding_left = 10,
     })
+  else
+    builtin_cal:set({ drawing = false })
+  end
+  if info.has_external then
+    external_cal:set({
+      drawing = true,
+      display = info.external_value,
+      position = "e",
+      padding_left = 10,
+    })
+  else
     external_cal:set({ drawing = false })
   end
 end

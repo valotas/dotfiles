@@ -5,11 +5,6 @@ local here = debug.getinfo(1, "S").source:match("@?(.*/)") or "./"
 local app_icons = dofile(here .. "../../sketchybar/helpers/app_icons.lua")
 local APP_FONT = "sketchybar-app-font:Regular:16.0"
 
--- Apple logo is about 13pt wide. Keep it on the bar center, with the
--- title and clock clear of it by the same gap.
-local GAP = 18
-local APPLE = 13
-
 local app_icon = {
   font = APP_FONT,
   color = colors.fg,
@@ -24,28 +19,12 @@ local builtin = sbar.add("item", "tokyonight.front_app", {
   label = { color = colors.fg, padding_left = 2, padding_right = 4 },
 })
 
--- Title flows left from the center; the Apple icon is the center item.
+-- Title sits left of center on the external bar.
 local external = sbar.add("item", "tokyonight.front_app.external", {
   position = "q",
   drawing = false,
   icon = app_icon,
   label = { color = colors.fg, padding_left = 2, padding_right = 4 },
-  padding_right = GAP + APPLE / 2,
-})
-
-local apple = sbar.add("item", "tokyonight.apple", {
-  position = "center",
-  drawing = false,
-  icon = {
-    string = "sf:apple.logo",
-    font = { size = 14 },
-    color = colors.blue,
-    padding_left = 0,
-    padding_right = 0,
-  },
-  label = { drawing = false },
-  padding_left = 0,
-  padding_right = 0,
 })
 
 local front_name = ""
@@ -54,8 +33,11 @@ local function apply_front()
   local info = displays.get()
   local show = front_name ~= ""
   local glyph = show and app_icons.app_icon(front_name) or ""
+  -- An empty display value means every screen. Hide the built-in copy
+  -- when that panel is not connected, or it stacks on the external bar.
+  local show_builtin = show and (info.builtin_value ~= nil or not info.has_external)
   builtin:set({
-    drawing = show,
+    drawing = show_builtin,
     display = info.builtin_value or "",
     icon = { string = glyph },
     label = { string = front_name },
@@ -66,17 +48,13 @@ local function apply_front()
     icon = { string = glyph },
     label = { string = front_name },
   })
-  apple:set({
-    drawing = info.has_external,
-    display = info.external_value or "",
-  })
 end
 
 builtin:subscribe("front_app_switched", function(env)
   front_name = env.INFO or ""
   apply_front()
 end)
-apple:subscribe({ "display_change", "system_woke" }, apply_front)
+external:subscribe({ "display_change", "system_woke" }, apply_front)
 sbar.trigger("front_app_switched")
 
 local media = sbar.add("item", "tokyonight.media", {
