@@ -22,10 +22,16 @@ function M.volume_scroll(item)
 end
 
 -- One pmset round-trip: callback(level, charging).
+-- charging is true only while the pack is taking a charge. Plugged-in
+-- states ("charged", "not charging") and "discharging" stay false — a
+-- bare "charging" search would also match those.
 function M.battery(callback)
-  sbar.exec("pmset -g batt | grep -Eo '[0-9]+%|AC Power' | tr '\\n' ' '", function(out)
-    local level = tonumber((out or ""):match("(%d+)%%")) or 0
-    callback(level, (out or ""):find("AC Power") ~= nil)
+  sbar.exec("pmset -g batt", function(out)
+    out = out or ""
+    local level = tonumber(out:match("(%d+)%%")) or 0
+    local status = (out:match("%%;%s*([^;]+)") or ""):lower()
+    local charging = status:find("^charging") ~= nil or status:find("finishing charge") ~= nil
+    callback(level, charging)
   end)
 end
 

@@ -4,23 +4,25 @@ local mac = require("helpers.mac")
 -- Right side, rightmost first after the clock: battery, volume, wifi.
 -- Clock lives in items/calendar.lua so it can sit right vs center per display.
 
+local BATTERY_ICON = "\u{F0079}"
+local CHARGING_ICON = "\u{F0084}"
+
 local battery = sbar.add("item", "tokyonight.battery", {
   position = "right",
   click_script = mac.BATTERY_SETTINGS,
-  icon = { string = "\u{F0079}", color = colors.green },
-  label = { color = colors.green },
+  icon = { string = BATTERY_ICON, color = colors.blue },
+  label = { color = colors.blue },
 })
-local function set_battery(level)
-  local color = level > 20 and colors.green or colors.red
+local function set_battery(level, charging)
+  local color = charging and colors.green or (level > 20 and colors.blue or colors.red)
   battery:set({
-    icon = { color = color },
+    icon = { string = charging and CHARGING_ICON or BATTERY_ICON, color = color },
     label = { string = level .. "%", color = color },
   })
 end
 battery:subscribe({ "forced", "routine", "battery_change", "power_source_change" }, function()
   mac.battery(function(level, charging)
-    set_battery(level)
-    if charging then battery:set({ icon = { string = "\u{F0084}" } }) end
+    set_battery(level, charging)
   end)
 end)
 
