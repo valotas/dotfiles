@@ -11,7 +11,7 @@ local input_source = sbar.add("item", "input_source", {
   },
 })
 
-sbar.add("item", "tokyonight.pad_lang", { position = "right", width = 10 })
+sbar.add("item", "tokyonight.pad_lang", { position = "right", width = 4 })
 
 local labels = {
   ["com.apple.keylayout.US"] = "en",

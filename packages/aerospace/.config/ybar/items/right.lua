@@ -40,7 +40,7 @@ battery:subscribe({ "forced", "routine", "battery_change", "power_source_change"
 end)
 mac.battery(set_battery)
 
-sbar.add("item", "tokyonight.pad2", { position = "right", width = 10 })
+sbar.add("item", "tokyonight.pad2", { position = "right", width = 4 })
 
 local volume = sbar.add("item", "tokyonight.volume", {
   position = "right",
@@ -58,7 +58,7 @@ volume:set({ click_script = mac.SOUND_SETTINGS })
 mac.volume_scroll(volume)
 sbar.trigger("volume_change")
 
-sbar.add("item", "tokyonight.pad3", { position = "right", width = 10 })
+sbar.add("item", "tokyonight.pad3", { position = "right", width = 4 })
 
 local wifi = sbar.add("item", "tokyonight.wifi", {
   position = "right",

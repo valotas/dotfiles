@@ -174,7 +174,7 @@ local function paint(ws, focused, apps, show_monitor, monitor_id, display)
   ws.item:set({
     drawing = true,
     display = display,
-    padding_right = #apps > 0 and 2 or 6,
+    padding_right = #apps > 0 and 2 or 16,
     icon = {
       color = selected and colors.purple or colors.fg,
       padding_left = 12,
@@ -199,7 +199,7 @@ local function paint(ws, focused, apps, show_monitor, monitor_id, display)
       icon:set({
         drawing = true,
         display = display,
-        padding_right = slot == #apps and 6 or 2,
+        padding_right = slot == #apps and 16 or 2,
         image = {
           string = path or ("app." .. app.name),
           drawing = true,
