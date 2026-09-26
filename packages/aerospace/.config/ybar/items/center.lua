@@ -1,21 +1,27 @@
 local colors = require("colors")
 local displays = require("helpers.displays")
+local tinted = require("helpers.tinted_icon")
 
-local here = debug.getinfo(1, "S").source:match("@?(.*/)") or "./"
-local app_icons = dofile(here .. "../../sketchybar/helpers/app_icons.lua")
-local APP_FONT = "sketchybar-app-font:Regular:16.0"
+local aerospace = "/opt/homebrew/bin/aerospace"
+if os.execute("test -x " .. aerospace) ~= true then
+  aerospace = "/usr/local/bin/aerospace"
+  if os.execute("test -x " .. aerospace) ~= true then
+    aerospace = "aerospace"
+  end
+end
 
-local app_icon = {
-  font = APP_FONT,
-  color = colors.fg,
+local app_image = {
+  string = "",
+  drawing = false,
+  size = 22,
   padding_left = 2,
   padding_right = 4,
-  y_offset = 0,
 }
 
 local builtin = sbar.add("item", "tokyonight.front_app", {
   position = "q",
-  icon = app_icon,
+  icon = { drawing = false },
+  image = app_image,
   label = { color = colors.fg, padding_left = 2, padding_right = 4 },
 })
 
@@ -23,46 +29,84 @@ local builtin = sbar.add("item", "tokyonight.front_app", {
 local external = sbar.add("item", "tokyonight.front_app.external", {
   position = "q",
   drawing = false,
-  icon = app_icon,
+  icon = { drawing = false },
+  image = app_image,
   label = { color = colors.fg, padding_left = 2, padding_right = 4 },
 })
 
 local front_name = ""
+local front_icon = nil
+local display_info = displays.get()
+
+local function focused_window()
+  local handle = io.popen(
+    aerospace .. " list-windows --focused --format '%{app-name}|%{app-bundle-path}' 2>/dev/null"
+  )
+  if not handle then
+    return "", ""
+  end
+  local line = (handle:read("*a") or ""):gsub("%s+$", "")
+  handle:close()
+  local name, bundle = line:match("^(.-)|(.+)$")
+  return name or "", bundle or ""
+end
 
 local function apply_front()
-  local info = displays.get()
+  local info = display_info
   local show = front_name ~= ""
-  local glyph = show and app_icons.app_icon(front_name) or ""
+  local app_icon = {
+    string = front_icon or (show and ("app." .. front_name) or ""),
+    drawing = show,
+    desaturate = front_icon == nil,
+    size = 22,
+  }
   -- An empty display value means every screen. Hide the built-in copy
   -- when that panel is not connected, or it stacks on the external bar.
   local show_builtin = show and (info.builtin_value ~= nil or not info.has_external)
   builtin:set({
     drawing = show_builtin,
     display = info.builtin_value or "",
-    icon = { string = glyph },
+    image = app_icon,
     label = { string = front_name },
   })
   external:set({
     drawing = show and info.has_external,
     display = info.external_value or "",
-    icon = { string = glyph },
+    image = app_icon,
     label = { string = front_name },
   })
 end
 
-builtin:subscribe("front_app_switched", function(env)
-  front_name = env.INFO or ""
+local function refresh_focused()
+  local name, bundle = focused_window()
+  front_name = name
+  front_icon = name ~= "" and tinted.path(bundle, colors.fg) or nil
   apply_front()
-end)
-external:subscribe({ "display_change", "system_woke" }, apply_front)
-sbar.trigger("front_app_switched")
+end
+
+local function refresh_displays()
+  display_info = displays.get()
+  apply_front()
+end
+
+-- The visible copies use updates=when_shown, so a hidden one never hears
+-- the event. This listener stays armed on every display.
+local listener = sbar.add("item", "tokyonight.front_app.listener", {
+  drawing = false,
+  updates = true,
+})
+-- AeroSpace fires this as the focused window changes, before macOS
+-- promotes that app to frontmost.
+listener:subscribe("aerospace_focus_changed", refresh_focused)
+listener:subscribe({ "display_change", "system_woke" }, refresh_displays)
+refresh_focused()
 
 local media = sbar.add("item", "tokyonight.media", {
   position = "e",
   drawing = false,
   updates = true,
   scroll_texts = true,
-  icon = { string = "\u{F075A}", color = colors.green, padding_left = 8 },
+  icon = { string = "sf:music.note", color = colors.green, padding_left = 8 },
   label = { width = 130, color = colors.fg },
 })
 local media_app = nil

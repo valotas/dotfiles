@@ -1,14 +1,14 @@
 local colors = require("colors")
 local displays = require("helpers.displays")
+local tinted = require("helpers.tinted_icon")
 
 -- Same AeroSpace strip as sketchybar: number pill, app icons for the windows
 -- on that workspace, and a monitor mark before the first workspace on each
 -- display. Colors stay Tokyo Night.
 
-local here = debug.getinfo(1, "S").source:match("@?(.*/)") or "./"
-local app_icons = dofile(here .. "../../sketchybar/helpers/app_icons.lua")
-
 sbar.add("event", "aerospace_workspace_change")
+sbar.add("event", "aerospace_focus_changed")
+sbar.add("event", "aerospace_focused_monitor_changed")
 
 local aerospace = "/opt/homebrew/bin/aerospace"
 if os.execute("test -x " .. aerospace) ~= true then
@@ -18,9 +18,9 @@ if os.execute("test -x " .. aerospace) ~= true then
   end
 end
 
-local APP_FONT = "sketchybar-app-font:Regular:16.0"
+local MAX_APPS = 5
 local WS_FORMAT = "'%{workspace}|%{workspace-is-focused}|%{monitor-id}|%{monitor-name}|%{monitor-appkit-nsscreen-screens-id}'"
-local WIN_FORMAT = "'%{workspace}|%{app-name}'"
+local WIN_FORMAT = "'%{workspace}|%{app-name}|%{app-bundle-path}'"
 
 local function split_fields(line)
   local fields = {}
@@ -93,13 +93,39 @@ local function create_workspace(name)
         padding_right = 12,
       },
     },
-    label = {
-      color = colors.muted,
-      font = APP_FONT,
-      y_offset = -1,
-      padding_left = 8,
-      padding_right = 12,
-    },
+    label = { drawing = false },
+    background = { drawing = false },
+    padding_left = 0,
+    padding_right = 6,
+    click_script = aerospace .. " workspace " .. name,
+  })
+
+  local apps = {}
+  local members = { item.name }
+  for slot = 1, MAX_APPS do
+    apps[slot] = sbar.add("item", "tokyonight.ws." .. name .. ".app." .. slot, {
+      position = "left",
+      drawing = false,
+      icon = { drawing = false },
+      label = { drawing = false },
+      image = {
+        string = "",
+        drawing = false,
+        size = 22,
+        padding_left = 1,
+        padding_right = 2,
+      },
+      click_script = aerospace .. " workspace " .. name,
+    })
+    members[#members + 1] = apps[slot].name
+  end
+
+  -- The rounded outline used to be the workspace item's own background, which
+  -- wrapped the number and the icon glyphs. The icons are separate items now,
+  -- so the outline is a bracket around the whole group. Hidden slots have no
+  -- width and drop out of the outline.
+  local bracket = sbar.add("bracket", "tokyonight.ws.bracket." .. name, members, {
+    drawing = false,
     background = {
       color = colors.transparent,
       border_color = colors.chip,
@@ -107,12 +133,9 @@ local function create_workspace(name)
       corner_radius = 8,
       height = 26,
     },
-    padding_left = 0,
-    padding_right = 6,
-    click_script = aerospace .. " workspace " .. name,
   })
 
-  workspaces[name] = { item = item, monitor = monitor }
+  workspaces[name] = { item = item, monitor = monitor, apps = apps, bracket = bracket }
 end
 
 for sid = 1, 9 do
@@ -129,29 +152,49 @@ local function display_for(monitor_name, screen_id, info)
   return info.external_value or screen_id
 end
 
-local function paint(ws, focused, icons, show_monitor, monitor_id, display)
+local function paint(ws, focused, apps, show_monitor, monitor_id, display)
   local selected = focused
   local pill = selected and colors.with_alpha(colors.purple, 0.35) or colors.chip
   local border = selected and colors.purple or colors.chip
+  local tint = selected and colors.fg or colors.muted
 
   ws.item:set({
     drawing = true,
     display = display,
+    padding_right = #apps > 0 and 2 or 6,
     icon = {
       color = selected and colors.purple or colors.fg,
       padding_left = 12,
       padding_right = 12,
       background = { color = pill, padding_left = 12, padding_right = 12 },
     },
-    label = {
-      string = icons,
-      font = APP_FONT,
-      color = selected and colors.fg or colors.muted,
-      padding_left = 8,
-      padding_right = 12,
-    },
+  })
+  ws.bracket:set({
+    drawing = true,
+    display = display,
     background = { border_color = border, border_width = 1 },
   })
+
+  for slot, icon in ipairs(ws.apps) do
+    local app = apps[slot]
+    if app then
+      local path = tinted.path(app.bundle, tint)
+      icon:set({
+        drawing = true,
+        display = display,
+        padding_right = slot == #apps and 6 or 2,
+        image = {
+          string = path or ("app." .. app.name),
+          drawing = true,
+          desaturate = path == nil,
+          size = 22,
+          padding_right = 2,
+        },
+      })
+    else
+      icon:set({ drawing = false })
+    end
+  end
 
   if show_monitor and monitor_id and monitor_id ~= "" then
     ws.monitor:set({
@@ -166,7 +209,11 @@ end
 
 local function hide(ws)
   ws.item:set({ drawing = false })
+  ws.bracket:set({ drawing = false })
   ws.monitor:set({ drawing = false })
+  for _, icon in ipairs(ws.apps) do
+    icon:set({ drawing = false })
+  end
 end
 
 local function refresh()
@@ -175,10 +222,10 @@ local function refresh()
     sbar.exec(aerospace .. " list-windows --all --format " .. WIN_FORMAT .. " 2>/dev/null", function(win_out)
       local windows = {}
       for _, fields in ipairs(lines_of(win_out)) do
-        local sid, app = fields[1], fields[2]
-        if sid and app and app ~= "" then
+        local sid, app, bundle = fields[1], fields[2], fields[3]
+        if sid and app and app ~= "" and # (windows[sid] or {}) < MAX_APPS then
           windows[sid] = windows[sid] or {}
-          windows[sid][#windows[sid] + 1] = app
+          windows[sid][#windows[sid] + 1] = { name = app, bundle = bundle or "" }
         end
       end
 
@@ -199,17 +246,9 @@ local function refresh()
           if not visible then
             hide(ws)
           else
-            local icons = ""
-            for _, app in ipairs(apps) do
-              if icons ~= "" then icons = icons .. " " end
-              icons = icons .. app_icons.app_icon(app)
-            end
-            if icons == "" then
-              icons = "_"
-            end
             local show_monitor = not seen_monitor[monitor_id]
             seen_monitor[monitor_id] = true
-            paint(ws, focused, icons, show_monitor, monitor_id, display_for(monitor_name, screen_id, info))
+            paint(ws, focused, apps, show_monitor, monitor_id, display_for(monitor_name, screen_id, info))
           end
         end
       end

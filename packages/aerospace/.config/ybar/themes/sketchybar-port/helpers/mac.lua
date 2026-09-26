@@ -21,17 +21,15 @@ function M.volume_scroll(item)
   end)
 end
 
--- One pmset round-trip: callback(level, charging).
--- charging is true only while the pack is taking a charge. Plugged-in
--- states ("charged", "not charging") and "discharging" stay false — a
--- bare "charging" search would also match those.
+-- One pmset round-trip: callback(level, on_ac).
+-- on_ac follows the menu bar: the bolt stays up whenever the Mac is drawing
+-- from the adapter, including "charged" and "not charging".
 function M.battery(callback)
   sbar.exec("pmset -g batt", function(out)
     out = out or ""
     local level = tonumber(out:match("(%d+)%%")) or 0
-    local status = (out:match("%%;%s*([^;]+)") or ""):lower()
-    local charging = status:find("^charging") ~= nil or status:find("finishing charge") ~= nil
-    callback(level, charging)
+    local on_ac = out:find("AC Power") ~= nil
+    callback(level, on_ac)
   end)
 end
 

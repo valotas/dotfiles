@@ -7,7 +7,7 @@ local function clock_item(name, position)
     position = position,
     click_script = mac.CALENDAR,
     update_freq = 20,
-    icon = { string = "\u{F0954}", color = colors.blue },
+    icon = { string = "sf:clock", color = colors.blue },
     label = { color = colors.blue },
   })
 end
