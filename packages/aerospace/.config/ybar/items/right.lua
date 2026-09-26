@@ -3,6 +3,7 @@ local mac = require("helpers.mac")
 
 -- Right side, rightmost first after the clock: battery, volume, wifi.
 -- Clock lives in items/calendar.lua so it can sit right vs center per display.
+-- CodexBar usage sits just left of this group (items/usage.lua).
 
 local function battery_symbol(level, on_ac)
   -- The menu bar keeps the bolt in the battery for the whole time the Mac
