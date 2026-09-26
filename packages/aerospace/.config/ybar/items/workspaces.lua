@@ -80,18 +80,9 @@ local function create_workspace(name)
       font = { family = "SF Pro", style = "Semibold", size = 13 },
       string = name,
       color = colors.fg,
-      -- Glyph inset. The chip plate uses the same inset so its left edge
-      -- lands on the selection border; YBar does not widen layout for
-      -- background padding, only for this padding.
       padding_left = 12,
       padding_right = 12,
-      background = {
-        color = colors.chip,
-        corner_radius = 6,
-        height = 24,
-        padding_left = 12,
-        padding_right = 12,
-      },
+      background = { drawing = false },
     },
     label = { drawing = false },
     background = { drawing = false },
@@ -100,8 +91,25 @@ local function create_workspace(name)
     click_script = aerospace .. " workspace " .. name,
   })
 
+  -- A short rule so the workspace number is not read as another app icon.
+  local separator = sbar.add("item", "tokyonight.ws." .. name .. ".sep", {
+    position = "left",
+    drawing = false,
+    width = 1,
+    padding_left = 2,
+    padding_right = 8,
+    icon = { drawing = false },
+    label = { drawing = false },
+    background = {
+      drawing = true,
+      color = colors.with_alpha(colors.fg, 0.28),
+      height = 14,
+      corner_radius = 0,
+    },
+  })
+
   local apps = {}
-  local members = { item.name }
+  local members = { item.name, separator.name }
   for slot = 1, MAX_APPS do
     apps[slot] = sbar.add("item", "tokyonight.ws." .. name .. ".app." .. slot, {
       position = "left",
@@ -135,7 +143,13 @@ local function create_workspace(name)
     },
   })
 
-  workspaces[name] = { item = item, monitor = monitor, apps = apps, bracket = bracket }
+  workspaces[name] = {
+    item = item,
+    monitor = monitor,
+    apps = apps,
+    bracket = bracket,
+    separator = separator,
+  }
 end
 
 for sid = 1, 9 do
@@ -154,7 +168,6 @@ end
 
 local function paint(ws, focused, apps, show_monitor, monitor_id, display)
   local selected = focused
-  local pill = selected and colors.with_alpha(colors.purple, 0.35) or colors.chip
   local border = selected and colors.purple or colors.chip
   local tint = selected and colors.fg or colors.muted
 
@@ -165,9 +178,13 @@ local function paint(ws, focused, apps, show_monitor, monitor_id, display)
     icon = {
       color = selected and colors.purple or colors.fg,
       padding_left = 12,
-      padding_right = 12,
-      background = { color = pill, padding_left = 12, padding_right = 12 },
+      padding_right = #apps > 0 and 8 or 12,
+      background = { drawing = false },
     },
+  })
+  ws.separator:set({
+    drawing = #apps > 0,
+    display = display,
   })
   ws.bracket:set({
     drawing = true,
@@ -209,6 +226,7 @@ end
 
 local function hide(ws)
   ws.item:set({ drawing = false })
+  ws.separator:set({ drawing = false })
   ws.bracket:set({ drawing = false })
   ws.monitor:set({ drawing = false })
   for _, icon in ipairs(ws.apps) do
