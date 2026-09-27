@@ -14,8 +14,6 @@ local parse = dofile(root .. "helpers/codexbar_usage.lua")
 
 local icon = sbar.add("item", "tokyonight.codexbar", {
   position = "right",
-  update_freq = 120,
-  updates = true,
   icon = {
     string = "sf:chart.bar.fill",
     color = colors.muted,
@@ -75,7 +73,7 @@ local function meter(name, style)
       width = TRACK,
       percentage = 0,
       interactive = "off",
-      highlight_color = colors.green,
+      highlight_color = colors.blue,
       background = {
         height = 4,
         corner_radius = 2,
@@ -159,25 +157,25 @@ local FETCH = "tmp=$(mktemp -d)\n"
   .. "printf '\\n'\n"
   .. "rm -rf \"$tmp\"\n"
 
+-- Blue and purple match the other right-side icons. Red is the
+-- same "this is used up" signal as a low battery. The gold yellow
+-- is in the palette, but it reads warm next to those blues.
 local function usage_color(used)
   if type(used) ~= "number" then
-    return colors.fg
+    return colors.blue
   end
   if used >= 95 then
     return colors.red
   end
   if used >= 80 then
-    return colors.orange
+    return colors.purple
   end
-  if used >= 60 then
-    return colors.yellow
-  end
-  return colors.green
+  return colors.blue
 end
 
 local function caption_color(compact)
   if compact == "now" or (compact ~= "" and compact:match("[hm]$")) then
-    return colors.orange
+    return colors.purple
   end
   return colors.muted
 end
@@ -308,11 +306,8 @@ end
 icon:subscribe("mouse.entered", show)
 icon:subscribe("mouse.clicked", toggle)
 icon:subscribe("mouse.exited.global", hide)
-icon:subscribe({ "routine", "forced", "system_woke" }, refresh)
 
 opener:subscribe("mouse.clicked", function()
   sbar.exec("open -a CodexBar")
   bracket:set({ popup = { drawing = false } })
 end)
-
-refresh()
