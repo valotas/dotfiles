@@ -19,6 +19,11 @@ if os.execute("test -x " .. aerospace) ~= true then
 end
 
 local MAX_APPS = 5
+-- bar.lua is 38pt tall. Positive y_offset moves up, so the rule sits on
+-- the bottom edge at -(bar height - rule height) / 2.
+local BAR_HEIGHT = 38
+local UNDERLINE = 3
+local UNDERLINE_Y = -((BAR_HEIGHT - UNDERLINE) / 2)
 local WS_FORMAT = "'%{workspace}|%{workspace-is-focused}|%{monitor-id}|%{monitor-name}|%{monitor-appkit-nsscreen-screens-id}'"
 local WIN_FORMAT = "'%{workspace}|%{app-name}|%{app-bundle-path}'"
 
@@ -128,18 +133,16 @@ local function create_workspace(name)
     members[#members + 1] = apps[slot].name
   end
 
-  -- The rounded outline used to be the workspace item's own background, which
-  -- wrapped the number and the icon glyphs. The icons are separate items now,
-  -- so the outline is a bracket around the whole group. Hidden slots have no
-  -- width and drop out of the outline.
+  -- The selected workspace is marked with a rule under the whole group.
+  -- Hidden slots have no width and drop out of it.
   local bracket = sbar.add("bracket", "tokyonight.ws.bracket." .. name, members, {
     drawing = false,
     background = {
-      color = colors.transparent,
-      border_color = colors.chip,
-      border_width = 1,
-      corner_radius = 8,
-      height = 26,
+      drawing = false,
+      border_width = 0,
+      corner_radius = 0,
+      height = UNDERLINE,
+      y_offset = UNDERLINE_Y,
     },
   })
 
@@ -168,7 +171,6 @@ end
 
 local function paint(ws, focused, apps, show_monitor, monitor_id, display)
   local selected = focused
-  local border = selected and colors.purple or colors.chip
   local tint = selected and colors.fg or colors.muted
 
   ws.item:set({
@@ -189,8 +191,17 @@ local function paint(ws, focused, apps, show_monitor, monitor_id, display)
   ws.bracket:set({
     drawing = true,
     display = display,
-    background = { border_color = border, border_width = 1 },
+    background = {
+      color = colors.purple,
+      border_width = 0,
+      corner_radius = 0,
+      height = UNDERLINE,
+      y_offset = UNDERLINE_Y,
+    },
   })
+  -- Setting background.color forces drawing on. A follow-up set is what
+  -- actually leaves the rule on the focused workspace alone.
+  ws.bracket:set({ background = { drawing = selected } })
 
   for slot, icon in ipairs(ws.apps) do
     local app = apps[slot]
