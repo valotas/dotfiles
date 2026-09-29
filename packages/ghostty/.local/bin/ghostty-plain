@@ -1,0 +1,11 @@
+#!/bin/sh
+# Open a Ghostty window that does not auto-start herdr.
+exec osascript <<'EOF'
+tell application "Ghostty"
+    activate
+    set cfg to new surface configuration
+    set environment variables of cfg to {"HERDR_SKIP=1"}
+    set initial working directory of cfg to POSIX path of (path to home folder)
+    new window with configuration cfg
+end tell
+EOF

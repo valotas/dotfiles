@@ -21,8 +21,9 @@ unset _zsh_interactive
 
 rehash
 if (( $+commands[herdr] )); then
+  # HERDR_SKIP=1: plain Ghostty (AeroSpace Option+Enter) so herdr can be updated.
   if [[ -z "$CURSOR_AGENT" && -z "$VSCODE_PID" \
-    && -z "$HERDR_ENV" && -z "$TMUX" && -z "$EMACS" && -z "$VIM" \
+    && -z "$HERDR_ENV" && -z "$HERDR_SKIP" && -z "$TMUX" && -z "$EMACS" && -z "$VIM" \
     && -z "$INSIDE_EMACS" && -z "$VSCODE_RESOLVING_ENVIRONMENT" \
     && "$TERM_PROGRAM" != "vscode" \
     && "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" \

@@ -141,8 +141,9 @@ automatically-unhide-macos-hidden-apps = true
     # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
-    alt-enter = 'exec-and-forget open -a Ghostty'
-    alt-shift-enter = 'exec-and-forget open -a alacritty'
+    # Option+Enter is a plain Ghostty shell. Option+Shift+Enter starts herdr.
+    alt-enter = 'exec-and-forget ~/.local/bin/ghostty-plain'
+    alt-shift-enter = 'exec-and-forget open -a Ghostty'
     alt-p = 'exec-and-forget open -a /Applications/KeePassXC.app/Contents/MacOS/keepassxc'
 
     ## messages
