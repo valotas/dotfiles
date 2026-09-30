@@ -252,41 +252,49 @@
                 "type": "basic"
               },
               {
-                "description": "left_shift + right_shift = capslock switch",
+                "description": "left_shift + right_shift = caps_lock",
                 "from": {
                   "key_code": "left_shift",
                   "modifiers": {
                     "mandatory": [
                       "right_shift"
+                    ],
+                    "optional": [
+                      "caps_lock"
                     ]
                   }
                 },
                 "to": [
                   {
-                    "key_code": "caps_lock",
-                    "modifiers": [
-                      "left_control"
-                    ]
+                    "hold_down_milliseconds": 200,
+                    "key_code": "caps_lock"
+                  },
+                  {
+                    "key_code": "vk_none"
                   }
                 ],
                 "type": "basic"
               },
               {
-                "description": "right_shift + left_shift = capslock switch",
+                "description": "right_shift + left_shift = caps_lock",
                 "from": {
                   "key_code": "right_shift",
                   "modifiers": {
                     "mandatory": [
                       "left_shift"
+                    ],
+                    "optional": [
+                      "caps_lock"
                     ]
                   }
                 },
                 "to": [
                   {
-                    "key_code": "caps_lock",
-                    "modifiers": [
-                      "left_control"
-                    ]
+                    "hold_down_milliseconds": 200,
+                    "key_code": "caps_lock"
+                  },
+                  {
+                    "key_code": "vk_none"
                   }
                 ],
                 "type": "basic"
