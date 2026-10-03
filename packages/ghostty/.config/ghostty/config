@@ -33,7 +33,9 @@ keybind = super+ctrl+arrow_down=unbind
 keybind = super+ctrl+arrow_left=unbind
 keybind = super+ctrl+arrow_right=unbind
 keybind = super+ctrl+equal=unbind
+# Cmd+Enter is Ghostty's fullscreen shortcut. Unbind so the chord is forwarded.
 keybind = super+enter=unbind
+keybind = ctrl+enter=unbind
 keybind = super+shift+enter=unbind
 keybind = ctrl+tab=unbind
 keybind = ctrl+shift+tab=unbind
