@@ -1,11 +1,7 @@
 keybinding:
   universal:
-    # Cmd+Enter on macOS (meta). Ctrl+Enter is the same chord elsewhere.
-    # Ctrl+S works without extended keys (herdr remote). Option+Enter stays available.
-    # Ctrl+Enter needs lazygit with Kitty keyboard support (0.62+). Older remotes
-    # insert the raw escape sequence into the editor instead of confirming.
-    confirmInEditor:
-      - <meta+enter>
-      - <ctrl+enter>
-      - <a-enter>
-      - <ctrl+s>
+    # Ghostty turns Cmd+Enter and Ctrl+Enter into this legacy Alt+Enter sequence
+    # so lazygit 0.47 can confirm. 0.47 accepts only a string here, not a list.
+    confirmInEditor: <a-enter>
+    # Ignored by 0.47. Newer lazygit also confirms on Ctrl+S.
+    confirmInEditor-alt: <c-s>

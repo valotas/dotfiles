@@ -33,9 +33,11 @@ keybind = super+ctrl+arrow_down=unbind
 keybind = super+ctrl+arrow_left=unbind
 keybind = super+ctrl+arrow_right=unbind
 keybind = super+ctrl+equal=unbind
-# Cmd+Enter is Ghostty's fullscreen shortcut. Unbind so the chord is forwarded.
-keybind = super+enter=unbind
-keybind = ctrl+enter=unbind
+# Cmd+Enter is Ghostty's fullscreen shortcut. Lazygit 0.47 cannot read the
+# real Cmd/Ctrl+Enter sequence (it inserts CSI 27;9;13~). Send legacy
+# Alt+Enter, which that version already uses to confirm.
+keybind = super+enter=text:\x1b\r
+keybind = ctrl+enter=text:\x1b\r
 keybind = super+shift+enter=unbind
 keybind = ctrl+tab=unbind
 keybind = ctrl+shift+tab=unbind
