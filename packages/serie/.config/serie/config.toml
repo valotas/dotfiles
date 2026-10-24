@@ -1,4 +1,6 @@
 # Herdr panes look like xterm-256color, so serie's auto protocol picks iTerm2
-# images that herdr does not forward. Force Kitty, which herdr implements.
+# images that herdr does not forward. Classic Kitty placement (a=T) is drawn
+# at the PNG's native 50px row height inside herdr. Unicode placeholders pin
+# each commit to one cell; herdr's Ghostty core implements that mode.
 [core.option]
-protocol = "kitty"
+protocol = "kitty-unicode"

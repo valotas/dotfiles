@@ -51,7 +51,7 @@ if [[ -n "${HERDR_ENV:-}${HERDR_PANE_ID:-}" ]]; then
   if [[ -z "${GHOSTTY_RESOURCES_DIR:-}" && -d /Applications/Ghostty.app/Contents/Resources/ghostty ]]; then
     export GHOSTTY_RESOURCES_DIR=/Applications/Ghostty.app/Contents/Resources/ghostty
   fi
-  alias serie="${aliases[serie]:-serie} --protocol kitty"
+  alias serie="${aliases[serie]:-serie} --protocol kitty-unicode"
 fi
 
 #
