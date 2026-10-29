@@ -11,7 +11,9 @@ sbar.bar({
   color = colors.bg,
   padding_left = 10,
   padding_right = 10,
-  fullscreen_show = true,
+  -- Off native fullscreen Spaces. fullscreen_show would raise the bar over them.
+  fullscreen_show = false,
+  fullscreen_hide = true,
   topmost = "off",
   glass = false,
 })

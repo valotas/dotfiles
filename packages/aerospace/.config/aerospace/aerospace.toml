@@ -156,7 +156,8 @@ automatically-unhide-macos-hidden-apps = true
     alt-a = 'exec-and-forget open -a ~/Applications/Brave\ Browser\ Apps.localized/Google\ Gemini.app'
 
 
-    alt-f = 'fullscreen'
+    # Drop outer gaps only while fullscreen, so the window covers the bar.
+    alt-f = 'fullscreen --no-outer-gaps'
     alt-ctrl-f = 'layout floating tiling'
     alt-cmd-f = 'layout floating tiling'
 
