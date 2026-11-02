@@ -49,6 +49,15 @@ description = "run lazygit"
 width = "80%"
 height = "80%"
 
+# serie popup; prefix+s stays workspace_picker
+[[keys.command]]
+key = "prefix+shift+s"
+type = "popup"
+command = "serie"
+description = "run serie"
+width = "80%"
+height = "80%"
+
 [ui]
 mouse_capture = true
 copy_on_select = true
