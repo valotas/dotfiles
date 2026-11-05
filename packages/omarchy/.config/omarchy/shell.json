@@ -60,8 +60,11 @@
               "zone": "Europe/Zurich"
             },
             {
-              "name": "Dubai",
-              "zone": "Asia/Dubai"
+              "name": "Trikala",
+              "zone": "Europe/Athens",
+              "lat": 39.55493,
+              "lon": 21.76837,
+              "region": "Thessaly, GR"
             },
             {
               "name": "Tokyo",
@@ -75,7 +78,8 @@
               "name": "New York",
               "zone": "America/New_York"
             }
-          ]
+          ],
+          "hour24": true
         },
         {
           "id": "omarchy.weather"
@@ -83,7 +87,8 @@
         {
           "id": "omarchy.system-update"
         }
-      ]
+      ],
+      "tray": []
     },
     "position": "top",
     "transparent": true
