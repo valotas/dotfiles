@@ -164,6 +164,63 @@ local function pace_view(pace)
   return n .. "% ahead of pace", tone
 end
 
+-- One rate window, drawn like the Cursor plan: percent, reset, pace.
+local function window_stat(title, window, pace)
+  if not present(window) then
+    return nil
+  end
+  local used = pct(window)
+  if not used then
+    return nil
+  end
+  local compact, sentence = countdown(window.resetsAt)
+  if sentence == "" then
+    local desc = window.resetDescription
+    if type(desc) == "string" and desc ~= "" then
+      sentence = plain(desc)
+    end
+  end
+  local pace_line, pace_tone = pace_view(pace)
+  return {
+    title = plain(title),
+    used = used,
+    fill = math.min(100, math.max(0, used)),
+    value = used .. "%",
+    sentence = sentence,
+    compact = compact,
+    pace = pace_line,
+    pace_tone = pace_tone,
+  }
+end
+
+local function pace_of(pace, key)
+  if not present(pace) or not present(pace[key]) then
+    return nil
+  end
+  return { primary = pace[key] }
+end
+
+local function claude_view(payload)
+  local usage = payload.usage
+  if not present(usage) then
+    return nil
+  end
+  local labels = present(payload.rateWindowLabels) and payload.rateWindowLabels or {}
+  local identity = present(usage.identity) and usage.identity or {}
+  local plan = identity.loginMethod or usage.loginMethod or "Claude"
+  local pace = payload.pace
+  local session = window_stat(labels.primary or "Session", usage.primary, pace_of(pace, "primary"))
+  local weekly = window_stat(labels.secondary or "Weekly", usage.secondary, pace_of(pace, "secondary"))
+  if not session and not weekly then
+    return nil
+  end
+  return {
+    plan = plain(plan),
+    session = session,
+    weekly = weekly,
+  }
+end
+
 local function cursor_view(payload)
   local usage = payload.usage
   if not present(usage) then
@@ -305,10 +362,11 @@ local function openrouter_view(payload)
   }
 end
 
-local function parse(cursor_raw, or_raw)
+local function parse(cursor_raw, or_raw, claude_raw)
   local cursor = decode(cursor_raw)
   local router = decode(or_raw)
-  if not cursor and not router then
+  local claude = decode(claude_raw)
+  if not cursor and not router and not claude then
     return nil
   end
   local view = cursor and cursor_view(cursor) or nil
@@ -320,6 +378,7 @@ local function parse(cursor_raw, or_raw)
     pace = view and view.pace or "",
     pace_tone = view and view.pace_tone or "muted",
     rows = view and view.rows or {},
+    claude = claude and claude_view(claude) or nil,
     credits = router and openrouter_view(router) or nil,
   }
 end

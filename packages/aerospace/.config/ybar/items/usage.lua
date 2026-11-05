@@ -102,6 +102,52 @@ for i = 1, 6 do
   meters[i] = meter("tokyonight.codexbar.meter." .. i)
 end
 
+local function caption(name)
+  return row(name, {
+    drawing = false,
+    icon = {
+      string = "",
+      font = { size = 11, style = "Regular" },
+      color = colors.muted,
+      align = "left",
+      padding_left = INSET,
+    },
+    label = { drawing = false },
+  })
+end
+
+-- Same hairline the OpenRouter block uses, so Claude sits in its own group.
+local claude_rule = row("tokyonight.codexbar.claude.rule", {
+  drawing = false,
+  icon = { drawing = false },
+  label = { drawing = false },
+  background = {
+    drawing = true,
+    height = 1,
+    color = colors.with_alpha(colors.muted, 0.4),
+  },
+})
+
+local claude_title = row("tokyonight.codexbar.claude", {
+  drawing = false,
+  padding_top = 6,
+  padding_bottom = 2,
+  icon = {
+    string = "",
+    font = { size = 12, style = "Bold" },
+    color = colors.fg,
+    align = "left",
+    padding_left = INSET,
+  },
+  label = { drawing = false },
+})
+
+-- Session and weekly are both the plan headline: bold name, bar, percent, reset.
+local claude_session = meter("tokyonight.codexbar.claude.session", "Bold")
+local claude_session_when = caption("tokyonight.codexbar.claude.session.when")
+local claude_weekly = meter("tokyonight.codexbar.claude.weekly", "Bold")
+local claude_weekly_when = caption("tokyonight.codexbar.claude.weekly.when")
+
 local gap = row("tokyonight.codexbar.gap", {
   drawing = false,
   icon = { drawing = false },
@@ -148,10 +194,13 @@ local opener = row("tokyonight.codexbar.open", {
 
 local FETCH = "tmp=$(mktemp -d)\n"
   .. CODEXBAR .. " usage --provider cursor --format json >\"$tmp/cursor\" 2>/dev/null &\n"
+  .. CODEXBAR .. " usage --provider claude --format json >\"$tmp/claude\" 2>/dev/null &\n"
   .. CODEXBAR .. " usage --provider openrouter --format json >\"$tmp/openrouter\" 2>/dev/null &\n"
   .. "wait || true\n"
   .. "printf '%s\\n' '---CURSOR---'\n"
   .. "cat \"$tmp/cursor\"\n"
+  .. "printf '\\n%s\\n' '---CLAUDE---'\n"
+  .. "cat \"$tmp/claude\"\n"
   .. "printf '\\n%s\\n' '---OPENROUTER---'\n"
   .. "cat \"$tmp/openrouter\"\n"
   .. "printf '\\n'\n"
@@ -220,23 +269,50 @@ local function paint_meter(slot, entry)
   })
 end
 
+local function paint_window(slot, when, stat)
+  if not stat then
+    slot:set({ drawing = false })
+    when:set({ drawing = false })
+    return false
+  end
+  paint_meter(slot, stat)
+  local line = context_line(stat.sentence, stat.pace)
+  when:set({
+    drawing = line ~= "",
+    icon = { string = line, color = caption_color(stat.compact or "") },
+  })
+  return true
+end
+
+local function peak_used(...)
+  local peak
+  for i = 1, select("#", ...) do
+    local n = select(i, ...)
+    if type(n) == "number" and (not peak or n > peak) then
+      peak = n
+    end
+  end
+  return peak
+end
+
 local function apply(out)
   if not out or out:match("^%s*$") then
     return
   end
 
-  local cursor_raw = out:match("---CURSOR---\n(.-)\n---OPENROUTER---")
+  local cursor_raw = out:match("---CURSOR---\n(.-)\n---CLAUDE---")
+  local claude_raw = out:match("---CLAUDE---\n(.-)\n---OPENROUTER---")
   local or_raw = out:match("---OPENROUTER---\n(.*)")
-  local parsed = parse(cursor_raw, or_raw)
+  local parsed = parse(cursor_raw, or_raw, claude_raw)
   if not parsed then
     return
   end
 
   local has_plan = type(parsed.used) == "number"
   local credit_row = parsed.credits
+  local claude = parsed.claude
 
   if has_plan then
-    icon:set({ icon = { color = usage_color(parsed.used) } })
     paint_meter(cursor_head, {
       title = parsed.plan ~= "" and parsed.plan or "Cursor",
       used = parsed.used,
@@ -257,15 +333,34 @@ local function apply(out)
     for _, slot in ipairs(meters) do
       paint_meter(slot, nil)
     end
+  end
+
+  local session_on = paint_window(claude_session, claude_session_when, claude and claude.session)
+  local weekly_on = paint_window(claude_weekly, claude_weekly_when, claude and claude.weekly)
+  local has_claude = session_on or weekly_on
+  claude_title:set({
+    drawing = has_claude,
+    icon = { string = (claude and claude.plan ~= "" and claude.plan) or "Claude" },
+  })
+  claude_rule:set({ drawing = has_plan and has_claude })
+
+  paint_meter(credits, credit_row)
+
+  local peak = peak_used(
+    has_plan and parsed.used or nil,
+    claude and claude.session and claude.session.used or nil,
+    claude and claude.weekly and claude.weekly.used or nil
+  )
+  if peak then
+    icon:set({ icon = { color = usage_color(peak) } })
+  else
     icon:set({
       icon = { color = credit_row and usage_color(credit_row.used) or colors.muted },
     })
   end
 
-  paint_meter(credits, credit_row)
-
-  gap:set({ drawing = has_plan and credit_row ~= nil })
-  line_foot:set({ drawing = has_plan or credit_row ~= nil })
+  gap:set({ drawing = credit_row ~= nil and (has_plan or has_claude) })
+  line_foot:set({ drawing = has_plan or has_claude or credit_row ~= nil })
 end
 
 local function refresh()
