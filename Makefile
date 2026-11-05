@@ -26,6 +26,11 @@ install:
 		stow --target=$(HOME) --verbose=2 $(package); \
 	fi
 
+## Install files that live outside the home directory (keyd)
+install-system:
+	sudo install -D -m 644 system/keyd/default.conf /etc/keyd/default.conf
+	sudo systemctl restart keyd
+
 ## Uninstall a given package (make uninstall package=<package_name>)
 uninstall:
 	@if [ -z "$(package)" ]; then \

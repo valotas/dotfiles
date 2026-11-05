@@ -96,6 +96,21 @@ In order to uninstall a directory, from the root of the project do:
 stow -d packages -D [directory_in_packages] -t $HOME
 ```
 
+## Omarchy
+
+Desktop overrides for this machine are stowed like the other packages:
+
+| Package | What it keeps |
+|---------|----------------|
+| `packages/hypr` | Gaps, monitors, external-display reapply, Left Alt+Left Shift layout switch |
+| `packages/omarchy` | `us,gr` layouts, bar, clock cities, UI language, default agent, owe theme hook |
+| `packages/kitty` | Kitty font size |
+| `system/keyd` | Caps Lock and both-Shift behavior. This file is read from `/etc/keyd`, so `make install` does not place it. Run `make install-system` once per machine. |
+
+The workspace switcher on the bar is the `woodenplastic.workspace-icons` plugin, cloned from [woodenplastic/omarchy-workspace-icons](https://github.com/woodenplastic/omarchy-workspace-icons) into `~/.config/omarchy/plugins`. It is not copied into this repo.
+
+Stock Omarchy files that were left unchanged (bindings template, fcitx, foot, branding art, one-shot setup invitations) stay out of the repo so package updates can replace them.
+
 ## Additional setup
 
 The the [nerd fonts version of source code pro](https://www.nerdfonts.com/font-downloads) is installed but you might need to use it in your terminal emulator. The name should be `SauceCodePro Nerd Font`.
