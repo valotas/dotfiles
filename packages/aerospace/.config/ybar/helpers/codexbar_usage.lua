@@ -200,6 +200,145 @@ local function pace_of(pace, key)
   return { primary = pace[key] }
 end
 
+local function lower_text(value)
+  if type(value) ~= "string" then
+    return ""
+  end
+  return value:lower()
+end
+
+-- Hydrogen and Neon draw from these shared pools. A model-specific bucket
+-- such as Argon has a longer id (gemini-argon-wtu-weekly) and stays hidden.
+local SHARED_GEMINI = {
+  ["gemini-5h"] = "session",
+  ["gemini-5hr"] = "session",
+  ["gemini-5-hour"] = "session",
+  ["gemini-session"] = "session",
+  ["gemini-weekly"] = "weekly",
+  ["gemini-week"] = "weekly",
+}
+
+local function shared_gemini_kind(extra, window)
+  local id = lower_text(extra.id)
+  if id ~= "" then
+    local slug = id:match("(gemini[-%w]*)$")
+    return slug and SHARED_GEMINI[slug] or nil
+  end
+  local title = lower_text(extra.title)
+  if title == "" or not title:find("gemini", 1, true) then
+    return nil
+  end
+  if title:find("weekly", 1, true) then
+    return "weekly"
+  end
+  if title:find("5-hour", 1, true) or title:find("5h", 1, true) or title:find("session", 1, true) then
+    return "session"
+  end
+  local minutes = present(window) and window.windowMinutes or nil
+  if minutes == 300 or minutes == 360 then
+    return "session"
+  end
+  if type(minutes) == "number" and minutes >= 10080 then
+    return "weekly"
+  end
+  return nil
+end
+
+local function usage_known(extra, window)
+  if extra.usageKnown == false then
+    return false
+  end
+  return not (present(window) and window.usageKnown == false)
+end
+
+local function remember_window(found, kind, stat)
+  for _, item in ipairs(found) do
+    if item.kind == kind and item.stat.used == stat.used and item.stat.sentence == stat.sentence then
+      return
+    end
+  end
+  found[#found + 1] = { kind = kind, stat = stat }
+end
+
+local function gemini_plan(usage)
+  local identity = present(usage.identity) and usage.identity or {}
+  local plan = identity.loginMethod or usage.loginMethod
+  if type(plan) ~= "string" or plan == "" then
+    return "Gemini"
+  end
+  return plain(plan)
+end
+
+local function gemini_view(payload)
+  local usage = payload.usage
+  if not present(usage) then
+    return nil
+  end
+
+  local found = {}
+  if present(usage.extraRateWindows) then
+    for _, extra in ipairs(usage.extraRateWindows) do
+      if present(extra) then
+        local window = present(extra.window) and extra.window or extra
+        local kind = usage_known(extra, window) and shared_gemini_kind(extra, window) or nil
+        if kind then
+          local title = kind == "session" and "5-hour" or "Weekly"
+          local stat = window_stat(title, window, nil)
+          if stat then
+            remember_window(found, kind, stat)
+          end
+        end
+      end
+    end
+  end
+
+  if #found == 0 then
+    local labels = present(payload.rateWindowLabels) and payload.rateWindowLabels or {}
+    local lanes = {
+      { labels.primary, usage.primary },
+      { labels.secondary, usage.secondary },
+      { labels.tertiary, usage.tertiary },
+    }
+    for _, lane in ipairs(lanes) do
+      local label = lane[1]
+      local window = lane[2]
+      if type(label) == "string" and present(window) then
+        local kind = shared_gemini_kind({ title = label }, window)
+        if kind then
+          local title = kind == "session" and "5-hour" or "Weekly"
+          local stat = window_stat(title, window, nil)
+          if stat then
+            remember_window(found, kind, stat)
+          end
+        end
+      end
+    end
+  end
+
+  if #found == 0 then
+    return nil
+  end
+
+  local rank = { session = 1, weekly = 2 }
+  table.sort(found, function(a, b)
+    local ra = rank[a.kind] or 9
+    local rb = rank[b.kind] or 9
+    if ra ~= rb then
+      return ra < rb
+    end
+    return a.stat.used > b.stat.used
+  end)
+
+  local windows = {}
+  for _, item in ipairs(found) do
+    windows[#windows + 1] = item.stat
+  end
+  return {
+    plan = gemini_plan(usage),
+    windows = windows,
+  }
+end
+
 local function claude_view(payload)
   local usage = payload.usage
   if not present(usage) then
@@ -362,11 +501,12 @@ local function openrouter_view(payload)
   }
 end
 
-local function parse(cursor_raw, or_raw, claude_raw)
+local function parse(cursor_raw, or_raw, claude_raw, gemini_raw)
   local cursor = decode(cursor_raw)
   local router = decode(or_raw)
   local claude = decode(claude_raw)
-  if not cursor and not router and not claude then
+  local gemini = decode(gemini_raw)
+  if not cursor and not router and not claude and not gemini then
     return nil
   end
   local view = cursor and cursor_view(cursor) or nil
@@ -379,6 +519,7 @@ local function parse(cursor_raw, or_raw, claude_raw)
     pace_tone = view and view.pace_tone or "muted",
     rows = view and view.rows or {},
     claude = claude and claude_view(claude) or nil,
+    gemini = gemini and gemini_view(gemini) or nil,
     credits = router and openrouter_view(router) or nil,
   }
 end

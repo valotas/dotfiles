@@ -50,6 +50,9 @@ local function meter(name, style)
     position = popup_pos,
     drawing = false,
     width = WIDTH,
+    -- The default plate is 22pt. Layout adds that to the line, so a meter
+    -- becomes a 30pt row. Zero keeps the row at the text floor.
+    background = { height = 0 },
     padding_left = 0,
     padding_right = 0,
     icon = {
@@ -85,17 +88,6 @@ local function meter(name, style)
 end
 
 local cursor_head = meter("tokyonight.codexbar.cursor", "Bold")
-local cursor_when = row("tokyonight.codexbar.cursor.when", {
-  drawing = false,
-  icon = {
-    string = "",
-    font = { size = 11, style = "Regular" },
-    color = colors.muted,
-    align = "left",
-    padding_left = INSET,
-  },
-  label = { drawing = false },
-})
 
 local meters = {}
 for i = 1, 6 do
@@ -105,6 +97,10 @@ end
 local function caption(name)
   return row(name, {
     drawing = false,
+    background = { height = 0 },
+    -- Positive is up. The reset line shares the row under its bar; this
+    -- sits the glyphs against that bar instead of in the middle of the row.
+    y_offset = 4,
     icon = {
       string = "",
       font = { size = 11, style = "Regular" },
@@ -116,7 +112,9 @@ local function caption(name)
   })
 end
 
--- Same hairline the OpenRouter block uses, so Claude sits in its own group.
+local cursor_when = caption("tokyonight.codexbar.cursor.when")
+
+-- Same hairline the OpenRouter block uses, so each provider sits in its own group.
 local claude_rule = row("tokyonight.codexbar.claude.rule", {
   drawing = false,
   icon = { drawing = false },
@@ -130,8 +128,8 @@ local claude_rule = row("tokyonight.codexbar.claude.rule", {
 
 local claude_title = row("tokyonight.codexbar.claude", {
   drawing = false,
-  padding_top = 6,
-  padding_bottom = 2,
+  background = { height = 0 },
+  y_offset = -2,
   icon = {
     string = "",
     font = { size = 12, style = "Bold" },
@@ -147,6 +145,42 @@ local claude_session = meter("tokyonight.codexbar.claude.session", "Bold")
 local claude_session_when = caption("tokyonight.codexbar.claude.session.when")
 local claude_weekly = meter("tokyonight.codexbar.claude.weekly", "Bold")
 local claude_weekly_when = caption("tokyonight.codexbar.claude.weekly.when")
+
+-- Gemini quota comes from CodexBar's Antigravity provider.
+-- Hydrogen and Neon share the 5-hour and weekly pools.
+local GEMINI_SLOTS = 4
+
+local gemini_rule = row("tokyonight.codexbar.gemini.rule", {
+  drawing = false,
+  icon = { drawing = false },
+  label = { drawing = false },
+  background = {
+    drawing = true,
+    height = 1,
+    color = colors.with_alpha(colors.muted, 0.4),
+  },
+})
+
+local gemini_title = row("tokyonight.codexbar.gemini", {
+  drawing = false,
+  background = { height = 0 },
+  y_offset = -2,
+  icon = {
+    string = "",
+    font = { size = 12, style = "Bold" },
+    color = colors.fg,
+    align = "left",
+    padding_left = INSET,
+  },
+  label = { drawing = false },
+})
+
+local gemini_meters = {}
+local gemini_whens = {}
+for i = 1, GEMINI_SLOTS do
+  gemini_meters[i] = meter("tokyonight.codexbar.gemini." .. i, "Bold")
+  gemini_whens[i] = caption("tokyonight.codexbar.gemini." .. i .. ".when")
+end
 
 local gap = row("tokyonight.codexbar.gap", {
   drawing = false,
@@ -172,8 +206,7 @@ local line_foot = row("tokyonight.codexbar.line.foot", {
 })
 
 local opener = row("tokyonight.codexbar.open", {
-  padding_top = 4,
-  padding_bottom = 8,
+  background = { height = 0 },
   icon = {
     string = "Open CodexBar",
     font = { size = 12.5, style = "Semibold" },
@@ -184,7 +217,7 @@ local opener = row("tokyonight.codexbar.open", {
   },
   label = {
     string = "›",
-    font = { size = 18 },
+    font = { size = 13 },
     color = colors.blue,
     align = "right",
     width = 36,
@@ -195,12 +228,15 @@ local opener = row("tokyonight.codexbar.open", {
 local FETCH = "tmp=$(mktemp -d)\n"
   .. CODEXBAR .. " usage --provider cursor --format json >\"$tmp/cursor\" 2>/dev/null &\n"
   .. CODEXBAR .. " usage --provider claude --format json >\"$tmp/claude\" 2>/dev/null &\n"
+  .. CODEXBAR .. " usage --provider antigravity --format json >\"$tmp/gemini\" 2>/dev/null &\n"
   .. CODEXBAR .. " usage --provider openrouter --format json >\"$tmp/openrouter\" 2>/dev/null &\n"
   .. "wait || true\n"
   .. "printf '%s\\n' '---CURSOR---'\n"
   .. "cat \"$tmp/cursor\"\n"
   .. "printf '\\n%s\\n' '---CLAUDE---'\n"
   .. "cat \"$tmp/claude\"\n"
+  .. "printf '\\n%s\\n' '---GEMINI---'\n"
+  .. "cat \"$tmp/gemini\"\n"
   .. "printf '\\n%s\\n' '---OPENROUTER---'\n"
   .. "cat \"$tmp/openrouter\"\n"
   .. "printf '\\n'\n"
@@ -301,9 +337,10 @@ local function apply(out)
   end
 
   local cursor_raw = out:match("---CURSOR---\n(.-)\n---CLAUDE---")
-  local claude_raw = out:match("---CLAUDE---\n(.-)\n---OPENROUTER---")
+  local claude_raw = out:match("---CLAUDE---\n(.-)\n---GEMINI---")
+  local gemini_raw = out:match("---GEMINI---\n(.-)\n---OPENROUTER---")
   local or_raw = out:match("---OPENROUTER---\n(.*)")
-  local parsed = parse(cursor_raw, or_raw, claude_raw)
+  local parsed = parse(cursor_raw, or_raw, claude_raw, gemini_raw)
   if not parsed then
     return
   end
@@ -344,12 +381,31 @@ local function apply(out)
   })
   claude_rule:set({ drawing = has_plan and has_claude })
 
+  local gemini = parsed.gemini
+  local gemini_windows = gemini and gemini.windows or {}
+  local gemini_shown = 0
+  for i = 1, GEMINI_SLOTS do
+    if paint_window(gemini_meters[i], gemini_whens[i], gemini_windows[i]) then
+      gemini_shown = gemini_shown + 1
+    end
+  end
+  local has_gemini = gemini_shown > 0
+  gemini_title:set({
+    drawing = has_gemini,
+    icon = { string = (gemini and gemini.plan ~= "" and gemini.plan) or "Gemini" },
+  })
+  gemini_rule:set({ drawing = has_gemini and (has_plan or has_claude) })
+
   paint_meter(credits, credit_row)
 
   local peak = peak_used(
     has_plan and parsed.used or nil,
     claude and claude.session and claude.session.used or nil,
-    claude and claude.weekly and claude.weekly.used or nil
+    claude and claude.weekly and claude.weekly.used or nil,
+    gemini_windows[1] and gemini_windows[1].used or nil,
+    gemini_windows[2] and gemini_windows[2].used or nil,
+    gemini_windows[3] and gemini_windows[3].used or nil,
+    gemini_windows[4] and gemini_windows[4].used or nil
   )
   if peak then
     icon:set({ icon = { color = usage_color(peak) } })
@@ -359,8 +415,8 @@ local function apply(out)
     })
   end
 
-  gap:set({ drawing = credit_row ~= nil and (has_plan or has_claude) })
-  line_foot:set({ drawing = has_plan or has_claude or credit_row ~= nil })
+  gap:set({ drawing = credit_row ~= nil and (has_plan or has_claude or has_gemini) })
+  line_foot:set({ drawing = has_plan or has_claude or has_gemini or credit_row ~= nil })
 end
 
 local function refresh()
