@@ -60,6 +60,12 @@ if [ "$(hostname -s)" = "m4air" ]; then
   export STARSHIP_MAIN_HOST=1
 fi
 
+# T3 Code telemetry opt-out. Shells see these exports. The macOS desktop app is
+# started by launchd, which does not read the shell profile, so the same values
+# are published at login by the com.valotas.t3code-env LaunchAgent.
+export T3CODE_TELEMETRY_ENABLED=false
+export T3CODE_OTEL_SDK_DISABLED=true
+
 # flyctl
 if [[ -f "$HOME/.fly/bin/flyctl" ]]; then
   export FLYCTL_INSTALL="$HOME/.fly"
